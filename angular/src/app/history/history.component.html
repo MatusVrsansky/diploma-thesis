@@ -1,0 +1,49 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-6">
+      <h1>Historia z webovej sluzby Weather API - vcera</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Hodina</th>
+            <th scope="col">Teplota °C</th>
+            <th scope="col">Teplota ° F</th>
+            <th scope="col">Smer vetra</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!--<tr *ngFor = 'let us of historyData'>-->
+            <tr *ngFor = 'let us of historyData.main'>
+              <th scope="row">{{us.time | date:'dd.MM.yyyy HH:mm'}}</th>
+              <td>{{us.temp_c}}</td>
+              <td>{{us.temp_f}}</td>
+              <td>{{us.wind_dir}}</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-6">
+      <h1>Historia z domacej meteostanice - 14.07.2022</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Hour</th>
+            <th scope="col">FullName</th>
+            <th scope="col">Email</th>
+            <th scope="col">Mobile</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!--<tr *ngFor = 'let us of historyData'>-->
+            <tr *ngFor = 'let us of historyData.main'>
+              <th scope="row">{{us.time | date:'dd.MM.yyyy HH:mm'}}</th>
+              <td>{{us.temp_c}}</td>
+              <td>{{us.temp_f}}</td>
+              <td>{{us.temp_c}}</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>  
+
+</div>
