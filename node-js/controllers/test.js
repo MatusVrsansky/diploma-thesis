@@ -1,4 +1,4 @@
-
+// update table user with new notification text
 const db = require("../models");
 
 const User = db.user;
@@ -9,3 +9,4 @@ const objectToUpdate = {
 
 
 User.update(objectToUpdate, { where: { id: 2}})
+
