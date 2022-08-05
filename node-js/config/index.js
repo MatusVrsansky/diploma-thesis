@@ -4,7 +4,7 @@ module.exports = {
         handler: "handlers/sayhello"
     },
     goodbye: {
-        frequency: "* * * * *",
+        frequency: "*/10 * * * * *",
         handler: "handlers/saygoodbye"
     },
     tacos: {

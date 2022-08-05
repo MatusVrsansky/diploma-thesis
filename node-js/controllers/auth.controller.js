@@ -15,7 +15,10 @@ exports.signup = (req, res) => {
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
     temperature_notification: req.body.temperature_notification,
-    text_notification: req.body.text_notification
+    text_notification: req.body.text_notification,
+    temperature_operator: req.body.temperature_operator,
+    phone_number: req.body.phone_number,
+    active_notification: req.body.active_notification
   })
     .then(user => {
       if (req.body.roles) {
@@ -51,7 +54,10 @@ exports.update = (req, res) => {
 
   const objectToUpdate = {
     temperature_notification: req.body.temperature_notification,
-    text_notification: req.body.text_notification
+    text_notification: req.body.text_notification,
+    phone_number: req.body.phone_number,
+    temperature_operator: req.body.temperature_operator,
+    active_notification: req.body.active_notification
   }
 
 
@@ -83,6 +89,9 @@ exports.update = (req, res) => {
         email: req.body.email,
         temperature_notification: req.body.temperature_notification,
         text_notification: req.body.text_notification,
+        temperature_operator: req.body.temperature_operator,
+        phone_number: req.body.phone_number,
+        active_notification: req.body.active_notification,
         roles: authorities,
         accessToken: token
       });
@@ -128,6 +137,10 @@ exports.signin = (req, res) => {
           email: user.email,
           temperature_notification: user.temperature_notification,
           text_notification: user.text_notification,
+          temperature_operator: user.temperature_operator,
+          phone_number: user.phone_number,
+          active_notification: user.active_notification,
+
           roles: authorities,
           accessToken: token
         });

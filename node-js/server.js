@@ -24,6 +24,7 @@ const db = require("./models");
 const Role = db.role;
 db.sequelize.sync();
 
+
 function initial() {
     Role.create({
       id: 1,
@@ -41,43 +42,12 @@ function initial() {
     });
   }
 
-  // send email
-const nodemailer = require('nodemailer');
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'microbitpython@gmail.com',
-        pass: 'mbwnqmmpwgopnoga',
-    }
-});
 
 var message = "<p style='font-weight:bold;'> Hi. My name is John </p>";
 
-// test variables for temperature, wind ...
-//html:"<p>Your message "+variable1+".Message continueous "+variable+"</p>"
 
 
-var temperature = 23.25;
-var wind = 45.5668;
-
-const mailOptions = {
-    from: 'microbitpython@gmail.com',
-    to: 'vrsansky.matus@gmail.com',
-    subject: 'Sent from Node.js',
-    text: "Plaintext version of the message",
-    html: "<h4>Microbit prediction</h4><p><strong>temeprature: </strong>" + temperature + "</p>" + "<p><strong>wind: </strong>" + wind + "</p>"
-};
-
-//
-
-transporter.sendMail(mailOptions, function(error, info) {
-    if (error) {
-        console.log(error);
-    } else {
-        console.log('Email sent: '+ info.response);
-    }
-});
 
 
 // run cron 
@@ -90,11 +60,7 @@ scheduler.initCrons(config);
 // foreach all data of table Users
 // update table user with new notification text
 
-const User = db.user;
 
-const results = await User.findAll();
-
-console.log(results)
   // routes
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);

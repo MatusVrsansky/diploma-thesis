@@ -20,6 +20,10 @@ const sequelize = new Sequelize(
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+
+// prevent Sequelize from outputting SQL to the console on execution of query
+db.sequelize.options.logging = false;
+
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.role.belongsToMany(db.user, {

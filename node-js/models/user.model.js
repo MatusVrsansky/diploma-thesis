@@ -14,6 +14,15 @@ module.exports = (sequelize, Sequelize) => {
       },
       text_notification: {
         type: Sequelize.STRING
+      },
+      temperature_operator: {
+        type: Sequelize.STRING
+      },
+      phone_number: {
+        type: Sequelize.STRING
+      },
+      active_notification: {
+        type: Boolean
       }
     });
     return User;

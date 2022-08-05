@@ -14,7 +14,10 @@ export class ProfileComponent implements OnInit {
     username: this.currentUser.username,
     email: this.currentUser.email,
     temperature_notification: this.currentUser.temperature_notification,
-    text_notification: this.currentUser.text_notification
+    text_notification: this.currentUser.text_notification,
+    temperature_operator: this.currentUser.temperature_operator,
+    phone_number: this.currentUser.phone_number,
+    active_notification: this.currentUser.active_notification
   };
 
   userId = this.currentUser.id;
@@ -32,11 +35,11 @@ export class ProfileComponent implements OnInit {
   
   onSubmit(): void { 
     
-    const { username, email, temperature_notification, text_notification } = this.form;
+    const { username, email, temperature_notification, text_notification, temperature_operator, phone_number, active_notification } = this.form;
 
-    this.authService.update(this.userId, username, email, temperature_notification, text_notification).subscribe({
-      next: data => {
-        console.log(data);
+    this.authService.update(this.userId, username, email, temperature_notification, text_notification, temperature_operator, phone_number, active_notification).subscribe({
+      next: data => { 
+        //console.log(data);
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
         this.isSuccessful = true;
