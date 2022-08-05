@@ -2,19 +2,19 @@
 module.exports = () => {
 
 
-const db = require("../models");
-const User = db.user
+    const db = require("../models");
+    const User = db.user
 
-  // send email
-  const nodemailer = require('nodemailer');
+    // send email
+    const nodemailer = require('nodemailer');
 
-  const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-          user: 'microbitpython@gmail.com',
-          pass: 'mbwnqmmpwgopnoga',
-      }
-  });
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'microbitpython@gmail.com',
+            pass: 'mbwnqmmpwgopnoga',
+        }
+    });
 
 
     async function notifyUser() {
@@ -39,50 +39,43 @@ const User = db.user
                     case '>':
                         if(weatherBitTemperature > dataObj[i].temperature_notification) {
                             console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je VYSSIA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
-                            sendEmail(dataObj[i].email)
+                            sendEmail(dataObj[i].email, dataObj[i].text_notification)
                         }
 
                     case '<':
                         if(weatherBitTemperature < dataObj[i].temperature_notification) {
                             console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je NIZSIA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
-                            sendEmail(dataObj[i].email)
+                            sendEmail(dataObj[i].email, dataObj[i].text_notification)
                         }
                         break;
                     case '>=':
                         if(weatherBitTemperature >= dataObj[i].temperature_notification) {
                             console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je VYSSIA /ROVNA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
+                            sendEmail(dataObj[i].email, dataObj[i].text_notification)
                         }
                         break;
                     case '<=':
                         if(weatherBitTemperature <= dataObj[i].temperature_notification) {
                             console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je NIZSIA /ROVNA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
+                            sendEmail(dataObj[i].email, dataObj[i].text_notification)
                         }
                         break;
                 }
             }
-
-
-        
-            //console.log(dataObj[i].username)
-            //console.log(dataObj[i].email)
-            console.log("\n")
     }
-
-
-    //console.log(result)
 }
 
 
     notifyUser();
 
 
-    function sendEmail(emailAdress) {
+    function sendEmail(emailAdress, notificationText) {
 
         const mailOptions = {
             from: 'microbitpython@gmail.com',
             to: emailAdress,
-            subject: 'Sent from Node.js',
-            html: "<h4>Microbit prediction</h4><p><strong>temeprature: </strong>" + 24 + "</p>" + "<p><strong>wind: </strong>" + 42 + "</p>"
+            subject: 'Notifikácia z Node.js',
+            html: "<p><strong>Text notifikácie: </strong>" + notificationText + "</p>"
         };
         
         

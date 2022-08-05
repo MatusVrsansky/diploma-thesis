@@ -19,6 +19,7 @@ export class HistoryComponent implements OnInit {
 
 
   historyData: any;
+  historyDataThingSpeak: any;
   today: Date = new Date();
   pipe = new DatePipe('en-US');
   todayWithPipe = null;
@@ -38,16 +39,37 @@ export class HistoryComponent implements OnInit {
       main : {},
     };
 
+    this.historyDataThingSpeak = {
+      main: {},
+    }
+
     this.yesterdaySlovakFormat = ''
 
   
     this.getWeatherData();
-    console.log(this.historyData);
+    //console.log(this.historyData);
+
+    this.getThingSpeakHistory();
+
+
+
+   
+  
+
   }
 
-
   // api data for ThingSpeak
-  // https://api.thingspeak.com/channels/1733701/fields/1.json?api_key=ET23Z0S5EU4BGNV9&results=2
+  getThingSpeakHistory() {
+    const historyThingSpeak = 'https://api.thingspeak.com/channels/1733701/fields/1.json?api_key=ET23Z0S5EU4BGNV9&results=2';
+
+    fetch(historyThingSpeak)
+    .then(response=>response.json())
+    .then(data=>{
+      console.log(data.feeds)
+      this.historyDataThingSpeak.main = data.feeds;
+    })
+  }
+  
   
   getWeatherData(){
 
@@ -58,11 +80,11 @@ export class HistoryComponent implements OnInit {
     var combinedString = 'https://api.weatherapi.com/v1/history.json?key=0419f763b19f42fba7b181204223006&q=Ostratice&dt='
     var combinedStringTwo = yesterdayFormatted;
 
-    console.log(combinedString + combinedStringTwo)
+   // console.log(combinedString + combinedStringTwo)
     var yesterdaySlovakFormatff = this.pipe.transform(yesterday, 'dd.MM.yyyy')
     
     this.yesterdaySlovakFormat = yesterdaySlovakFormatff as string;
-    console.log(this.yesterdaySlovakFormat)
+   // console.log(this.yesterdaySlovakFormat)
 
 
     fetch(combinedString + combinedStringTwo)

@@ -35,11 +35,11 @@
         </thead>
         <tbody>
           <!--<tr *ngFor = 'let us of historyData'>-->
-            <tr *ngFor = 'let us of historyData.main'>
-              <th scope="row">{{us.time | date:'dd.MM.yyyy HH:mm'}}</th>
-              <td>{{us.temp_c}}</td>
-              <td>{{us.temp_f}}</td>
-              <td>{{us.temp_c}}</td>
+            <tr *ngFor = 'let us of historyDataThingSpeak.main'>
+              <th scope="row">{{us.created_at}}</th>
+              <td>{{us.entry_id}}</td>
+              <td>{{us.field1}}</td>
+              <td>{{us.field1 == 24 ? us.field1 : 'Severo vychodne'}}</td>
             </tr>
         </tbody>
       </table>
