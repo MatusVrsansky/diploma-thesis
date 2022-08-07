@@ -13,7 +13,7 @@ import { BoardUserComponent } from './board-user/board-user.component';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HistoryComponent } from './history/history.component';
-import { NbThemeModule, NbRadioModule, NbToggleModule, NbCardModule,  NbSidebarModule, NbLayoutModule, NbButtonModule} from '@nebular/theme';
+import {  NbMenuModule, NbThemeModule, NbRadioModule, NbToggleModule, NbCardModule,  NbSidebarModule, NbLayoutModule, NbButtonModule} from '@nebular/theme';
 import { RouterModule } from '@angular/router'; // we also need angular router for Nebular to function properly
 
 
@@ -41,7 +41,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    NbThemeModule.forRoot(),
+    NbThemeModule.forRoot({ name: 'default' }),
     NbRadioModule,
     NbToggleModule,
     NbCardModule,
@@ -50,6 +50,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
     NbLayoutModule,
     NbSidebarModule, // NbSidebarModule.forRoot(), //if this is your app.module
     NbButtonModule,
+    NbMenuModule
 
   ],
   providers: [authInterceptorProviders],
