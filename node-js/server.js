@@ -54,7 +54,7 @@ var message = "<p style='font-weight:bold;'> Hi. My name is John </p>";
 const config = require('./config');
 const scheduler = require('./scheduler')
 
-scheduler.initCrons(config);
+//scheduler.initCrons(config);
 
 
 // foreach all data of table Users

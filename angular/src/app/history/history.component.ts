@@ -24,6 +24,12 @@ export class HistoryComponent implements OnInit {
   pipe = new DatePipe('en-US');
   todayWithPipe = null;
 
+  // get current day - 1 day
+  yesterday = new Date(new Date().setDate(new Date().getDate()-1));
+  yesterdayFormatted = this.pipe.transform(this.yesterday, 'yyyy-MM-dd')
+  yesterdaySlovakFormatff = this.pipe.transform(this.yesterday, 'dd.MM.yyyy')
+
+
 
   yesterdaySlovakFormat  = ''
  
@@ -52,38 +58,34 @@ export class HistoryComponent implements OnInit {
     this.getThingSpeakHistory();
 
 
-
-   
-  
-
   }
 
   // api data for ThingSpeak
   getThingSpeakHistory() {
-    const historyThingSpeak = 'https://api.thingspeak.com/channels/1733701/fields/1.json?api_key=ET23Z0S5EU4BGNV9&results=2';
+    const historyThingSpeak = 'https://api.thingspeak.com/channels/1825300/feeds.json?api_key=ERX6U69VZ9F5MSFM';
+
+    const apiThingSpeakHistoryData: object[] = [];
 
     fetch(historyThingSpeak)
     .then(response=>response.json())
     .then(data=>{
-      console.log(data.feeds)
-      this.historyDataThingSpeak.main = data.feeds;
+      var historyYesterday = this.pipe.transform(data.feeds[14].created_at, 'yyyy-MM-dd');
+      
+      for (var product of data.feeds) {
+        if(this.pipe.transform(product.created_at, 'yyyy-MM-dd') == this.yesterdayFormatted) {
+          apiThingSpeakHistoryData.push(product)
+        }
+    }
+    
+      this.historyDataThingSpeak.main = apiThingSpeakHistoryData;
     })
   }
   
   
   getWeatherData(){
-
-    // get current day - 1 day
-    var yesterday = new Date(new Date().setDate(new Date().getDate()-1));
-    var yesterdayFormatted = this.pipe.transform(yesterday, 'yyyy-MM-dd')
-    
     var combinedString = 'https://api.weatherapi.com/v1/history.json?key=0419f763b19f42fba7b181204223006&q=Ostratice&dt='
-    var combinedStringTwo = yesterdayFormatted;
+    var combinedStringTwo = this.yesterdayFormatted;
 
-   // console.log(combinedString + combinedStringTwo)
-    var yesterdaySlovakFormatff = this.pipe.transform(yesterday, 'dd.MM.yyyy')
-    
-    this.yesterdaySlovakFormat = yesterdaySlovakFormatff as string;
    // console.log(this.yesterdaySlovakFormat)
 
 

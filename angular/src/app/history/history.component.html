@@ -29,17 +29,17 @@
           <tr>
             <th scope="col">Hodina</th>
             <th scope="col">Teplota °C</th>
-            <th scope="col">Teplota ° F</th>
+            <th scope="col">Rýchlosť vetra</th>
             <th scope="col">Smer vetra</th>
           </tr>
         </thead>
         <tbody>
           <!--<tr *ngFor = 'let us of historyData'>-->
             <tr *ngFor = 'let us of historyDataThingSpeak.main'>
-              <th scope="row">{{us.created_at}}</th>
-              <td>{{us.entry_id}}</td>
+              <th scope="row">{{us.created_at | date:'dd.MM.yyyy HH:mm'}}</th>
               <td>{{us.field1}}</td>
-              <td>{{us.field1 == 24 ? us.field1 : 'Severo vychodne'}}</td>
+              <td>{{us.field2}}</td>
+              <td>{{us.field1 > 24 ? 'NW' : 'Severo vychodne'}}</td>
             </tr>
         </tbody>
       </table>
