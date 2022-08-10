@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-register',
   templateUrl: 'register.component.html',
   styleUrls: ['./register.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
 export class RegisterComponent implements OnInit {
@@ -42,6 +41,7 @@ export class RegisterComponent implements OnInit {
     this.authService.register(username, email, password, temperature_notification, text_notification, temperature_operator, phone_number, active_notification).subscribe({
       next: data => {
         console.log(data);
+        console.log('tu som');
         this.isSuccessful = true;
         this.isSignUpFailed = false;
       },

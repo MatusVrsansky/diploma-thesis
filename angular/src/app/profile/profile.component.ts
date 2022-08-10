@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { AuthService } from '../_services/auth.service';
+import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService } from '@nebular/theme';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -9,6 +11,8 @@ import { AuthService } from '../_services/auth.service';
 export class ProfileComponent implements OnInit {
 
   currentUser = this.tokenStorage.getUser();
+  @HostBinding('class')
+  classes = 'example-items-rows';
 
   form: any = {
     username: this.currentUser.username,
@@ -25,10 +29,19 @@ export class ProfileComponent implements OnInit {
   isSignUpFailed = false;
   errorMessage = '';
   roles: string[] = [];
+
+  physicalPositions = NbGlobalPhysicalPosition;
+  logicalPositions = NbGlobalLogicalPosition;
+
+ 
   
-  constructor(private tokenStorage: TokenStorageService, private authService: AuthService) { }
+  constructor(private tokenStorage: TokenStorageService, private authService: AuthService, private toastrService: NbToastrService) { }
   ngOnInit(): void {
   
+  }
+
+  showToast(position: NbGlobalPosition, duration: number) {
+    this.toastrService.success('Zmeny boli uložené', 'Aktualizácia profilu', { position, duration });
   }
 
 
@@ -45,6 +58,7 @@ export class ProfileComponent implements OnInit {
         this.isSuccessful = true;
         this.isSignUpFailed = false;
         this.roles = this.tokenStorage.getUser().roles;
+        this.showToast(this.logicalPositions.BOTTOM_END, 10000)
       },
       error: err => {
         console.log(err.error.message)
