@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,6 +16,9 @@ export class LoginComponent implements OnInit {
   isLoggedIn = false;
   isLoginFailed = false;
   errorMessage = '';
+  showPassword = false;
+
+  
   
   roles: string[] = [];
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService) { }
@@ -24,6 +28,9 @@ export class LoginComponent implements OnInit {
       this.roles = this.tokenStorage.getUser().roles;
     }
   }
+
+ 
+  
   onSubmit(): void {
     const { username, password } = this.form;
     this.authService.login(username, password).subscribe({
@@ -36,12 +43,24 @@ export class LoginComponent implements OnInit {
         this.reloadPage();
       },
       error: err => {
-        this.errorMessage = err.error.message;
+        this.errorMessage = 'nesprávne "Používateľské meno" alebo "heslo"!';
         this.isLoginFailed = true;
       }
     });
   }
   reloadPage(): void {
     window.location.replace('/');
+  }
+
+  getInputType() {
+    if (this.showPassword) {
+      return 'text';
+    }
+    return 'password';
+  }
+
+  toggleShowPassword(event: Event) {
+    event.preventDefault();
+    this.showPassword = !this.showPassword;
   }
 }

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
+
 import { TokenStorageService } from '../_services/token-storage.service';
 import { AuthService } from '../_services/auth.service';
-
-
 
 
 @Component({
@@ -16,10 +15,9 @@ import { AuthService } from '../_services/auth.service';
 export class HistoryComponent implements OnInit {
 
 
-
-
   historyData: any;
   historyDataThingSpeak: any;
+  arrayData: any;
   today: Date = new Date();
   pipe = new DatePipe('en-US');
   todayWithPipe = null;
@@ -32,6 +30,7 @@ export class HistoryComponent implements OnInit {
 
 
   yesterdaySlovakFormat  = ''
+  
  
   
   
@@ -49,7 +48,11 @@ export class HistoryComponent implements OnInit {
       main: {},
     }
 
-    this.yesterdaySlovakFormat = ''
+    this.arrayData = {
+      main: {},
+    }
+
+    this.yesterdaySlovakFormat = this.yesterdaySlovakFormatff as string;
 
   
     this.getWeatherData();
@@ -69,7 +72,9 @@ export class HistoryComponent implements OnInit {
     fetch(historyThingSpeak)
     .then(response=>response.json())
     .then(data=>{
+      
       var historyYesterday = this.pipe.transform(data.feeds[14].created_at, 'yyyy-MM-dd');
+      
       
       for (var product of data.feeds) {
         if(this.pipe.transform(product.created_at, 'yyyy-MM-dd') == this.yesterdayFormatted) {
@@ -100,13 +105,114 @@ export class HistoryComponent implements OnInit {
     // this.setWeatherData(data);
   
     setWeatherData(data:any){
+      console.log('her i am')
       this.historyData.main = data.forecast.forecastday[0].hour;
-      
 
-     // console.log(data.forecast.forecastday[0].hour)
+      const dataToTable: object[] = [];
 
 
+      console.log(this.historyData.main)
+
+
+      for (var val of this.historyData.main) {
+        
+        var historyYesterday = this.pipe.transform(val.time, 'dd.MM.yyyy HH:mm');
+       const person = {
+          hour: historyYesterday,
+          degreeC: val.temp_c,
+          degreeF: val.temp_f,
+          windDirection: this.getWindDirection(val.wind_dir)
+      }
+
+      dataToTable.push(person)
+
+      }
+
+      this.arrayData.main = dataToTable;
 
     }
+
+    getWindDirection(wind_direction:any) {
+
+      switch ( wind_direction ) {
+        case 'NE':
+            wind_direction = 'Severovýchodný vietor'
+            break;
+        case 'NNE':
+          wind_direction = 'Severo-severovýchodný vietor'
+          break;
+        case 'E':
+          wind_direction = 'Východný vietor'
+          break;
+        case 'S':
+          wind_direction = 'Južný vietor'
+          break;
+        case 'ENE':
+            wind_direction = 'Východo-severovýchodný vietor'
+            break;
+        case 'ESE':
+            wind_direction = 'Východo-juhovýchodný vietor'
+            break;
+        case 'SSE':
+            wind_direction = 'Juho-juhovýchodný vietor'
+            break;
+        case 'SSW':
+            wind_direction = 'Juho-juhozápadný vietor'
+            break;
+        case 'SW':
+            wind_direction = 'Juhozápadný vietor'
+            break;
+        case 'W':
+            wind_direction = 'Západný vietor'
+            break;
+        case 'WNW':
+            wind_direction = 'Západo-serverozápadný vietor'
+            break;
+        case 'WSW':
+          wind_direction = 'Západo-juhozápadný vietor'
+          break;
+        case 'NW':
+          wind_direction = 'Severozápadný vietor'
+          break;
+        case 'NNW':
+          wind_direction = 'Severo-severozápadný vietor'
+          break;  
+        case 'N':
+          wind_direction = 'Severný vietor'
+          break;
+        case 'SE':
+          wind_direction = 'Juchovýchodný vietor'
+          break;    
+        default: 
+            // 
+            break;
+     }
+
+      return wind_direction;
+    }
+
+    settings = {
+      columns: {
+        hour: {
+          title: 'Hodina'
+        },
+        degreeC: {
+          title: 'Teplota °C'
+        },
+        degreeF: {
+          title: 'Teplota ° F'
+        },
+        windDirection: {
+          title: 'Smer vetra'
+        }
+      },
+      actions: false,
+    //  pager: { display: false }
+
+  };
+
+
+    
+      
   
 }

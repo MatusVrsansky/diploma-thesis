@@ -19,15 +19,12 @@ module.exports = () => {
 
     async function notifyUser() {
         const results = await User.findAll()
-
         const test = JSON.stringify(results)
 
         dataObj = JSON.parse(test);
 
-
         // get current weather data from ThingSpeak API
         const weatherBitTemperature = 23;
-
 
         var result = [];
         for (var i = 0; i < dataObj.length; i++) {

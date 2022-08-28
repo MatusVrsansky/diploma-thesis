@@ -1,12 +1,12 @@
 
-<div class="col-md-12">
+<!--<div class="col-md-12">
     <h1>Registration</h1>
     <div class="card card-container">
-      <!--<img
+      <img
         id="profile-img"
         src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
         class="profile-img-card"
-      />-->
+      />
       <form
         *ngIf="!isSuccessful"
         name="form"
@@ -168,4 +168,109 @@
         Your registration is successful!
       </div>
     </div>
-</div>
+</div>-->
+
+<nb-card>
+  <nb-card-header class="text-center"><h4>Registrácia</h4></nb-card-header>
+  <nb-card-body class="example-items-col text-center test test2" style="padding: 1rem 22rem;">
+  <form
+  *ngIf="!isSuccessful"
+  name="form"
+  (ngSubmit)="f.form.valid && onSubmit()"
+  #f="ngForm"
+  novalidate
+>
+
+  <div class="mb-4">
+    <label for="username">Používateľské meno</label>
+    <input nbInput fullWidth  status="primary" placeholder="Používateľské meno"
+      type="text"
+      name="username"
+      [(ngModel)]="form.username"
+      required
+      minlength="3"
+      maxlength="20"
+      #username="ngModel">
+      <div class="alert alert-danger" role="alert" *ngIf="username.errors && f.submitted">
+        <div *ngIf="username.errors['required']">Používateľské meno je povinné</div>
+        <div *ngIf="username.errors['minlength']">
+          Používateľské meno musí mať aspoň 3 znaky
+        </div>
+        <div *ngIf="username.errors['maxlength']">
+          Používateľské meno musí mať najviac 20 znakov
+        </div>
+      </div>
+  </div>
+  <div class="mb-4">
+    <label for="password">Heslo</label>
+    <input nbInput fullWidth  status="primary" placeholder="Heslo"
+      type="password"
+      class="form-control"
+      name="password"
+      [(ngModel)]="form.password"
+      required
+      minlength="6"
+      #password="ngModel"
+    />
+    <div class="alert alert-danger" *ngIf="password.errors && f.submitted">
+      <div *ngIf="password.errors['required']">Heslo je povinné</div>
+      <div *ngIf="password.errors['minlength']">
+        Heslo musí mať aspoň 6 znakov
+      </div>
+    </div>
+  </div>
+  <div class="mb-4">
+    <label for="email">Email</label>
+    <input
+      type="email"
+      class="form-control"
+      name="email"
+      [(ngModel)]="form.email"
+      required
+      email
+      #email="ngModel"
+    />
+    <div class="alert alert-danger" *ngIf="email.errors && f.submitted">
+      <div *ngIf="email.errors['required']">Email je povinný</div>
+      <div *ngIf="email.errors['email']">
+        Email musí byť valídna emailová adresa
+      </div>
+    </div>
+  </div>
+  <div class="mb-4">
+    <label for="phone_number">Telefónne číslo</label>
+    <input
+      type="text"
+      class="form-control"
+      name="phone_number"
+      [(ngModel)]="form.phone_number"
+      required
+      minlength="1"
+      maxlength="20"
+      #phone_number="ngModel"
+    />
+    <div class="alert alert-danger" *ngIf="phone_number.errors && f.submitted">
+      <div *ngIf="phone_number.errors['required']">Telefónne číslo je povinné</div>
+      <div *ngIf="phone_number.errors['minlength']">
+        Telefónne číslo musí mať aspoň 3 znaky
+      </div>
+      <div *ngIf="phone_number.errors['maxlength']">
+        Telefónne číslo musí mať najviac 20 znakov
+      </div>
+    </div>
+  </div>
+  
+  <nb-card-footer>  
+    <div class="control-status-example text-center mb-2">
+    <button nbButton hero status="primary">Registrovať sa</button>
+    </div>
+    <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+      Registrácia zlyhala!<br />{{ errorMessage }}
+    </div> 
+  </nb-card-footer>
+
+</form>
+</nb-card-body>
+
+ 
+</nb-card>

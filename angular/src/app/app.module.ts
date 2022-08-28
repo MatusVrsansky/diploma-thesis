@@ -13,7 +13,12 @@ import { BoardUserComponent } from './board-user/board-user.component';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HistoryComponent } from './history/history.component';
-import { NbToastrModule, NbInputModule, NbMenuModule, NbThemeModule, NbRadioModule, NbToggleModule, NbCardModule,  NbSidebarModule, NbLayoutModule, NbButtonModule} from '@nebular/theme';
+
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+
+import { NbToastrModule, NbTreeGridModule, NbIconModule, NbActionsModule, NbFormFieldModule, NbInputModule, NbMenuModule, NbThemeModule, NbRadioModule, NbToggleModule, NbCardModule,  NbSidebarModule, NbLayoutModule, NbButtonModule} from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
+
 import { RouterModule } from '@angular/router'; // we also need angular router for Nebular to function properly
 
 
@@ -53,6 +58,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
     NbButtonModule,
     NbMenuModule,
     NbInputModule,
+    Ng2SmartTableModule,
+    NbFormFieldModule,
+    NbActionsModule,
+    NbEvaIconsModule,
+    NbIconModule,
+    NbTreeGridModule,
     NbToastrModule.forRoot()
 
   ],

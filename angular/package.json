@@ -22,6 +22,8 @@
     "@nebular/eva-icons": "9.0.3",
     "@nebular/theme": "^9.0.3",
     "eva-icons": "^1.1.2",
+    "ng2-charts": "^4.0.0",
+    "ng2-smart-table": "^1.7.2",
     "ngx-filter-pipe": "^2.1.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
@@ -40,6 +42,7 @@
     "karma-coverage": "~2.1.0",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "ng2-completer": "^9.0.1",
     "typescript": "~4.6.2"
   }
 }
