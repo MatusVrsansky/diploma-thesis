@@ -12,18 +12,19 @@ export class RegisterComponent implements OnInit {
     username: null,
     email: null,
     password: null,
-    temperature_notification: null,
-    text_notification: null,
-    temperature_operator_bigger: null,
-    temperature_operator_smaller: null,
-    temperature_operator : '<',
+    //temperature_notification: null,
+   // text_notification: null,
+   // temperature_operator_bigger: null,
+   // temperature_operator_smaller: null,
+  //  temperature_operator : '<',
     phone_number : null,
-    active_notification: true
+  //  active_notification: true
   };
 
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
+  showPassword = false;
 
 
 
@@ -34,11 +35,8 @@ export class RegisterComponent implements OnInit {
 
 
   onSubmit(): void {
-    const { username, email, password, temperature_notification, text_notification, temperature_operator, phone_number, active_notification } = this.form;
-    console.log(temperature_operator)
-    console.log(phone_number)
-    console.log(active_notification)
-    this.authService.register(username, email, password, temperature_notification, text_notification, temperature_operator, phone_number, active_notification).subscribe({
+    const { username, email, password, phone_number } = this.form;
+    this.authService.register(username, email, password, phone_number).subscribe({
       next: data => {
         console.log(data);
         console.log('tu som');
@@ -52,5 +50,17 @@ export class RegisterComponent implements OnInit {
         console.log(err)
       }
     })
+  }
+
+  getInputType() {
+    if (this.showPassword) {
+      return 'text';
+    }
+    return 'password';
+  }
+
+  toggleShowPassword(event: Event) {
+    event.preventDefault();
+    this.showPassword = !this.showPassword;
   }
 }

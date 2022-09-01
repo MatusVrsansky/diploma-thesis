@@ -11,11 +11,16 @@ module.exports = function(app) {
   app.post(
     "/api/auth/signup",
     [
-      verifySignUp.checkDuplicateUsernameOrEmail,
+      verifySignUp.checkDuplicateRegistration,
       verifySignUp.checkRolesExisted
     ],
     controller.signup
   );
   app.post("/api/auth/signin", controller.signin);
-  app.post("/api/auth/update", controller.update);
+  app.post("/api/auth/update", 
+  [
+    verifySignUp.checkDuplicateUpdate,
+    verifySignUp.checkRolesExisted
+  ],
+  controller.update);
 };

@@ -1,5 +1,5 @@
 
-module.exports = () => {
+/*module.exports = () => {
 
 
     const db = require("../models");
@@ -86,4 +86,4 @@ module.exports = () => {
         });
     }
 
-}
+}*/

@@ -202,23 +202,30 @@
       </div>
   </div>
   <div class="mb-4">
-    <label for="password">Heslo</label>
-    <input nbInput fullWidth  status="primary" placeholder="Heslo"
-      type="password"
-      class="form-control"
-      name="password"
+    <label for="username">Heslo</label>
+    <nb-form-field>
+      <input [type]="getInputType()" nbInput fullWidth status="info" placeholder="Heslo"  name="password"
       [(ngModel)]="form.password"
       required
       minlength="6"
-      #password="ngModel"
-    />
-    <div class="alert alert-danger" *ngIf="password.errors && f.submitted">
-      <div *ngIf="password.errors['required']">Heslo je povinné</div>
-      <div *ngIf="password.errors['minlength']">
-        Heslo musí mať aspoň 6 znakov
-      </div>
+      #password="ngModel">
+      <button nbSuffix nbButton ghost (click)="toggleShowPassword($event)">
+        <nb-icon [icon]="showPassword ? 'eye-off-2-outline' : 'eye-outline'"
+                 pack="eva"
+                 [attr.aria-label]="showPassword ? 'hide password' : 'show password'">
+        </nb-icon>
+      </button>
+    </nb-form-field>
+    <div
+    class="alert alert-danger"
+    role="alert"
+    *ngIf="password.errors && f.submitted"> <div *ngIf="password.errors['required']">Heslo je povinné</div>
+    <div *ngIf="password.errors['minlength']">
+      Heslo musí obsahovať aspoň 6 znakov
+    </div>
     </div>
   </div>
+
   <div class="mb-4">
     <label for="email">Email</label>
     <input
@@ -245,7 +252,7 @@
       name="phone_number"
       [(ngModel)]="form.phone_number"
       required
-      minlength="1"
+      minlength="10"
       maxlength="20"
       #phone_number="ngModel"
     />

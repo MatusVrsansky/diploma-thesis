@@ -2,6 +2,7 @@ const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
 const Role = db.role;
+const Notifications = db.notifications;
 const Op = db.Sequelize.Op;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
@@ -14,11 +15,11 @@ exports.signup = (req, res) => {
     username: req.body.username,
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
-    temperature_notification: req.body.temperature_notification,
-    text_notification: req.body.text_notification,
-    temperature_operator: req.body.temperature_operator,
+   // temperature_notification: req.body.temperature_notification,
+   // text_notification: req.body.text_notification,
+   // temperature_operator: req.body.temperature_operator,
     phone_number: req.body.phone_number,
-    active_notification: req.body.active_notification
+   // active_notification: req.body.active_notification
   })
     .then(user => {
       if (req.body.roles) {
@@ -53,11 +54,11 @@ exports.update = (req, res) => {
   const User = db.user;
 
   const objectToUpdate = {
-    temperature_notification: req.body.temperature_notification,
-    text_notification: req.body.text_notification,
+   // temperature_notification: req.body.temperature_notification,
+   // text_notification: req.body.text_notification,
     phone_number: req.body.phone_number,
-    temperature_operator: req.body.temperature_operator,
-    active_notification: req.body.active_notification
+   //temperature_operator: req.body.temperature_operator,
+    //active_notification: req.body.active_notification
   }
 
 
@@ -87,16 +88,19 @@ exports.update = (req, res) => {
         id: req.body.id,
         username: req.body.username,
         email: req.body.email,
-        temperature_notification: req.body.temperature_notification,
-        text_notification: req.body.text_notification,
-        temperature_operator: req.body.temperature_operator,
+      //  temperature_notification: req.body.temperature_notification,
+      //  text_notification: req.body.text_notification,
+      //  temperature_operator: req.body.temperature_operator,
         phone_number: req.body.phone_number,
-        active_notification: req.body.active_notification,
+       // active_notification: req.body.active_notification,
         roles: authorities,
         accessToken: token
       });
     });
   })
+  .catch(err => {
+    res.status(500).send({ message: err.message });
+  });
 
  
         
@@ -111,7 +115,7 @@ exports.signin = (req, res) => {
   })
     .then(user => {
       if (!user) {
-        return res.status(404).send({ message: "User Not found." });
+        return res.status(404).send({ message: "Meno používateľa neexistuje!" });
       }
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
@@ -120,13 +124,25 @@ exports.signin = (req, res) => {
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
-          message: "Invalid Password!"
+          message: "Zadali ste zlé heslo!"
         });
       }
       var token = jwt.sign({ id: user.id }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
       var authorities = [];
+
+      Notifications.findAll({
+        where: {
+          user_id: user.id 
+        }
+      }).then(notifications => {
+        user_notifications = JSON.stringify(notifications, null, 2);
+        user_notifications = JSON.parse(user_notifications)
+        console.log(typeof(user_notifications));
+      }),
+
+
       user.getRoles().then(roles => {
         for (let i = 0; i < roles.length; i++) {
           authorities.push("ROLE_" + roles[i].name.toUpperCase());
@@ -135,14 +151,15 @@ exports.signin = (req, res) => {
           id: user.id,
           username: user.username,
           email: user.email,
-          temperature_notification: user.temperature_notification,
-          text_notification: user.text_notification,
-          temperature_operator: user.temperature_operator,
+          //temperature_notification: user.temperature_notification,
+          //text_notification: user.text_notification,
+         // temperature_operator: user.temperature_operator,
           phone_number: user.phone_number,
-          active_notification: user.active_notification,
+         // active_notification: user.active_notification,
 
           roles: authorities,
-          accessToken: token
+          accessToken: token,
+          user_notifications: user_notifications
         });
       });
     })

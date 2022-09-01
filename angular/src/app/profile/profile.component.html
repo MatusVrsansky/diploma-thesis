@@ -1,4 +1,4 @@
-<!--<div class="container" *ngIf="currentUser; else loggedOut">
+<!-- <div class="container" *ngIf="currentUser; else loggedOut">
     <header class="jumbotron">
       <h3>
         <strong>{{ currentUser.username }}</strong> Profile
@@ -30,9 +30,9 @@
   </div>
   <ng-template #loggedOut>
     Please login.
-  </ng-template> -->
+  </ng-template> 
 
-  <div class="col-md-12">
+ <div class="col-md-12">
     <h1>Profile</h1>
     <div class="card card-container">
       <form
@@ -82,7 +82,7 @@
             </div>
           </div>
         </div>
-        <!--<div class="form-group">
+        <div class="form-group">
           <label for="password">Password</label>
           <input
             type="password"
@@ -99,7 +99,7 @@
               Password must be at least 6 characters
             </div>
           </div>
-        </div>-->
+        </div>
         <div class="form-group">
           <label for="phone_number">Phone number</label>
           <input
@@ -167,15 +167,15 @@
           </div>
         </div>
         <div class="form-group">
-          <p for="text_notification_greater_smaller_than">Send notification when temperature above is bigger / smaller ?</p>
+         <p for="text_notification_greater_smaller_than">Send notification when temperature above is bigger / smaller ?</p>
           <p class="subtitle">NgModel value: {{ form.temperature_operator }}</p>
 
-          <nb-radio-group [(ngModel)]="form.temperature_operator" name="ng-model-group">
+         <nb-radio-group [(ngModel)]="form.temperature_operator" name="ng-model-group">
             <nb-radio value=">">Bigger</nb-radio>
             <nb-radio value="<">Smaller</nb-radio>
             <nb-radio value=">=">Bigger / Equals</nb-radio>
             <nb-radio value="<=">Smaller / Equals</nb-radio>
-          </nb-radio-group>
+          </nb-radio-group> 
         </div>
         <div class="form-group">
           <label>Set notification active?</label>
@@ -193,4 +193,322 @@
         </div>
       </form>
     </div>
+</div>-->
+
+
+<!--<div class="col-md-12">
+    <h1>Registration</h1>
+    <div class="card card-container">
+      <img
+        id="profile-img"
+        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+        class="profile-img-card"
+      />
+      <form
+        *ngIf="!isSuccessful"
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+      >
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            class="form-control"
+            name="username"
+            [(ngModel)]="form.username"
+            required
+            minlength="3"
+            maxlength="20"
+            #username="ngModel"
+          />
+          <div class="alert-danger" *ngIf="username.errors && f.submitted">
+            <div *ngIf="username.errors['required']">Username is required</div>
+            <div *ngIf="username.errors['minlength']">
+              Username must be at least 3 characters
+            </div>
+            <div *ngIf="username.errors['maxlength']">
+              Username must be at most 20 characters
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            [(ngModel)]="form.password"
+            required
+            minlength="6"
+            #password="ngModel"
+          />
+          <div class="alert-danger" *ngIf="password.errors && f.submitted">
+            <div *ngIf="password.errors['required']">Password is required</div>
+            <div *ngIf="password.errors['minlength']">
+              Password must be at least 6 characters
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            [(ngModel)]="form.email"
+            required
+            email
+            #email="ngModel"
+          />
+          <div class="alert-danger" *ngIf="email.errors && f.submitted">
+            <div *ngIf="email.errors['required']">Email is required</div>
+            <div *ngIf="email.errors['email']">
+              Email must be a valid email address
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="phone_number">Phone number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="phone_number"
+            [(ngModel)]="form.phone_number"
+            required
+            minlength="1"
+            maxlength="20"
+            #phone_number="ngModel"
+          />
+          <div class="alert-danger" *ngIf="phone_number.errors && f.submitted">
+            <div *ngIf="phone_number.errors['required']">Phone number is required</div>
+            <div *ngIf="phone_number.errors['minlength']">
+              Temperature must be at least 3 characters
+            </div>
+            <div *ngIf="phone_number.errors['maxlength']">
+              Temperature must be at most 20 characters
+            </div>
+          </div>
+        </div> 
+     <div class="form-group">
+          <label for="temperature_notification">Temperature notification</label>
+          <input
+            type="number"
+            class="form-control"
+            name="temperature_notification"
+            [(ngModel)]="form.temperature_notification"
+            required
+            minlength="1"
+            maxlength="20"
+            #temperature_notification="ngModel"
+          />
+          <div class="alert-danger" *ngIf="temperature_notification.errors && f.submitted">
+            <div *ngIf="temperature_notification.errors['required']">Temperature notification is required</div>
+            <div *ngIf="temperature_notification.errors['minlength']">
+              Temperature must be at least 3 characters
+            </div>
+            <div *ngIf="temperature_notification.errors['maxlength']">
+              Temperature must be at most 20 characters
+            </div>
+          </div>
+        </div> 
+        <div class="form-group">
+          <p for="text_notification_greater_smaller_than">Send notification when temperature above is bigger / smaller ?</p>
+          <p class="subtitle">NgModel value: {{ form.temperature_operator }}</p>
+
+          <nb-radio-group [(ngModel)]="form.temperature_operator" name="ng-model-group">
+            <nb-radio value=">">Bigger</nb-radio>
+            <nb-radio value="<">Smaller</nb-radio>
+            <nb-radio value=">=">Bigger / Equals</nb-radio>
+            <nb-radio value="<=">Smaller / Equals</nb-radio>
+          </nb-radio-group>
+        </div>
+        <div class="form-group mt-4">
+          <label for="text_notification">Text notification</label>
+          <input
+            type="text"
+            class="form-control"
+            name="text_notification"
+            [(ngModel)]="form.text_notification"
+            required
+            minlength="5"
+            maxlength="50"
+            #text_notification="ngModel"
+          />
+          <div class="alert-danger" *ngIf="text_notification.errors && f.submitted">
+            <div *ngIf="text_notification.errors['required']">Text notification is required</div>
+            <div *ngIf="text_notification.errors['minlength']">
+              Text must be at least 5 characters
+            </div>
+            <div *ngIf="text_notification.errors['maxlength']">
+              Text must be at most 20 characters
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Set notification active?</label>
+          <nb-card>
+            <nb-card-body class="example-items-col">
+              <nb-toggle [(ngModel)]="form.active_notification" name="ng-toggle"></nb-toggle>
+            </nb-card-body>
+          </nb-card>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block">Sign Up</button>
+        </div>
+        <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+          Signup failed!<br />{{ errorMessage }}
+        </div>
+      </form>
+      <div class="alert alert-success" *ngIf="isSuccessful">
+        Your registration is successful!
+      </div>
+    </div>
+</div>-->
+
+<nb-card>
+  <nb-card-header class="text-center"><h4>Profil používateľa: {{userName}}</h4></nb-card-header>
+  <nb-card-body class="example-items-col text-center test test2" style="padding: 1rem 22rem;">
+  <form
+  name="form"
+  (ngSubmit)="f.form.valid && onSubmit()"
+  #f="ngForm"
+  novalidate
+>
+
+  <div class="mb-4">
+    <label for="username">Používateľské meno</label>
+    <input nbInput fullWidth  status="basic" placeholder="Používateľské meno" readonly
+      type="text"
+      name="username"
+      [(ngModel)]="form.username"
+      required
+      minlength="3"
+      maxlength="20"
+      #username="ngModel">
+      <div class="alert alert-danger" role="alert" *ngIf="username.errors && f.submitted">
+        <div *ngIf="username.errors['required']">Používateľské meno je povinné</div>
+        <div *ngIf="username.errors['minlength']">
+          Používateľské meno musí mať aspoň 3 znaky
+        </div>
+        <div *ngIf="username.errors['maxlength']">
+          Používateľské meno musí mať najviac 20 znakov
+        </div>
+      </div>
+  </div>
+  <div class="mb-4">
+    <label for="email">Email</label>
+    <input nbInput fullWidth  status="basic"
+      type="email"
+      class="form-control"
+      name="email"
+      [(ngModel)]="form.email"
+      required
+      email
+      #email="ngModel"
+    
+    />
+    <div class="alert alert-danger" *ngIf="email.errors && f.submitted">
+      <div *ngIf="email.errors['required']">Email je povinný</div>
+      <div *ngIf="email.errors['email']">
+        Email musí byť valídna emailová adresa
+      </div>
+    </div>
+  </div>
+  <div class="mb-4">
+    <label for="phone_number">Telefónne číslo</label>
+    <input nbInput fullWidth  status="primary"
+      type="text"
+      class="form-control"
+      name="phone_number"
+      [(ngModel)]="form.phone_number"
+      required
+      minlength="1"
+      maxlength="20"
+      #phone_number="ngModel"
+    />
+    <div class="alert alert-danger" *ngIf="phone_number.errors && f.submitted">
+      <div *ngIf="phone_number.errors['required']">Telefónne číslo je povinné</div>
+      <div *ngIf="phone_number.errors['minlength']">
+        Telefónne číslo musí mať aspoň 3 znaky
+      </div>
+      <div *ngIf="phone_number.errors['maxlength']">
+        Telefónne číslo musí mať najviac 20 znakov
+      </div>
+    </div>
+  </div>
+ 
+  
+  <nb-card-footer>  
+    <div class="control-status-example text-center mb-2">
+    <button nbButton hero status="primary">Uložiť</button>
+    </div>
+    <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+      Uloženie zlyhalo!<br />{{ errorMessage }}
+    </div> 
+  </nb-card-footer>
+
+</form>
+</nb-card-body>
+<div class="mb-4 text-center" style="padding: 0 2rem">
+  <h4>Zoznam notifikácií</h4>
+  <div style="margin-bottom: 80px">
+    <ng2-smart-table [settings]="settings" [source]="historyData.main" class="mb-4"></ng2-smart-table>
+  </div>
+
+
+  <form
+  name="form"
+  (ngSubmit)="f.form.valid && onSubmit()"
+  #f="ngForm"
+  novalidate
+>
+
+  <div class="mb-4">
+    <label for="username">Používateľské meno</label>
+    <input nbInput fullWidth  status="basic" placeholder="Používateľské meno" readonly
+      type="text"
+      name="username"
+      [(ngModel)]="form.username"
+      required
+      minlength="3"
+      maxlength="20"
+      #username="ngModel">
+      <div class="alert alert-danger" role="alert" *ngIf="username.errors && f.submitted">
+        <div *ngIf="username.errors['required']">Používateľské meno je povinné</div>
+        <div *ngIf="username.errors['minlength']">
+          Používateľské meno musí mať aspoň 3 znaky
+        </div>
+        <div *ngIf="username.errors['maxlength']">
+          Používateľské meno musí mať najviac 20 znakov
+        </div>
+      </div>
+  </div>
+ 
+  <nb-card-footer>  
+    <div class="control-status-example text-center mb-2">
+    <button nbButton hero status="primary">Uložiť</button>
+    </div>
+    <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+      Uloženie zlyhalo!<br />{{ errorMessage }}
+    </div> 
+  </nb-card-footer>
+
+  <nb-card size="small">
+    <nb-card-body>
+      <nb-select placeholder="Select Showcase" [(selected)]="selectedItem">
+        <nb-option value="">Option empty</nb-option>
+        <nb-option value="0">Option 0</nb-option>
+        <nb-option value="1">Option 1</nb-option>
+        <nb-option value="2">Option 2</nb-option>
+        <nb-option value="3">Option 3</nb-option>
+        <nb-option value="4">Option 4</nb-option>
+      </nb-select>
+    </nb-card-body>
+  </nb-card>
+</form>
 </div>
+
+ 
+</nb-card>

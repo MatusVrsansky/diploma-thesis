@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
       password: {
         type: Sequelize.STRING
       },
-      temperature_notification: {
+      /*temperature_notification: {
         type: Sequelize.STRING
       },
       text_notification: {
@@ -17,13 +17,19 @@ module.exports = (sequelize, Sequelize) => {
       },
       temperature_operator: {
         type: Sequelize.STRING
-      },
+      },*/
       phone_number: {
         type: Sequelize.STRING
       },
-      active_notification: {
-        type: Boolean
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
       }
+      /*active_notification: {
+        type: Boolean
+      }*/
     });
     return User;
   };
