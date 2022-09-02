@@ -454,7 +454,7 @@
 <div class="mb-4 text-center" style="padding: 0 2rem">
   <h4>Zoznam notifikácií</h4>
   <div style="margin-bottom: 80px">
-    <ng2-smart-table [settings]="settings" [source]="historyData.main" class="mb-4"></ng2-smart-table>
+    <ng2-smart-table [settings]="settings" [source]="usedNotifications.main" class="mb-4"></ng2-smart-table>
   </div>
 
 
@@ -497,13 +497,12 @@
 
   <nb-card size="small">
     <nb-card-body>
-      <nb-select placeholder="Select Showcase" [(selected)]="selectedItem">
-        <nb-option value="">Option empty</nb-option>
-        <nb-option value="0">Option 0</nb-option>
-        <nb-option value="1">Option 1</nb-option>
-        <nb-option value="2">Option 2</nb-option>
-        <nb-option value="3">Option 3</nb-option>
-        <nb-option value="4">Option 4</nb-option>
+      <nb-select
+        [(selected)]="selectedItem"
+        placeholder="Multiple Select"  >
+        <nb-option *ngFor="let project of usedNotificationsType.main" [value]="project">
+          {{ project}}
+        </nb-option>
       </nb-select>
     </nb-card-body>
   </nb-card>

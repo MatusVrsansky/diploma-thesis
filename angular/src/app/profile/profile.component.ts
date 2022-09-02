@@ -23,6 +23,7 @@ export class ProfileComponent implements OnInit {
     //temperature_operator: this.currentUser.temperature_operator,
     phone_number: this.currentUser.phone_number,
     //active_notification: this.currentUser.active_notification
+   
   };
 
   userId = this.currentUser.id;
@@ -31,9 +32,11 @@ export class ProfileComponent implements OnInit {
   errorMessage = '';
   roles: string[] = [];
   showPassword = false;
-  historyData: any;
-  usedNotifications: Array<any> = [];
-  selectedItem = '2';
+  usedNotifications: any;
+  usedNotificationsType: any;
+  selectedItem = 'teplota';
+
+  value = null
 
 
   // get current user Username 
@@ -48,7 +51,11 @@ export class ProfileComponent implements OnInit {
   constructor(private tokenStorage: TokenStorageService, private authService: AuthService, private toastrService: NbToastrService) { }
   ngOnInit(): void {
 
-    this.historyData = {
+    this.usedNotifications = {
+      main : {},
+    };
+
+    this.usedNotificationsType = {
       main : {},
     };
 
@@ -57,11 +64,13 @@ export class ProfileComponent implements OnInit {
     console.log(this.currentUser.user_notifications)
 
     const dataToTable: object[] = [];
+
+    const usedNotificationsTypeArr: object[] = [];
    
     this.currentUser.user_notifications.forEach(function(item:any) {
-      console.log(item.id);
-      console.log(item.user_id);
-      console.log(item.notification_type);
+
+      //usedNotificationsType.puh
+  
 
       const person = {
         id: item.id,
@@ -75,11 +84,17 @@ export class ProfileComponent implements OnInit {
     //this.usedNotifications.push(item.notification_type)
     
     dataToTable.push(person)
+    usedNotificationsTypeArr.push(item.notification_type)
   });
 
-  this.historyData.main = dataToTable;
-    //console.log(this.currentUser.user_notifications)
-   
+  console.log(usedNotificationsTypeArr)
+
+  this.usedNotifications.main = dataToTable;
+  this.usedNotificationsType.main = usedNotificationsTypeArr;
+
+  console.log(typeof(this.usedNotificationsType.main))
+  
+ 
   }
 
   showToast(position: NbGlobalPosition, duration: number) {
