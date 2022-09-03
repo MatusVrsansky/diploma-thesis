@@ -16,14 +16,14 @@ import { HistoryComponent } from './history/history.component';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
-import { NbToastrModule, NbSelectModule, NbTreeGridModule, NbIconModule, NbActionsModule, NbFormFieldModule, NbInputModule, NbMenuModule, NbThemeModule, NbRadioModule, NbToggleModule, NbCardModule,  NbSidebarModule, NbLayoutModule, NbButtonModule} from '@nebular/theme';
+import { NbToastrModule, NbSelectModule, NbTreeGridModule, NbIconModule, NbActionsModule,NbDialogModule, NbFormFieldModule, NbInputModule, NbMenuModule, NbThemeModule, NbRadioModule, NbToggleModule, NbCardModule,  NbSidebarModule, NbLayoutModule, NbButtonModule} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 import { RouterModule } from '@angular/router'; // we also need angular router for Nebular to function properly
 
 
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; //<-- copy this.
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations'; //<-- copy this.
 
 
 
@@ -65,7 +65,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
     NbEvaIconsModule,
     NbIconModule,
     NbTreeGridModule,
-    NbToastrModule.forRoot()
+    NbToastrModule.forRoot(),
+    NbDialogModule.forRoot(),
+    NoopAnimationsModule
 
   ],
   providers: [authInterceptorProviders],

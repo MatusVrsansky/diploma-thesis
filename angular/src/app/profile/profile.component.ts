@@ -1,8 +1,10 @@
-import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
+import { Component, OnInit,TemplateRef, ViewChild, HostBinding, OnDestroy } from '@angular/core';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { AuthService } from '../_services/auth.service';
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService } from '@nebular/theme';
-import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
+import { NbDialogService } from '@nebular/theme';
+
+
 
 @Component({
   selector: 'app-profile',
@@ -11,9 +13,13 @@ import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 })
 export class ProfileComponent implements OnInit {
 
+
+
   currentUser = this.tokenStorage.getUser();
   @HostBinding('class')
   classes = 'example-items-rows';
+
+
 
   form: any = {
     username: this.currentUser.username,
@@ -34,9 +40,15 @@ export class ProfileComponent implements OnInit {
   showPassword = false;
   usedNotifications: any;
   usedNotificationsType: any;
+  notificationTypes: any;
   selectedItem = 'teplota';
 
   value = null
+
+  
+  isVisible = 0;
+  isSelected: boolean = true;
+  
 
 
   // get current user Username 
@@ -46,9 +58,8 @@ export class ProfileComponent implements OnInit {
   logicalPositions = NbGlobalLogicalPosition;
 
 
- 
   
-  constructor(private tokenStorage: TokenStorageService, private authService: AuthService, private toastrService: NbToastrService) { }
+  constructor(private tokenStorage: TokenStorageService, private authService: AuthService, private toastrService: NbToastrService, private dialogService: NbDialogService) { }
   ngOnInit(): void {
 
     this.usedNotifications = {
@@ -59,16 +70,34 @@ export class ProfileComponent implements OnInit {
       main : {},
     };
 
+    this.notificationTypes = {
+      main: {}
+    };
 
-    console.log(typeof(this.currentUser.user_notifications))
-    console.log(this.currentUser.user_notifications)
+    const notificationTypes: string[] = [];
 
+    /*this.notificationTypes.push('teplota');
+    this.notificationTypes.push('smer_vetra');
+    this.notificationTypes.push('rychlost_vetra');
+    this.notificationTypes.push('uroven_svetla');
+    this.notificationTypes.push('vlhost_pody');
+    this.notificationTypes.push('vlhkost');
+    this.notificationTypes.push('dazdometer');
+    this.notificationTypes.push('tlak');*/
+
+  
+
+  
     const dataToTable: object[] = [];
 
-    const usedNotificationsTypeArr: object[] = [];
-   
-    this.currentUser.user_notifications.forEach(function(item:any) {
+    //const usedNotificationsTypeArr: object[] = [];
 
+
+    // array of used notifications
+    const arrayUsedNotifications: any = [];
+
+
+    this.currentUser.user_notifications.forEach(function(item:any) {
       //usedNotificationsType.puh
   
 
@@ -81,18 +110,48 @@ export class ProfileComponent implements OnInit {
         active_notification: item.active_notification
     }
 
-    //this.usedNotifications.push(item.notification_type)
+    arrayUsedNotifications.push(item.notification_type);
+
+    
     
     dataToTable.push(person)
-    usedNotificationsTypeArr.push(item.notification_type)
   });
 
-  console.log(usedNotificationsTypeArr)
-
+  // used in table of existing notifications
   this.usedNotifications.main = dataToTable;
-  this.usedNotificationsType.main = usedNotificationsTypeArr;
+  
+  //this.usedNotificationsType.main = usedNotificationsTypeArr;
 
-  console.log(typeof(this.usedNotificationsType.main))
+ /* notificationTypes.push('teplota');
+  notificationTypes.push('smer_vetra');
+  notificationTypes.push('rychlost_vetra');
+  notificationTypes.push('uroven_svetla');
+  notificationTypes.push('vlhost_pody');
+  notificationTypes.push('vlhkost');
+  notificationTypes.push('dazdometer');
+  notificationTypes.push('tlak');*/
+
+ 
+
+  let data = [
+    {name: "teplota"},
+    {name: "smer_vetra"},
+    {name: "rychlost_vetra"},
+    {name: "uroven_svetla"},
+    {name: "vlhost_pody"},
+    {name: "vlhkost"},
+    {name: "dazdometer"},
+    {name: "tlak"},
+  ];
+  
+  //let array = ["dazd", ''];
+  console.log(this.usedNotifications.main)
+  let result = data.filter(({ name }) => !arrayUsedNotifications.includes(name));
+  
+  console.log(result);
+  this.notificationTypes.main = result;
+
+
   
  
   }
@@ -164,5 +223,16 @@ export class ProfileComponent implements OnInit {
   toggleShowPassword(event: Event) {
     event.preventDefault();
     this.showPassword = !this.showPassword;
+  }
+
+  clickTest(event:Event, id:any) {
+    event.preventDefault();
+    console.log('klikol som')
+    console.log(id)
+    console.log(event)
+  }
+
+  open(dialog: TemplateRef<any>) {
+    this.dialogService.open(dialog, { context: 'Naozaj chcete vymazať notifikáciu?' });
   }
 }
