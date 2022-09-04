@@ -465,13 +465,54 @@
           <ng-template #newNotification let-data let-ref="dialogRef">
             <nb-card>
               <nb-card-header>Nová notifikácia</nb-card-header>
-              <nb-card-body>test</nb-card-body>
-              <nb-card-footer>
-                <button nbButton status="success" class="mr-2">Pridať</button>
-                <button nbButton (click)="ref.close()" status="basic">Zrušiť</button>
-              </nb-card-footer>
-            </nb-card>
-          </ng-template>
+              <nb-card-body>
+                <form
+                name="new"
+                (ngSubmit)="n.form.valid && onSubmit()"
+                #n="ngForm"
+                novalidate
+              >
+                
+                <div class="mb-4">
+                  <nb-select placeholder="Vyberte typ notifikácie">
+                    <nb-option *ngFor="let type of new.notificationTypes" [value]="type">
+                      {{type}}
+                    </nb-option>
+                  </nb-select>
+                </div>
+              
+                <div class="mb-4">
+                  <label for="phone_number">Teplota notifikácie</label>
+                  <input nbInput fullWidth  status="primary"
+                    type="text"
+                    class="form-control"
+                    name="phone_number"
+                    [(ngModel)]="new.temperatureNotification"
+                    required
+                    minlength="1"
+                    maxlength="20"
+                    #temperatureNotification="ngModel"
+                  />
+                  <div class="alert alert-danger" *ngIf="temperatureNotification.errors && new.submitted">
+                    <div *ngIf="temperatureNotification.errors['required']">Teplota notifikácie je povinná</div>
+                    <div *ngIf="temperatureNotification.errors['minlength']">
+                      Teplota notifikácie musí mať aspoň 1 znak
+                    </div>
+                    <div *ngIf="temperatureNotification.errors['maxlength']">
+                      Teplota notifikácie musí mať najviac 20 znakov
+                    </div>
+                  </div>
+                </div>
+                <nb-card-footer>
+                  <button nbButton status="success" class="mr-2">Pridať</button>
+                  <button nbButton (click)="ref.close()" status="basic">Zrušiť</button>
+                </nb-card-footer>
+                </form>
+              </nb-card-body>
+            
+              </nb-card>
+            </ng-template>
+         
         </div>
           <table class="table table-striped table-hover table-bordered">
               <thead>
@@ -512,10 +553,6 @@
 
 
                   </tr>
-
-                
-              
-                
               </tbody>
           </table>
 

@@ -56,5 +56,25 @@ export class AuthService {
       notificationId
     }, httpOptions);
   }
+
+  addNewNotification(currentLoggedUserId: number, notificationTypes: string, temperatureNotification: string, textNotification: string, activeNotification: boolean):  Observable<any> {
+    console.log(currentLoggedUserId)
+    console.log(notificationTypes)
+    console.log(temperatureNotification)
+    console.log(textNotification)
+    console.log(activeNotification)
+
+    return this.http.post(AUTH_API + 'update', {
+      currentLoggedUserId,
+      notificationTypes,
+      temperatureNotification,
+      textNotification,
+     // temperature_notification,
+     // text_notification,
+     // temperature_operator,
+     activeNotification
+    //  active_notification
+    }, httpOptions);
+  }
   
 }

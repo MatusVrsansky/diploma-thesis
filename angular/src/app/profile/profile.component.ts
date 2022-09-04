@@ -3,7 +3,7 @@ import { TokenStorageService } from '../_services/token-storage.service';
 import { AuthService } from '../_services/auth.service';
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService } from '@nebular/theme';
 import { NbDialogService, NbDialogRef } from '@nebular/theme';
-import { windowToggle } from 'rxjs';
+
 
 
 
@@ -20,6 +20,12 @@ export class ProfileComponent implements OnInit {
   @HostBinding('class')
   classes = 'example-items-rows';
 
+  new: any = {
+    notificationTypes: [],
+    temperatureNotification: null,
+    textNotification: null,
+    activeNotification: null,
+  };
 
 
   form: any = {
@@ -37,7 +43,7 @@ export class ProfileComponent implements OnInit {
   usedNotifications: any;
   usedNotificationsType: any;
   notificationTypes: any;
-  selectedItem = 'teplota';
+  selectedItem = 'dazdometer';
   userNotifications = this.currentUser.user_notifications;
 
   value = null
@@ -68,11 +74,11 @@ export class ProfileComponent implements OnInit {
       main : {},
     };
 
-    this.notificationTypes = {
+   this.notificationTypes = {
       main: {}
     };
 
-    const notificationTypes: string[] = [];
+   // const notificationTypes: string[] = [];
 
 
   
@@ -112,7 +118,7 @@ export class ProfileComponent implements OnInit {
   
  
 
-  let data = [
+  let allNotificationTypes = [
     {name: "teplota"},
     {name: "smer_vetra"},
     {name: "rychlost_vetra"},
@@ -125,10 +131,26 @@ export class ProfileComponent implements OnInit {
   
   //let array = ["dazd", ''];
   console.log(this.usedNotifications.main)
-  let result = data.filter(({ name }) => !arrayUsedNotifications.includes(name));
-  
-  console.log(result);
+  let result = allNotificationTypes.filter(({ name }) => !arrayUsedNotifications.includes(name));
+
   this.notificationTypes.main = result;
+
+  this.new.notificationTypes = this.notificationTypes.main;
+  
+  console.log(typeof(this.new.notificationTypes))
+
+  let myArray: any = [];
+
+  
+  this.new.notificationTypes.forEach(function(item:any) {
+    //console.log(item.name)
+    myArray.push(item.name)
+});
+
+this.new.notificationTypes = myArray;
+console.log(this.new.notificationTypes)
+console.log(typeof(this.new.notificationTypes))
+
 
 
   
@@ -166,6 +188,32 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
+
+  newNotification(): void { 
+
+    const { notificationTypes, temperatureNotification , textNotification, activeNotification } = this.new;
+
+
+
+    this.authService.addNewNotification(this.currentUser.id, notificationTypes, temperatureNotification, textNotification, activeNotification).subscribe({
+      next: data => { 
+        //console.log(data);
+        this.tokenStorage.saveToken(data.accessToken);
+        this.tokenStorage.saveUser(data);
+        this.isSuccessful = true;
+        this.isSignUpFailed = false;
+        this.roles = this.tokenStorage.getUser().roles;
+        this.showToast(this.logicalPositions.BOTTOM_END, 10000)
+      },
+      error: err => {
+        console.log(err.error.message)
+        this.errorMessage = err.error.message;
+        this.isSignUpFailed = true;
+      }
+    });
+  }
+
+
   reloadPage(): void {
     window.location.reload();
   }

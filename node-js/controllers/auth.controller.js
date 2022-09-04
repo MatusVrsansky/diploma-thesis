@@ -158,9 +158,6 @@ exports.removeNotification = (req, res) => {
 }
 
 
-
-
-
 exports.signin = (req, res) => {
   User.findOne({
     where: {
@@ -205,12 +202,7 @@ exports.signin = (req, res) => {
           id: user.id,
           username: user.username,
           email: user.email,
-          //temperature_notification: user.temperature_notification,
-          //text_notification: user.text_notification,
-         // temperature_operator: user.temperature_operator,
           phone_number: user.phone_number,
-         // active_notification: user.active_notification,
-
           roles: authorities,
           accessToken: token,
           user_notifications: user_notifications
