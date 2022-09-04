@@ -45,5 +45,16 @@ export class AuthService {
     //  active_notification
     }, httpOptions);
   }
+
+  removeNotification(userId:number, notificationId: number): Observable<any> {
+
+    console.log(userId);
+    console.log(notificationId)
+   
+    return this.http.post(AUTH_API + 'removeNotification', {
+      userId,
+      notificationId
+    }, httpOptions);
+  }
   
 }

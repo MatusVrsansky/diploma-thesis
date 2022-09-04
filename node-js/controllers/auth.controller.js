@@ -54,11 +54,7 @@ exports.update = (req, res) => {
   const User = db.user;
 
   const objectToUpdate = {
-   // temperature_notification: req.body.temperature_notification,
-   // text_notification: req.body.text_notification,
-    phone_number: req.body.phone_number,
-   //temperature_operator: req.body.temperature_operator,
-    //active_notification: req.body.active_notification
+    phone_number: req.body.phone_number
   }
 
 
@@ -105,6 +101,64 @@ exports.update = (req, res) => {
  
         
 };
+
+exports.removeNotification = (req, res) => {
+
+  console.log('auth.controller.js')
+  console.log(req.body.notificationId)
+
+  Notifications.destroy({
+    where: {
+      id: req.body.notificationId
+    }
+  })
+  User.findOne({
+    where: {
+      id: req.body.userId
+    }
+  })
+  .then(user => {
+    if (!user) {
+      return res.status(404).send({ message: "User Not found." });
+    }
+   
+    var token = jwt.sign({ id: user.id }, config.secret, {
+      expiresIn: 86400 // 24 hours
+    });
+    var authorities = [];
+    Notifications.findAll({
+      where: {
+        user_id: user.id 
+      }
+    }).then(notifications => {
+      user_notifications = JSON.stringify(notifications, null, 2);
+      user_notifications = JSON.parse(user_notifications)
+      console.log(typeof(user_notifications));
+    }),
+    user.getRoles().then(roles => {
+      for (let i = 0; i < roles.length; i++) {
+        authorities.push("ROLE_" + roles[i].name.toUpperCase());
+      }
+      res.send({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        phone_number: user.phone_number,
+        roles: authorities,
+        user_notifications: user_notifications,
+        accessToken: token
+      });
+
+
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });     
+});
+}
+
+
+
 
 
 exports.signin = (req, res) => {

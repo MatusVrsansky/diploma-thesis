@@ -1,8 +1,9 @@
-import { Component, OnInit,TemplateRef, ViewChild, HostBinding, OnDestroy } from '@angular/core';
+import { Component, OnInit,TemplateRef, ViewChild, HostBinding, OnDestroy, Optional } from '@angular/core';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { AuthService } from '../_services/auth.service';
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService } from '@nebular/theme';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService, NbDialogRef } from '@nebular/theme';
+import { windowToggle } from 'rxjs';
 
 
 
@@ -24,12 +25,7 @@ export class ProfileComponent implements OnInit {
   form: any = {
     username: this.currentUser.username,
     email: this.currentUser.email,
-   // temperature_notification: this.currentUser.temperature_notification,
-    //text_notification: this.currentUser.text_notification,
-    //temperature_operator: this.currentUser.temperature_operator,
     phone_number: this.currentUser.phone_number,
-    //active_notification: this.currentUser.active_notification
-   
   };
 
   userId = this.currentUser.id;
@@ -42,6 +38,7 @@ export class ProfileComponent implements OnInit {
   usedNotificationsType: any;
   notificationTypes: any;
   selectedItem = 'teplota';
+  userNotifications = this.currentUser.user_notifications;
 
   value = null
 
@@ -56,10 +53,11 @@ export class ProfileComponent implements OnInit {
 
   physicalPositions = NbGlobalPhysicalPosition;
   logicalPositions = NbGlobalLogicalPosition;
-
+  
 
   
-  constructor(private tokenStorage: TokenStorageService, private authService: AuthService, private toastrService: NbToastrService, private dialogService: NbDialogService) { }
+  constructor(private tokenStorage: TokenStorageService, private authService: AuthService, private toastrService: NbToastrService,
+     private dialogService: NbDialogService, @Optional() private dialogRef: NbDialogRef<any>) { }
   ngOnInit(): void {
 
     this.usedNotifications = {
@@ -76,18 +74,10 @@ export class ProfileComponent implements OnInit {
 
     const notificationTypes: string[] = [];
 
-    /*this.notificationTypes.push('teplota');
-    this.notificationTypes.push('smer_vetra');
-    this.notificationTypes.push('rychlost_vetra');
-    this.notificationTypes.push('uroven_svetla');
-    this.notificationTypes.push('vlhost_pody');
-    this.notificationTypes.push('vlhkost');
-    this.notificationTypes.push('dazdometer');
-    this.notificationTypes.push('tlak');*/
 
   
 
-  
+
     const dataToTable: object[] = [];
 
     //const usedNotificationsTypeArr: object[] = [];
@@ -120,17 +110,6 @@ export class ProfileComponent implements OnInit {
   // used in table of existing notifications
   this.usedNotifications.main = dataToTable;
   
-  //this.usedNotificationsType.main = usedNotificationsTypeArr;
-
- /* notificationTypes.push('teplota');
-  notificationTypes.push('smer_vetra');
-  notificationTypes.push('rychlost_vetra');
-  notificationTypes.push('uroven_svetla');
-  notificationTypes.push('vlhost_pody');
-  notificationTypes.push('vlhkost');
-  notificationTypes.push('dazdometer');
-  notificationTypes.push('tlak');*/
-
  
 
   let data = [
@@ -157,7 +136,11 @@ export class ProfileComponent implements OnInit {
   }
 
   showToast(position: NbGlobalPosition, duration: number) {
-    this.toastrService.success('Zmeny boli uložené', 'Aktualizácia profilu', { position, duration });
+    this.toastrService.success('Zmeny boli uložené!', 'Aktualizácia profilu', { position, duration });
+  }
+
+  showToastNotificationRemoved(position: NbGlobalPosition, duration: number) {
+    this.toastrService.success('Notifikácia bola odstránená!', 'Odstránenie notifikácie', { position, duration });
   }
 
 
@@ -225,14 +208,36 @@ export class ProfileComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  clickTest(event:Event, id:any) {
-    event.preventDefault();
-    console.log('klikol som')
-    console.log(id)
-    console.log(event)
+  open(dialog: TemplateRef<any>) {
+    this.dialogRef = this.dialogService.open(dialog, { context: 'Naozaj chcete vymazať notifikáciu?' });
   }
 
-  open(dialog: TemplateRef<any>) {
-    this.dialogService.open(dialog, { context: 'Naozaj chcete vymazať notifikáciu?' });
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
+
+
+  removeNotification(id:any) { 
+    this.authService.removeNotification(this.currentUser.id, id).subscribe({
+      next: data => { 
+        //console.log(data);
+        this.tokenStorage.saveToken(data.accessToken);
+        this.tokenStorage.saveUser(data);
+        this.roles = this.tokenStorage.getUser().roles;
+        this.closeDialog();
+
+        // get new token data again
+        this.currentUser = this.tokenStorage.getUser();
+        this.userNotifications = this.currentUser.user_notifications;
+
+       // window.location.reload()
+        this.showToastNotificationRemoved(this.logicalPositions.BOTTOM_END, 10000) 
+      },
+      error: err => {
+        console.log(err.error.message)
+        this.errorMessage = err.error.message;
+        this.isSignUpFailed = true;
+      }
+    });
   }
 }
