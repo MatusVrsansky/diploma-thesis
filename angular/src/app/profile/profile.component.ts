@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
   classes = 'example-items-rows';
 
   new: any = {
-    notificationTypes: [],
+    notificationTypes: null,
     temperatureNotification: null,
     textNotification: null,
     activeNotification: null,
@@ -135,7 +135,7 @@ export class ProfileComponent implements OnInit {
 
   this.notificationTypes.main = result;
 
-  this.new.notificationTypes = this.notificationTypes.main;
+ this.new.notificationTypes = this.notificationTypes.main;
   
   console.log(typeof(this.new.notificationTypes))
 
@@ -150,6 +150,11 @@ export class ProfileComponent implements OnInit {
 this.new.notificationTypes = myArray;
 console.log(this.new.notificationTypes)
 console.log(typeof(this.new.notificationTypes))
+
+this.notificationTypes.main = this.new.notificationTypes;
+
+// set first radio button checked 
+this.new.notificationTypes = this.notificationTypes.main[0];
 
 
 
@@ -193,9 +198,10 @@ console.log(typeof(this.new.notificationTypes))
 
     const { notificationTypes, temperatureNotification , textNotification, activeNotification } = this.new;
 
+    console.log(notificationTypes);
+    console.log(temperatureNotification);
 
-
-    this.authService.addNewNotification(this.currentUser.id, notificationTypes, temperatureNotification, textNotification, activeNotification).subscribe({
+   /* this.authService.addNewNotification(this.currentUser.id, notificationTypes, temperatureNotification, textNotification, activeNotification).subscribe({
       next: data => { 
         //console.log(data);
         this.tokenStorage.saveToken(data.accessToken);
@@ -210,7 +216,7 @@ console.log(typeof(this.new.notificationTypes))
         this.errorMessage = err.error.message;
         this.isSignUpFailed = true;
       }
-    });
+    });*/
   }
 
 

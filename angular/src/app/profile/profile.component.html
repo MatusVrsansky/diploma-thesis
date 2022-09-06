@@ -460,25 +460,25 @@
       <div class="table-wrapper">
        
         <div class="d-flex justify-content-start mb-2">
-          <div class=""><button  ngButton (click)="open(newNotification)" type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Pridať novú notifikáciu</button></div>
+          <div class=""><button  ngButton (click)="open(formNewNotification)" type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Pridať novú notifikáciu</button></div>
           <!-- Dialog for removing certain notification -->
-          <ng-template #newNotification let-data let-ref="dialogRef">
+          <ng-template #formNewNotification let-data let-ref="dialogRef">
             <nb-card>
               <nb-card-header>Nová notifikácia</nb-card-header>
               <nb-card-body>
                 <form
-                name="new"
-                (ngSubmit)="n.form.valid && onSubmit()"
+                name="form"
+                (ngSubmit)="n.form.valid && newNotification()"
                 #n="ngForm"
                 novalidate
               >
                 
                 <div class="mb-4">
-                  <nb-select placeholder="Vyberte typ notifikácie">
-                    <nb-option *ngFor="let type of new.notificationTypes" [value]="type">
+                  <nb-radio-group [(ngModel)]="new.notificationTypes" name="ng-model-group">
+                    <nb-radio *ngFor="let type of notificationTypes.main;first as isFirst" [checked]="isFirst" [value]="type">
                       {{type}}
-                    </nb-option>
-                  </nb-select>
+                    </nb-radio>
+                  </nb-radio-group>
                 </div>
               
                 <div class="mb-4">
@@ -493,7 +493,7 @@
                     maxlength="20"
                     #temperatureNotification="ngModel"
                   />
-                  <div class="alert alert-danger" *ngIf="temperatureNotification.errors && new.submitted">
+                  <div class="alert alert-danger" *ngIf="temperatureNotification.errors && n.submitted">
                     <div *ngIf="temperatureNotification.errors['required']">Teplota notifikácie je povinná</div>
                     <div *ngIf="temperatureNotification.errors['minlength']">
                       Teplota notifikácie musí mať aspoň 1 znak
