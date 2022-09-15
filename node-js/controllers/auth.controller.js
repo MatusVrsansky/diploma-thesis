@@ -84,11 +84,7 @@ exports.update = (req, res) => {
         id: req.body.id,
         username: req.body.username,
         email: req.body.email,
-      //  temperature_notification: req.body.temperature_notification,
-      //  text_notification: req.body.text_notification,
-      //  temperature_operator: req.body.temperature_operator,
         phone_number: req.body.phone_number,
-       // active_notification: req.body.active_notification,
         roles: authorities,
         accessToken: token
       });
@@ -111,51 +107,167 @@ exports.removeNotification = (req, res) => {
     where: {
       id: req.body.notificationId
     }
-  })
-  User.findOne({
-    where: {
-      id: req.body.userId
-    }
-  })
-  .then(user => {
-    if (!user) {
-      return res.status(404).send({ message: "User Not found." });
-    }
-   
-    var token = jwt.sign({ id: user.id }, config.secret, {
-      expiresIn: 86400 // 24 hours
-    });
-    var authorities = [];
-    Notifications.findAll({
+  }).then(result => {
+    User.findOne({
       where: {
-        user_id: user.id 
+        id: req.body.userId
       }
-    }).then(notifications => {
-      user_notifications = JSON.stringify(notifications, null, 2);
-      user_notifications = JSON.parse(user_notifications)
-      console.log(typeof(user_notifications));
-    }),
-    user.getRoles().then(roles => {
-      for (let i = 0; i < roles.length; i++) {
-        authorities.push("ROLE_" + roles[i].name.toUpperCase());
-      }
-      res.send({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        phone_number: user.phone_number,
-        roles: authorities,
-        user_notifications: user_notifications,
-        accessToken: token
-      });
-
-
     })
-    .catch(err => {
-      res.status(500).send({ message: err.message });
-    });     
-});
+    .then(user => {
+      if (!user) {
+        return res.status(404).send({ message: "User Not found." });
+      }
+     
+      var token = jwt.sign({ id: user.id }, config.secret, {
+        expiresIn: 86400 // 24 hours
+      });
+      var authorities = [];
+      Notifications.findAll({
+        where: {
+          user_id: user.id 
+        }
+      }).then(notifications => {
+        user_notifications = JSON.stringify(notifications, null, 2);
+        user_notifications = JSON.parse(user_notifications);
+      }),
+      user.getRoles().then(roles => {
+        for (let i = 0; i < roles.length; i++) {
+          authorities.push("ROLE_" + roles[i].name.toUpperCase());
+        }
+        res.send({
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          phone_number: user.phone_number,
+          roles: authorities,
+          user_notifications: user_notifications,
+          accessToken: token
+        });
+  
+  
+      })
+      .catch(err => {
+        res.status(500).send({ message: err.message });
+      });     
+  });
+  })
+ 
 }
+
+exports.addNewNotification = (req, res) => {
+
+  console.log('addNewnotification, juhuu')
+
+
+  Notifications.create({ user_id: req.body.currentLoggedUserId, notification_type: req.body.notificationType, temperature_notification: req.body.temperatureNotification,
+    text_notification: req.body.textNotification, active_notification: req.body.activeNotification}).then(test => {
+      console.log('newewrwerwerwe')
+      console.log(test.dataValues.id)
+      console.log(test.dataValues.user_id)
+      console.log(test.dataValues.notification_type)
+
+      User.findOne({
+        where: {
+          id: req.body.currentLoggedUserId
+        }
+      })
+      .then(user => {
+        if (!user) {
+          return res.status(404).send({ message: "User Not found." });
+        }
+       
+        var token = jwt.sign({ id: user.id }, config.secret, {
+          expiresIn: 86400 // 24 hours
+        });
+        var authorities = [];
+        Notifications.findAll({
+          where: {
+            user_id: user.id 
+          }
+        }).then(notifications => {
+          user_notifications = JSON.stringify(notifications, null, 2);
+          user_notifications = JSON.parse(user_notifications);
+        }),
+        user.getRoles().then(roles => {
+          for (let i = 0; i < roles.length; i++) {
+            authorities.push("ROLE_" + roles[i].name.toUpperCase());
+          }
+          res.send({
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            phone_number: user.phone_number,
+            roles: authorities,
+            user_notifications: user_notifications,
+            accessToken: token
+          });
+    
+    
+        })
+        .catch(err => {
+          res.status(500).send({ message: err.message });
+        });     
+    });
+    });
+}
+
+exports.editNotification = (req, res) => {
+  const updateQuery = {
+    temperature_notification: req.body.temperatureNotification,
+    text_notification: req.body.textNotification,
+    active_notification: req.body.activeNotification
+  }
+ 
+  Notifications.update(updateQuery, { where: {id: req.body.notificationId}})
+  .then(result => {
+    User.findOne({
+      where: {
+        id: req.body.currentLoggedUserId
+      }
+    })
+    .then(user => {
+      if (!user) {
+        return res.status(404).send({ message: "User Not found." });
+      }
+     
+      var token = jwt.sign({ id: user.id }, config.secret, {
+        expiresIn: 86400 // 24 hours
+      });
+      var authorities = [];
+      Notifications.findAll({
+        where: {
+          user_id: user.id 
+        }
+      }).then(notifications => {
+        user_notifications = JSON.stringify(notifications, null, 2);
+        user_notifications = JSON.parse(user_notifications)
+      }),
+      user.getRoles().then(roles => {
+        for (let i = 0; i < roles.length; i++) {
+          authorities.push("ROLE_" + roles[i].name.toUpperCase());
+        }
+        res.send({
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          phone_number: user.phone_number,
+          roles: authorities,
+          user_notifications: user_notifications,
+          accessToken: token
+        });
+  
+  
+      })
+      .catch(err => {
+        res.status(500).send({ message: err.message });
+      });     
+  });
+
+ 
+    });
+}
+
+
 
 
 exports.signin = (req, res) => {

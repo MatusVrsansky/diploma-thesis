@@ -474,7 +474,7 @@
               >
                 
                 <div class="mb-4">
-                  <nb-radio-group [(ngModel)]="new.notificationTypes" name="ng-model-group">
+                  <nb-radio-group [(ngModel)]="new.notificationType" name="ng-model-group">
                     <nb-radio *ngFor="let type of notificationTypes.main;first as isFirst" [checked]="isFirst" [value]="type">
                       {{type}}
                     </nb-radio>
@@ -482,11 +482,11 @@
                 </div>
               
                 <div class="mb-4">
-                  <label for="phone_number">Teplota notifikácie</label>
+                  <label for="temperature_notificatoin">Teplota notifikácie</label>
                   <input nbInput fullWidth  status="primary"
                     type="text"
                     class="form-control"
-                    name="phone_number"
+                    name="temperature_notificatoin"
                     [(ngModel)]="new.temperatureNotification"
                     required
                     minlength="1"
@@ -503,12 +503,40 @@
                     </div>
                   </div>
                 </div>
+                <div class="mb-4">
+                  <label for="text_notification">Text notifikácie</label>
+                  <input nbInput fullWidth  status="primary"
+                    type="text"
+                    class="form-control"
+                    name="text_notification"
+                    [(ngModel)]="new.textNotification"
+                    required
+                    minlength="1"
+                    maxlength="20"
+                    #textNotification="ngModel"
+                  />
+                  <div class="alert alert-danger" *ngIf="textNotification.errors && n.submitted">
+                    <div *ngIf="textNotification.errors['required']">Text notifikácie je povinný</div>
+                    <div *ngIf="textNotification.errors['minlength']">
+                      Text notifikácie musí mať aspoň 1 znak
+                    </div>
+                    <div *ngIf="textNotification.errors['maxlength']">
+                      Text notifikácie musí mať najviac 20 znakov
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-4">
+                  <label for="text_notification">Nastaviť notifikáciu aktívnu?</label>
+                  <nb-toggle [(ngModel)]="new.activeNotification" name="ng-toggle"></nb-toggle>
+                </div>
+                <div class="showDiv" *ngIf="new.notificationType == 'teplota'"></div>
                 <nb-card-footer>
                   <button nbButton status="success" class="mr-2">Pridať</button>
                   <button nbButton (click)="ref.close()" status="basic">Zrušiť</button>
                 </nb-card-footer>
                 </form>
               </nb-card-body>
+
             
               </nb-card>
             </ng-template>
@@ -537,7 +565,80 @@
                       <!--<a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
                       <a href="#" class="delete" title="Delete" data-toggle="tooltip" data-toggle="modal" data-target="#exampleModal"><i class="material-icons">&#xE872;</i></a>
                       -->
-                      <button nbButton (click)="open(dialog)">Vymazať</button>
+                      
+                      <button nbButton ngButton (click)="open(formEditNotification)" (click)="editNotificationSetValues(item)" class="mb-2">Editovať</button>
+                      <button nbButton (click)="open(dialog)" >Vymazať</button>
+                      <ng-template #formEditNotification let-data let-ref="dialogRef">
+                        <nb-card>
+                          <nb-card-header>Upraviť notifikáciu</nb-card-header>
+                          <nb-card-header>typ notifikacie: "{{item.notification_type}}"</nb-card-header>
+                          
+                          <nb-card-body>
+                            
+                            <form
+                            name="form"
+                            (ngSubmit)="n.form.valid && editNotification()"
+                            #n="ngForm"
+                            novalidate
+                          >
+                            <div class="mb-4">
+                              <label for="temperature_notification">Teplota notifikácie</label>
+                              <input nbInput fullWidth  status="primary"
+                                type="text"
+                                class="form-control"
+                                name="temperature_notification"
+                                [(ngModel)]="new.temperatureNotification"
+                                required
+                                minlength="1"
+                                maxlength="20"
+                                #temperatureNotification="ngModel"
+                              />
+                              <div class="alert alert-danger" *ngIf="temperatureNotification.errors && n.submitted">
+                                <div *ngIf="temperatureNotification.errors['required']">Teplota notifikácie je povinná</div>
+                                <div *ngIf="temperatureNotification.errors['minlength']">
+                                  Teplota notifikácie musí mať aspoň 1 znak
+                                </div>
+                                <div *ngIf="temperatureNotification.errors['maxlength']">
+                                  Teplota notifikácie musí mať najviac 20 znakov
+                                </div>
+                              </div>
+                            </div>
+                            <div class="mb-4">
+                              <label for="text_notification">Text notifikácie</label>
+                              <input nbInput fullWidth  status="primary"
+                                type="text"
+                                class="form-control"
+                                name="text_notification"
+                                [(ngModel)]="new.textNotification"
+                                required
+                                minlength="1"
+                                maxlength="20"
+                                #textNotification="ngModel"
+                              />
+                              <div class="alert alert-danger" *ngIf="textNotification.errors && n.submitted">
+                                <div *ngIf="textNotification.errors['required']">Text notifikácie je povinný</div>
+                                <div *ngIf="textNotification.errors['minlength']">
+                                  Text notifikácie musí mať aspoň 1 znak
+                                </div>
+                                <div *ngIf="textNotification.errors['maxlength']">
+                                  Text notifikácie musí mať najviac 20 znakov
+                                </div>
+                              </div>
+                            </div>
+                            <div class="mb-4">
+                              <label for="text_notification">Nastaviť notifikáciu aktívnu?</label>
+                              <nb-toggle [(ngModel)]="new.activeNotification" name="ng-toggle"></nb-toggle>
+                            </div>
+                            <nb-card-footer>
+                              <button nbButton status="success" class="mr-2">Uložiť</button>
+                              <button nbButton (click)="ref.close()" status="basic">Zrušiť</button>
+                            </nb-card-footer>
+                            </form>
+                          </nb-card-body>
+                          
+                        
+                          </nb-card>
+                        </ng-template>
                     </td>
                     <!-- Dialog for removing certain notification -->
                     <ng-template #dialog let-data let-ref="dialogRef">

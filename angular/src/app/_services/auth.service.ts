@@ -28,21 +28,13 @@ export class AuthService {
     console.log(id);
     console.log(username);
     console.log(email);
-  //  console.log(temperature_notification);
-   // console.log(text_notification);
-  //  console.log(temperature_operator);
     console.log(phone_number);
-  //  console.log(active_notification);
    
     return this.http.post(AUTH_API + 'update', {
       id,
       username,
       email,
-     // temperature_notification,
-     // text_notification,
-     // temperature_operator,
       phone_number
-    //  active_notification
     }, httpOptions);
   }
 
@@ -57,23 +49,34 @@ export class AuthService {
     }, httpOptions);
   }
 
-  addNewNotification(currentLoggedUserId: number, notificationTypes: string, temperatureNotification: string, textNotification: string, activeNotification: boolean):  Observable<any> {
+  addNewNotification(currentLoggedUserId: number, notificationType: string, temperatureNotification: string, textNotification: string, activeNotification: boolean):  Observable<any> {
     console.log(currentLoggedUserId)
-    console.log(notificationTypes)
+    console.log(notificationType)
     console.log(temperatureNotification)
     console.log(textNotification)
     console.log(activeNotification)
 
-    return this.http.post(AUTH_API + 'update', {
+    return this.http.post(AUTH_API + 'addNewNotification', {
       currentLoggedUserId,
-      notificationTypes,
+      notificationType,
       temperatureNotification,
       textNotification,
-     // temperature_notification,
-     // text_notification,
-     // temperature_operator,
-     activeNotification
-    //  active_notification
+      activeNotification
+    }, httpOptions);
+  }
+
+  editNotification(currentLoggedUserId: number, notificationId: number, temperatureNotification: string, textNotification: string, activeNotification: boolean):  Observable<any> {
+    console.log(notificationId)
+    console.log(temperatureNotification)
+    console.log(textNotification)
+    console.log(activeNotification)
+
+    return this.http.post(AUTH_API + 'editNotification', {
+      currentLoggedUserId,
+      notificationId,
+      temperatureNotification,
+      textNotification,
+      activeNotification
     }, httpOptions);
   }
   

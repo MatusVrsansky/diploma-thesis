@@ -3,6 +3,7 @@ import { TokenStorageService } from '../_services/token-storage.service';
 import { AuthService } from '../_services/auth.service';
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService } from '@nebular/theme';
 import { NbDialogService, NbDialogRef } from '@nebular/theme';
+import { ThisReceiver } from '@angular/compiler';
 
 
 
@@ -21,10 +22,13 @@ export class ProfileComponent implements OnInit {
   classes = 'example-items-rows';
 
   new: any = {
-    notificationTypes: null,
+    notificationType: null,
     temperatureNotification: null,
     textNotification: null,
-    activeNotification: null,
+
+    // default value set on true
+    activeNotification: true,
+    notificationId : null,
   };
 
 
@@ -43,10 +47,7 @@ export class ProfileComponent implements OnInit {
   usedNotifications: any;
   usedNotificationsType: any;
   notificationTypes: any;
-  selectedItem = 'dazdometer';
   userNotifications = this.currentUser.user_notifications;
-
-  value = null
 
   
   isVisible = 0;
@@ -78,19 +79,15 @@ export class ProfileComponent implements OnInit {
       main: {}
     };
 
-   // const notificationTypes: string[] = [];
-
-
   
+    this.getUnusedNotificationTypes();
+  }
 
-
-    const dataToTable: object[] = [];
-
-    //const usedNotificationsTypeArr: object[] = [];
-
-
+  getUnusedNotificationTypes() {
+    
     // array of used notifications
     const arrayUsedNotifications: any = [];
+    const dataToTable: object[] = [];
 
 
     this.currentUser.user_notifications.forEach(function(item:any) {
@@ -107,37 +104,35 @@ export class ProfileComponent implements OnInit {
     }
 
     arrayUsedNotifications.push(item.notification_type);
-
-    
-    
-    dataToTable.push(person)
+    dataToTable.push(person);
   });
 
-  // used in table of existing notifications
-  this.usedNotifications.main = dataToTable;
-  
- 
+    // used in table of existing notifications
+    this.usedNotifications.main = dataToTable;
 
-  let allNotificationTypes = [
-    {name: "teplota"},
-    {name: "smer_vetra"},
-    {name: "rychlost_vetra"},
-    {name: "uroven_svetla"},
-    {name: "vlhost_pody"},
-    {name: "vlhkost"},
-    {name: "dazdometer"},
-    {name: "tlak"},
-  ];
-  
-  //let array = ["dazd", ''];
-  console.log(this.usedNotifications.main)
+
+
+    let allNotificationTypes = [
+      {name: "teplota"},
+      {name: "smer_vetra"},
+      {name: "rychlost_vetra"},
+      {name: "uroven_svetla"},
+      {name: "vlhost_pody"},
+      {name: "vlhkost"},
+      {name: "dazdometer"},
+      {name: "tlak"},
+    ];
+
+
+    //let array = ["dazd", ''];
+
   let result = allNotificationTypes.filter(({ name }) => !arrayUsedNotifications.includes(name));
 
   this.notificationTypes.main = result;
 
  this.new.notificationTypes = this.notificationTypes.main;
   
-  console.log(typeof(this.new.notificationTypes))
+
 
   let myArray: any = [];
 
@@ -145,21 +140,25 @@ export class ProfileComponent implements OnInit {
   this.new.notificationTypes.forEach(function(item:any) {
     //console.log(item.name)
     myArray.push(item.name)
-});
+  });
 
-this.new.notificationTypes = myArray;
-console.log(this.new.notificationTypes)
-console.log(typeof(this.new.notificationTypes))
-
-this.notificationTypes.main = this.new.notificationTypes;
-
-// set first radio button checked 
-this.new.notificationTypes = this.notificationTypes.main[0];
+  this.new.notificationTypes = myArray;
 
 
-
-  
+  this.notificationTypes.main = this.new.notificationTypes;
+  //console.log('nepouziteeeeeeeeeeeeeeeeeeeeeeeeeeee')
+  //console.log(this.notificationTypes.main)
+ // console.log('nepouziteeeeeeeeeeeeeeeeeeeeeeeeeeee')
  
+
+  // set first radio button checked 
+  this.new.notificationType = this.notificationTypes.main[0];
+
+  // reset input values
+  this.new.temperatureNotification = null;
+  this.new.textNotification = null;
+
+
   }
 
   showToast(position: NbGlobalPosition, duration: number) {
@@ -168,6 +167,14 @@ this.new.notificationTypes = this.notificationTypes.main[0];
 
   showToastNotificationRemoved(position: NbGlobalPosition, duration: number) {
     this.toastrService.success('Notifikácia bola odstránená!', 'Odstránenie notifikácie', { position, duration });
+  }
+
+  showToastNotificationAdded(position: NbGlobalPosition, duration: number) {
+    this.toastrService.success('Notifikácia bola pridaná!', 'Pridanie notifikácie', { position, duration });
+  }
+
+  showToastNotificationUpdated(position: NbGlobalPosition, duration: number) {
+    this.toastrService.success('Notifikácia bola upravená!', 'Úprava notifikácie', { position, duration });
   }
 
 
@@ -194,30 +201,8 @@ this.new.notificationTypes = this.notificationTypes.main[0];
     });
   }
 
-  newNotification(): void { 
 
-    const { notificationTypes, temperatureNotification , textNotification, activeNotification } = this.new;
-
-    console.log(notificationTypes);
-    console.log(temperatureNotification);
-
-   /* this.authService.addNewNotification(this.currentUser.id, notificationTypes, temperatureNotification, textNotification, activeNotification).subscribe({
-      next: data => { 
-        //console.log(data);
-        this.tokenStorage.saveToken(data.accessToken);
-        this.tokenStorage.saveUser(data);
-        this.isSuccessful = true;
-        this.isSignUpFailed = false;
-        this.roles = this.tokenStorage.getUser().roles;
-        this.showToast(this.logicalPositions.BOTTOM_END, 10000)
-      },
-      error: err => {
-        console.log(err.error.message)
-        this.errorMessage = err.error.message;
-        this.isSignUpFailed = true;
-      }
-    });*/
-  }
+  
 
 
   reloadPage(): void {
@@ -264,21 +249,27 @@ this.new.notificationTypes = this.notificationTypes.main[0];
 
   open(dialog: TemplateRef<any>) {
     this.dialogRef = this.dialogService.open(dialog, { context: 'Naozaj chcete vymazať notifikáciu?' });
+
+    this.new.temperatureNotification = null;
+    this.new.textNotification = null;
+    this.new.activeNotification = false;
+    this.getUnusedNotificationTypes();
+   // this.new.notificationType = notification.notification_type;
   }
 
   closeDialog(): void {
     this.dialogRef.close();
   }
 
-
   removeNotification(id:any) { 
     this.authService.removeNotification(this.currentUser.id, id).subscribe({
       next: data => { 
-        //console.log(data);
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
         this.roles = this.tokenStorage.getUser().roles;
         this.closeDialog();
+
+      
 
         // get new token data again
         this.currentUser = this.tokenStorage.getUser();
@@ -286,6 +277,7 @@ this.new.notificationTypes = this.notificationTypes.main[0];
 
        // window.location.reload()
         this.showToastNotificationRemoved(this.logicalPositions.BOTTOM_END, 10000) 
+        this.getUnusedNotificationTypes();
       },
       error: err => {
         console.log(err.error.message)
@@ -294,4 +286,86 @@ this.new.notificationTypes = this.notificationTypes.main[0];
       }
     });
   }
+
+  newNotification(): void { 
+
+    const { notificationType, temperatureNotification , textNotification, activeNotification } = this.new;
+
+  
+    this.authService.addNewNotification(this.userId, notificationType, temperatureNotification, textNotification, activeNotification).subscribe({
+      next: data => { 
+        this.tokenStorage.saveToken(data.accessToken);
+        this.tokenStorage.saveUser(data);
+        this.roles = this.tokenStorage.getUser().roles;
+        this.closeDialog();
+
+
+         // get new token data again
+        this.currentUser = this.tokenStorage.getUser();
+        this.userNotifications = this.currentUser.user_notifications;
+
+       // window.location.reload()
+        this.showToastNotificationAdded(this.logicalPositions.BOTTOM_END, 10000) 
+        this.getUnusedNotificationTypes();
+      },
+      error: err => {
+        console.log(err.error.message)
+        this.errorMessage = err.error.message;
+        this.isSignUpFailed = true;
+      }
+    });
+  }
+
+  editNotificationSetValues(notification:any) {
+    console.log(notification)
+    this.new.temperatureNotification = notification.temperature_notification;
+    this.new.textNotification = notification.text_notification;
+    this.new.activeNotification = notification.active_notification;
+    this.new.notificationType = notification.notification_type;
+    this.new.notificationId = notification.id;
+  }
+
+  editNotification() {
+    console.log('//////////////////')
+
+    console.log('//////////////////')
+
+    const { notificationType, temperatureNotification , textNotification, activeNotification, notificationId } = this.new;
+
+    console.log(notificationType)
+    console.log(temperatureNotification)
+    console.log(textNotification)
+    console.log(activeNotification)
+    console.log(notificationId)
+
+    this.authService.editNotification(this.userId, notificationId, temperatureNotification, textNotification, activeNotification).subscribe({
+      next: data => { 
+        this.tokenStorage.saveToken(data.accessToken);
+        this.tokenStorage.saveUser(data);
+        this.roles = this.tokenStorage.getUser().roles;
+        this.closeDialog();
+
+
+         // get new token data again
+        this.currentUser = this.tokenStorage.getUser();
+        this.userNotifications = this.currentUser.user_notifications;
+
+       // window.location.reload()
+        this.showToastNotificationUpdated(this.logicalPositions.BOTTOM_END, 10000) 
+     
+      },
+      error: err => {
+        console.log(err.error.message)
+        this.errorMessage = err.error.message;
+        this.isSignUpFailed = true;
+      }
+    });
+  }
+
+
+
+
+
+
+  
 }
