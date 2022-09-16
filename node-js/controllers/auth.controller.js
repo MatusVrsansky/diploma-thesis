@@ -159,8 +159,13 @@ exports.addNewNotification = (req, res) => {
   console.log('addNewnotification, juhuu')
 
 
-  Notifications.create({ user_id: req.body.currentLoggedUserId, notification_type: req.body.notificationType, temperature_notification: req.body.temperatureNotification,
-    text_notification: req.body.textNotification, active_notification: req.body.activeNotification}).then(test => {
+  Notifications.create({ 
+    user_id: req.body.currentLoggedUserId,
+    notification_type: req.body.notificationType,
+    temperature_notification: req.body.temperatureNotification,
+    text_notification: req.body.textNotification,
+    active_notification: req.body.activeNotification
+  }).then(test => {
       console.log('newewrwerwerwe')
       console.log(test.dataValues.id)
       console.log(test.dataValues.user_id)

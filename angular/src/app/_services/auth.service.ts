@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 const AUTH_API = 'http://localhost:8080/api/auth/';
@@ -49,18 +49,34 @@ export class AuthService {
     }, httpOptions);
   }
 
-  addNewNotification(currentLoggedUserId: number, notificationType: string, temperatureNotification: string, textNotification: string, activeNotification: boolean):  Observable<any> {
+  addNewNotification(currentLoggedUserId: number, notificationType: string, temperatureNotification: string, textNotification: string, activeNotification: boolean,
+     temperatureOperator: Optional):  Observable<any> {
     console.log(currentLoggedUserId)
     console.log(notificationType)
     console.log(temperatureNotification)
     console.log(textNotification)
     console.log(activeNotification)
 
+    // when notification type is : Temperature, WindSpeed
+
+    let specialColumn;
+    switch(temperatureOperator) {
+      case 'teplota':
+      case 'rychlost_vetra' : specialColumn = temperatureOperator; break; 
+    }
+
+
+
+
     return this.http.post(AUTH_API + 'addNewNotification', {
       currentLoggedUserId,
       notificationType,
       temperatureNotification,
+      specialColumn,
       textNotification,
+      switch() {
+
+      },
       activeNotification
     }, httpOptions);
   }

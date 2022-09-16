@@ -23,12 +23,23 @@ export class ProfileComponent implements OnInit {
 
   new: any = {
     notificationType: null,
+
+    descriptionNotification: null,
+
     temperatureNotification: null,
+    windSpeedNotification: null,
+    otherNotification: null,
+
     textNotification: null,
+
 
     // default value set on true
     activeNotification: true,
     notificationId : null,
+
+
+    // for notification type: temeprature, windspeed
+    temperature_operator : '>',
   };
 
 
@@ -157,6 +168,7 @@ export class ProfileComponent implements OnInit {
   // reset input values
   this.new.temperatureNotification = null;
   this.new.textNotification = null;
+  this.new.temperature_operator = '>';
 
 
   }
@@ -289,10 +301,12 @@ export class ProfileComponent implements OnInit {
 
   newNotification(): void { 
 
-    const { notificationType, temperatureNotification , textNotification, activeNotification } = this.new;
+    const { notificationType, temperatureNotification , textNotification, activeNotification, temperature_operator } = this.new;
+
+    console.log(temperature_operator)
 
   
-    this.authService.addNewNotification(this.userId, notificationType, temperatureNotification, textNotification, activeNotification).subscribe({
+    this.authService.addNewNotification(this.userId, notificationType, temperatureNotification, textNotification, activeNotification, temperature_operator).subscribe({
       next: data => { 
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);

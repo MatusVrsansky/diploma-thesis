@@ -480,9 +480,61 @@
                     </nb-radio>
                   </nb-radio-group>
                 </div>
-              
+
                 <div class="mb-4">
-                  <label for="temperature_notificatoin">Teplota notifikácie</label>
+                   <label for="temperature_notificatoin">Popis konkrétnej notifikácie</label>
+                   <textarea nbInput fullWidth placeholder="Popíšte, o čom bude Vaša notifikácia, aby ste mali lepší prehľad"></textarea>
+                </div>
+                
+                <div class="mb-4"  *ngIf="new.notificationType === 'teplota'" >
+                  <label for="temperature_notificatoin">Teplota, pre ktorú poslať notifikáciu</label>
+                
+                  <input nbInput fullWidth  status="primary"
+                    type="number"
+                    class="form-control"
+                    name="temperature_notificatoin"
+                    [(ngModel)]="new.temperatureNotification"
+                    required
+                    minlength="1"
+                    maxlength="20"
+                    #temperatureNotification="ngModel"
+                  />
+                  <div class="alert alert-danger" *ngIf="temperatureNotification.errors && n.submitted">
+                    <div *ngIf="temperatureNotification.errors['required']">Teplota je povinná, ak chcete poslať notifikáciu</div>
+                    <div *ngIf="temperatureNotification.errors['minlength']">
+                      Teplota notifikácie musí mať aspoň 1 znak
+                    </div>
+                    <div *ngIf="temperatureNotification.errors['maxlength']">
+                      Teplota notifikácie musí mať najviac 20 znakov
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-4" *ngIf="new.notificationType === 'rychlost_vetra'" >
+                  <label for="temperature_notificatoin">Rýchlosť vetra, pre ktorú poslať notifikácie</label>
+                
+                  <input nbInput fullWidth  status="primary"
+                    type="number"
+                    class="form-control"
+                    name="temperature_notificatoin"
+                    [(ngModel)]="new.temperatureNotification"
+                    required
+                    minlength="1"
+                    maxlength="20"
+                    #temperatureNotification="ngModel"
+                  />
+                  <div class="alert alert-danger" *ngIf="temperatureNotification.errors && n.submitted">
+                    <div *ngIf="temperatureNotification.errors['required']">Rychlosť vetra je povinná, ak chcete poslať notifikáciu</div>
+                    <div *ngIf="temperatureNotification.errors['minlength']">
+                      Teplota notifikácie musí mať aspoň 1 znak
+                    </div>
+                    <div *ngIf="temperatureNotification.errors['maxlength']">
+                      Teplota notifikácie musí mať najviac 20 znakov
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-4" *ngIf="!(new.notificationType  === 'teplota' ||new.notificationType  === 'rychlost_vetra')" >
+                  <label for="temperature_notificatoin">Iny typ notifikacie</label>
+                
                   <input nbInput fullWidth  status="primary"
                     type="text"
                     class="form-control"
@@ -494,12 +546,12 @@
                     #temperatureNotification="ngModel"
                   />
                   <div class="alert alert-danger" *ngIf="temperatureNotification.errors && n.submitted">
-                    <div *ngIf="temperatureNotification.errors['required']">Teplota notifikácie je povinná</div>
+                    <div *ngIf="temperatureNotification.errors['required']">Iny typ je povinná, ak chcete poslať notifikáciu</div>
                     <div *ngIf="temperatureNotification.errors['minlength']">
-                      Teplota notifikácie musí mať aspoň 1 znak
+                      Iny typ notifikácie musí mať aspoň 1 znak
                     </div>
                     <div *ngIf="temperatureNotification.errors['maxlength']">
-                      Teplota notifikácie musí mať najviac 20 znakov
+                      Iny typ notifikácie musí mať najviac 20 znakov
                     </div>
                   </div>
                 </div>
@@ -529,7 +581,16 @@
                   <label for="text_notification">Nastaviť notifikáciu aktívnu?</label>
                   <nb-toggle [(ngModel)]="new.activeNotification" name="ng-toggle"></nb-toggle>
                 </div>
-                <div class="showDiv" *ngIf="new.notificationType == 'teplota'"></div>
+                <div *ngIf="new.notificationType === 'teplota' || new.notificationType === 'rychlost_vetra'" class="mb-2">
+                  <p *ngIf="new.notificationType === 'teplota'">Aká má byť teplota z meteostanice, aby sa poslala notifikácia oproti Vašej zadanej teplote?</p>
+                  <p *ngIf="new.notificationType === 'rychlost_vetra'">Aká by mala byť rýchlosť vetra z meteostanice, aby sa poslala notifikácia oproti Vašej zadanej rýchlosti vetra?</p>
+                  <nb-radio-group [(ngModel)]="new.temperature_operator" name="ng-model-group-two" >
+                    <nb-radio [value]="'>'">Väčšia</nb-radio>
+                    <nb-radio [value]="'<'">Menšia</nb-radio>
+                    <nb-radio [value]="'>='">Väčšia a rovná</nb-radio>
+                    <nb-radio [value]="'<='">Menšia a rovná</nb-radio>
+                  </nb-radio-group>
+                </div>
                 <nb-card-footer>
                   <button nbButton status="success" class="mr-2">Pridať</button>
                   <button nbButton (click)="ref.close()" status="basic">Zrušiť</button>
