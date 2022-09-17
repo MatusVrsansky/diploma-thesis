@@ -50,21 +50,10 @@ export class AuthService {
   }
 
   addNewNotification(currentLoggedUserId: number, notificationType: string, temperatureNotification: string, textNotification: string, activeNotification: boolean,
-     temperatureOperator: Optional):  Observable<any> {
-    console.log(currentLoggedUserId)
-    console.log(notificationType)
-    console.log(temperatureNotification)
-    console.log(textNotification)
-    console.log(activeNotification)
+    descriptionNotification: string, windSpeedNotification: number, otherNotification: string, temperatureWindSpeedOperator:string):  Observable<any> {
+ 
 
     // when notification type is : Temperature, WindSpeed
-
-    let specialColumn;
-    switch(temperatureOperator) {
-      case 'teplota':
-      case 'rychlost_vetra' : specialColumn = temperatureOperator; break; 
-    }
-
 
 
 
@@ -72,16 +61,17 @@ export class AuthService {
       currentLoggedUserId,
       notificationType,
       temperatureNotification,
-      specialColumn,
       textNotification,
-      switch() {
-
-      },
-      activeNotification
+      activeNotification,
+      windSpeedNotification, 
+      otherNotification,
+      descriptionNotification, 
+      temperatureWindSpeedOperator
     }, httpOptions);
   }
 
-  editNotification(currentLoggedUserId: number, notificationId: number, temperatureNotification: string, textNotification: string, activeNotification: boolean):  Observable<any> {
+  editNotification(currentLoggedUserId: number, notificationId: number, temperatureNotification: string, textNotification: string, activeNotification: boolean,
+    descriptionNotification: string, windSpeedNotification: number, otherNotification: string, notificationType: string, temperatureWindSpeedOperator:string):  Observable<any> {
     console.log(notificationId)
     console.log(temperatureNotification)
     console.log(textNotification)
@@ -92,7 +82,12 @@ export class AuthService {
       notificationId,
       temperatureNotification,
       textNotification,
-      activeNotification
+      activeNotification,
+      descriptionNotification,
+      windSpeedNotification,
+      otherNotification,
+      temperatureWindSpeedOperator,
+      notificationType
     }, httpOptions);
   }
   

@@ -1,5 +1,7 @@
 const db = require("../models");
 const config = require("../config/auth.config");
+const { refreshToken: RefreshToken } = db;
+
 const User = db.user;
 const Role = db.role;
 const Notifications = db.notifications;
@@ -15,11 +17,7 @@ exports.signup = (req, res) => {
     username: req.body.username,
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
-   // temperature_notification: req.body.temperature_notification,
-   // text_notification: req.body.text_notification,
-   // temperature_operator: req.body.temperature_operator,
-    phone_number: req.body.phone_number,
-   // active_notification: req.body.active_notification
+    phone_number: req.body.phone_number
   })
     .then(user => {
       if (req.body.roles) {
@@ -75,6 +73,7 @@ exports.update = (req, res) => {
     var token = jwt.sign({ id: user.id }, config.secret, {
       expiresIn: 86400 // 24 hours
     });
+    
     var authorities = [];
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
@@ -100,7 +99,7 @@ exports.update = (req, res) => {
 
 exports.removeNotification = (req, res) => {
 
-  console.log('auth.controller.js')
+  console.log('remove Notification')
   console.log(req.body.notificationId)
 
   Notifications.destroy({
@@ -117,16 +116,19 @@ exports.removeNotification = (req, res) => {
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
+      
      
       var token = jwt.sign({ id: user.id }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
+     
       var authorities = [];
       Notifications.findAll({
         where: {
           user_id: user.id 
         }
       }).then(notifications => {
+        console.log(notifications);
         user_notifications = JSON.stringify(notifications, null, 2);
         user_notifications = JSON.parse(user_notifications);
       }),
@@ -143,6 +145,7 @@ exports.removeNotification = (req, res) => {
           user_notifications: user_notifications,
           accessToken: token
         });
+        
   
   
       })
@@ -150,27 +153,42 @@ exports.removeNotification = (req, res) => {
         res.status(500).send({ message: err.message });
       });     
   });
-  })
+  });
  
 }
 
 exports.addNewNotification = (req, res) => {
 
   console.log('addNewnotification, juhuu')
+  console.log("Notification type: "+ req.body.notificationType)
+  console.log("Operator: "+ req.body.temperatureWindSpeedOperator)
+  console.log("Windspeed notification: "+ req.body.windSpeedNotification)
+  console.log("Other notification: "+ req.body.otherNotification)
+  console.log("Description notification: "+ req.body.descriptionNotification)
 
+
+  
+  switch(req.body.notificationType) {
+    case 'smer_vetra':
+    case 'uroven_svetla':
+    case 'vlhost_pody':
+    case 'vlhkost':
+    case 'tlak':
+    case 'dazdometer': req.body.temperatureWindSpeedOperator = null; break;
+    default: break;
+  }
 
   Notifications.create({ 
     user_id: req.body.currentLoggedUserId,
     notification_type: req.body.notificationType,
+    description_notification: req.body.descriptionNotification,
     temperature_notification: req.body.temperatureNotification,
+    wind_speed_notification: req.body.windSpeedNotification,
+    other_notification: req.body.otherNotification,
     text_notification: req.body.textNotification,
-    active_notification: req.body.activeNotification
+    active_notification: req.body.activeNotification,
+    temperature_windSpeed_operator: req.body.temperatureWindSpeedOperator
   }).then(test => {
-      console.log('newewrwerwerwe')
-      console.log(test.dataValues.id)
-      console.log(test.dataValues.user_id)
-      console.log(test.dataValues.notification_type)
-
       User.findOne({
         where: {
           id: req.body.currentLoggedUserId
@@ -217,10 +235,26 @@ exports.addNewNotification = (req, res) => {
 }
 
 exports.editNotification = (req, res) => {
+
+  switch(req.body.notificationType) {
+    case 'smer_vetra':
+    case 'uroven_svetla':
+    case 'vlhost_pody':
+    case 'vlhkost':
+    case 'tlak':
+    case 'dazdometer': req.body.temperatureWindSpeedOperator = null; break;
+    default: break;
+  }
+  
   const updateQuery = {
     temperature_notification: req.body.temperatureNotification,
     text_notification: req.body.textNotification,
-    active_notification: req.body.activeNotification
+    active_notification: req.body.activeNotification,
+    temperature_windSpeed_operator: req.body.temperatureWindSpeedOperator,
+    wind_speed_notification: req.body.windSpeedNotification,
+    other_notification: req.body.otherNotification,
+    temperature_windSpeed_operator: req.body.temperatureWindSpeedOperator,
+    description_notification: req.body.descriptionNotification
   }
  
   Notifications.update(updateQuery, { where: {id: req.body.notificationId}})

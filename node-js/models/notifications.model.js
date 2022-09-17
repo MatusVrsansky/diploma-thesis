@@ -15,6 +15,18 @@ module.exports = (sequelize, Sequelize) => {
       active_notification: {
         type: Sequelize.INTEGER
       },
+      description_notification: {
+        type: Sequelize.STRING 
+      },
+      wind_speed_notification: {
+        type: Sequelize.INTEGER
+      },
+      other_notification: {
+        type: Sequelize.STRING 
+      },
+      temperature_windSpeed_operator: {
+        type: Sequelize.STRING 
+      },
      /* created_at: {
         type: Sequelize.DATE
       },

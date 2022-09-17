@@ -16,7 +16,7 @@ import { HistoryComponent } from './history/history.component';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
-import { NbToastrModule, NbSelectModule, NbTreeGridModule, NbIconModule, NbActionsModule,NbDialogModule, NbFormFieldModule, NbInputModule, NbMenuModule, NbThemeModule, NbRadioModule, NbToggleModule, NbCardModule,  NbSidebarModule, NbLayoutModule, NbButtonModule} from '@nebular/theme';
+import { NbToastrModule, NbTabsetModule, NbTooltipModule, NbSelectModule, NbTreeGridModule, NbIconModule, NbActionsModule,NbDialogModule, NbFormFieldModule, NbInputModule, NbMenuModule, NbThemeModule, NbRadioModule, NbToggleModule, NbCardModule,  NbSidebarModule, NbLayoutModule, NbButtonModule} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 import { RouterModule } from '@angular/router'; // we also need angular router for Nebular to function properly
@@ -57,7 +57,9 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
     NbSidebarModule, // NbSidebarModule.forRoot(), //if this is your app.module
     NbButtonModule,
     NbMenuModule,
+    NbTooltipModule,
     NbInputModule,
+    NbTabsetModule,
     Ng2SmartTableModule,
     NbFormFieldModule,
     NbSelectModule,

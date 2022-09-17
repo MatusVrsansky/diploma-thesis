@@ -39,7 +39,7 @@ export class ProfileComponent implements OnInit {
 
 
     // for notification type: temeprature, windspeed
-    temperature_operator : '>',
+    temperatureWindSpeedOperator : '>',
   };
 
 
@@ -157,6 +157,7 @@ export class ProfileComponent implements OnInit {
 
 
   this.notificationTypes.main = this.new.notificationTypes;
+  console.log(this.notificationTypes.main.length);
   //console.log('nepouziteeeeeeeeeeeeeeeeeeeeeeeeeeee')
   //console.log(this.notificationTypes.main)
  // console.log('nepouziteeeeeeeeeeeeeeeeeeeeeeeeeeee')
@@ -167,8 +168,14 @@ export class ProfileComponent implements OnInit {
 
   // reset input values
   this.new.temperatureNotification = null;
+  this.new.windSpeedNotification = null;
+  this.new.otherNotification = null;
   this.new.textNotification = null;
-  this.new.temperature_operator = '>';
+  this.new.temperatureWindSpeedOperator = '>';
+  this.new.descriptionNotification = null;
+
+
+
 
 
   }
@@ -273,15 +280,14 @@ export class ProfileComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  removeNotification(id:any) { 
+  removeNotification(id:any) {
+    
     this.authService.removeNotification(this.currentUser.id, id).subscribe({
       next: data => { 
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
         this.roles = this.tokenStorage.getUser().roles;
         this.closeDialog();
-
-      
 
         // get new token data again
         this.currentUser = this.tokenStorage.getUser();
@@ -301,12 +307,22 @@ export class ProfileComponent implements OnInit {
 
   newNotification(): void { 
 
-    const { notificationType, temperatureNotification , textNotification, activeNotification, temperature_operator } = this.new;
+    const { notificationType, temperatureNotification , textNotification, descriptionNotification,
+       activeNotification, windSpeedNotification, otherNotification, temperatureWindSpeedOperator } = this.new;
 
-    console.log(temperature_operator)
+      console.log("Description: "+descriptionNotification);
+      console.log("TemperatureL:"+temperatureNotification);
+      console.log("other: "+otherNotification);
+      console.log("windspeed: "+windSpeedNotification);
+      console.log("operator: "+temperatureWindSpeedOperator);
+
+     
+
+
 
   
-    this.authService.addNewNotification(this.userId, notificationType, temperatureNotification, textNotification, activeNotification, temperature_operator).subscribe({
+    this.authService.addNewNotification(this.userId, notificationType, temperatureNotification, textNotification, activeNotification,
+      descriptionNotification, windSpeedNotification, otherNotification, temperatureWindSpeedOperator).subscribe({
       next: data => { 
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
@@ -333,10 +349,14 @@ export class ProfileComponent implements OnInit {
   editNotificationSetValues(notification:any) {
     console.log(notification)
     this.new.temperatureNotification = notification.temperature_notification;
+    this.new.descriptionNotification = notification.description_notification;
+    this.new.windSpeedNotification = notification.wind_speed_notification;
+    this.new.otherNotification = notification.other_notification;
     this.new.textNotification = notification.text_notification;
     this.new.activeNotification = notification.active_notification;
     this.new.notificationType = notification.notification_type;
     this.new.notificationId = notification.id;
+
   }
 
   editNotification() {
@@ -344,7 +364,10 @@ export class ProfileComponent implements OnInit {
 
     console.log('//////////////////')
 
-    const { notificationType, temperatureNotification , textNotification, activeNotification, notificationId } = this.new;
+    const { notificationType, temperatureNotification , textNotification, activeNotification, descriptionNotification,
+      windSpeedNotification, otherNotification, temperatureWindSpeedOperator, notificationId } = this.new;
+
+  
 
     console.log(notificationType)
     console.log(temperatureNotification)
@@ -352,7 +375,8 @@ export class ProfileComponent implements OnInit {
     console.log(activeNotification)
     console.log(notificationId)
 
-    this.authService.editNotification(this.userId, notificationId, temperatureNotification, textNotification, activeNotification).subscribe({
+    this.authService.editNotification(this.userId, notificationId, temperatureNotification, textNotification,
+      activeNotification, descriptionNotification, windSpeedNotification, otherNotification, notificationType, temperatureWindSpeedOperator ).subscribe({
       next: data => { 
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
@@ -376,10 +400,14 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-
-
-
-
-
-  
+  changeGender(e:any) {
+    console.log(e);
+    this.new.temperatureNotification = null;
+    this.new.windSpeedNotification = null;
+    this.new.otherNotification = null;
+    this.new.textNotification = null;
+    this.new.temperatureWindSpeedOperator = '>';
+    this.new.descriptionNotification = null;
+    this.new.activeNotification = false;
+  }
 }

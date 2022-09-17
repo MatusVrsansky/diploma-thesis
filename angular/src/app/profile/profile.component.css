@@ -117,3 +117,7 @@ table.table td i {
  .hideDiv {
     display: none;
  }
+
+ .active_notification {
+    margin-right: 18px;
+ }
