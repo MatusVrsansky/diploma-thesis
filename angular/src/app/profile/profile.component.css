@@ -121,3 +121,8 @@ table.table td i {
  .active_notification {
     margin-right: 18px;
  }
+
+ .icon {
+    width: 40px;
+    height: 28px;
+ }

@@ -111,13 +111,29 @@
                         novalidate
                       >
                         <label>Typ notifikácie</label>
+                        
                         <div class="mb-4">
                           <nb-radio-group [(ngModel)]="new.notificationType" name="ng-model-group">
                             <nb-radio *ngFor="let type of notificationTypes.main;first as isFirst" [checked]="isFirst" [value]="type" (valueChange)="changeGender($event)">
-                              {{type}}
+                              {{type}} 
+                              <nb-icon class="icon" *ngIf="type === 'teplota'" nbTooltip="Microbit posiela teplotu vo formáte čísla. Nastavte si, pre akú teplotu Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="type === 'rychlost_vetra'" nbTooltip="Microbit posiela rýchlost vetra fo vo formáte čsla. Nastavte si, pre akú intenzitu rýchlosti vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="type === 'smer_vetra'" nbTooltip="Microbit posiela smer vetra fo v textovom formáte. Nastavte si, pre akú smer vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="type === 'uroven_svetla'" nbTooltip="Microbit posiela úroveň svetla v textovom formáte. Nastavte si, pre akú úroveň svetla Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="type === 'vlhost_pody'" nbTooltip="Microbit posiela vlhkosť pôdy v textovom formáte. Nastavte si, pre vlhosť pôdy Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="type === 'vlhkost'" nbTooltip="Microbit posiela vlhkosť vo formáte čísla. Nastavte si, pre akú vlhkosť Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="type === 'dazdometer'" nbTooltip="Microbit pošle informáciu, keď vonku prší. Nastavte si, či Vám má aplikácia poslať notifikáciu, keď bude pršať" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="type === 'tlak'" nbTooltip="Microbit posiela tlak vo formáte čísla. Nastavte si, pre aký tlak Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              
                             </nb-radio>
+                          
                           </nb-radio-group>
                         </div>
+
+                        
+                        
+
+                        
         
                         <div class="mb-4">
                            <label>Popis konkrétnej notifikácie</label>
@@ -263,9 +279,17 @@
                             <td>{{i+1}}</td>
                             <td>{{item.notification_type}}</td>
                             <td>{{item.description_notification}}</td>
-                            <td *ngIf="item.notification_type === 'teplota'">{{item.temperature_notification}}</td>
-                            <td *ngIf="item.notification_type === 'rychlost_vetra'">{{item.wind_speed_notification}}</td>
-                            <td *ngIf="!(item.notificationType  === 'teplota' || item.notificationType  === 'rychlost_vetra')">{{item.other_notification}}</td>
+                            
+                            <div *ngIf="item.notification_type === 'teplota'">
+                              <td >{{item.temperature_notification}} °C</td>
+                            </div>
+                            <div *ngIf="item.notification_type === 'rychlost_vetra'">
+                              <td >{{item.wind_speed_notification}}</td>
+                            </div>
+                            <div *ngIf="item.notificationType  !== 'teplota' && item.notificationType  !== 'rychlost_vetra'">
+                              <td >{{item.other_notification}}</td>
+                            </div>
+                           
                             <td>{{item.text_notification}}</td>
                             <td>{{item.active_notification == 1? 'Áno': 'Nie'}}</td>
                             <td>

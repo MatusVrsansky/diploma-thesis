@@ -73,7 +73,6 @@ export class ProfileComponent implements OnInit {
   logicalPositions = NbGlobalLogicalPosition;
   
 
-  
   constructor(private tokenStorage: TokenStorageService, private authService: AuthService, private toastrService: NbToastrService,
      private dialogService: NbDialogService, @Optional() private dialogRef: NbDialogRef<any>) { }
   ngOnInit(): void {
@@ -410,4 +409,6 @@ export class ProfileComponent implements OnInit {
     this.new.descriptionNotification = null;
     this.new.activeNotification = false;
   }
+
+  
 }
