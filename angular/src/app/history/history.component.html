@@ -1,10 +1,10 @@
-<nb-card>
+<nb-card >
   <nb-card-header class="text-center"><h4>História</h4></nb-card-header>
-    <nb-card-body class="example-items-col text-center test test2">
+    <nb-card-body class="example-items-col text-center history">
       <div class="mt-5">
         <div class="row">
           <div class="col-6">
-            <h4>História z webovej sluzby Weather API - {{yesterdaySlovakFormat}}</h4>
+            <h4>História z webovej služby Weather API - {{yesterdaySlovakFormat}}</h4>
            <!-- <table class="table">
               <thead>
                 <tr>
@@ -24,7 +24,10 @@
                   </tr>
               </tbody>
             </table> -->
-            <ng2-smart-table [settings]="settings" [source]="arrayData.main"></ng2-smart-table>
+            <div class="table-container">
+              <ng2-smart-table [settings]="settings" [source]="arrayData.main"></ng2-smart-table>
+            </div>
+            
           </div>
           <div class="col-6 pr-0">
             <h4>História z domácej meteostanice - {{yesterdaySlovakFormat}}</h4>

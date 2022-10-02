@@ -11,7 +11,7 @@ import { ThisReceiver } from '@angular/compiler';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
 
@@ -60,18 +60,18 @@ export class ProfileComponent implements OnInit {
   notificationTypes: any;
   userNotifications = this.currentUser.user_notifications;
 
-  
+
   isVisible = 0;
   isSelected: boolean = true;
-  
 
 
-  // get current user Username 
+
+  // get current user Username
   userName = this.currentUser.username;
 
   physicalPositions = NbGlobalPhysicalPosition;
   logicalPositions = NbGlobalLogicalPosition;
-  
+
 
   constructor(private tokenStorage: TokenStorageService, private authService: AuthService, private toastrService: NbToastrService,
      private dialogService: NbDialogService, @Optional() private dialogRef: NbDialogRef<any>) { }
@@ -89,12 +89,12 @@ export class ProfileComponent implements OnInit {
       main: {}
     };
 
-  
+
     this.getUnusedNotificationTypes();
   }
 
   getUnusedNotificationTypes() {
-    
+
     // array of used notifications
     const arrayUsedNotifications: any = [];
     const dataToTable: object[] = [];
@@ -102,7 +102,7 @@ export class ProfileComponent implements OnInit {
 
     this.currentUser.user_notifications.forEach(function(item:any) {
       //usedNotificationsType.puh
-  
+
 
       const person = {
         id: item.id,
@@ -141,12 +141,12 @@ export class ProfileComponent implements OnInit {
   this.notificationTypes.main = result;
 
  this.new.notificationTypes = this.notificationTypes.main;
-  
+
 
 
   let myArray: any = [];
 
-  
+
   this.new.notificationTypes.forEach(function(item:any) {
     //console.log(item.name)
     myArray.push(item.name)
@@ -160,9 +160,9 @@ export class ProfileComponent implements OnInit {
   //console.log('nepouziteeeeeeeeeeeeeeeeeeeeeeeeeeee')
   //console.log(this.notificationTypes.main)
  // console.log('nepouziteeeeeeeeeeeeeeeeeeeeeeeeeeee')
- 
 
-  // set first radio button checked 
+
+  // set first radio button checked
   this.new.notificationType = this.notificationTypes.main[0];
 
   // reset input values
@@ -196,13 +196,13 @@ export class ProfileComponent implements OnInit {
   }
 
 
-  
-  onSubmit(): void { 
-    
+
+  onSubmit(): void {
+
     const { username, email , phone_number } = this.form;
 
     this.authService.update(this.userId, username, email, phone_number).subscribe({
-      next: data => { 
+      next: data => {
         //console.log(data);
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
@@ -220,7 +220,7 @@ export class ProfileComponent implements OnInit {
   }
 
 
-  
+
 
 
   reloadPage(): void {
@@ -251,7 +251,7 @@ export class ProfileComponent implements OnInit {
     actions: false,
   };
 
- 
+
 
   getInputType() {
     if (this.showPassword) {
@@ -280,9 +280,9 @@ export class ProfileComponent implements OnInit {
   }
 
   removeNotification(id:any) {
-    
+
     this.authService.removeNotification(this.currentUser.id, id).subscribe({
-      next: data => { 
+      next: data => {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
         this.roles = this.tokenStorage.getUser().roles;
@@ -293,7 +293,7 @@ export class ProfileComponent implements OnInit {
         this.userNotifications = this.currentUser.user_notifications;
 
        // window.location.reload()
-        this.showToastNotificationRemoved(this.logicalPositions.BOTTOM_END, 10000) 
+        this.showToastNotificationRemoved(this.logicalPositions.BOTTOM_END, 10000)
         this.getUnusedNotificationTypes();
       },
       error: err => {
@@ -304,7 +304,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  newNotification(): void { 
+  newNotification(): void {
 
     const { notificationType, temperatureNotification , textNotification, descriptionNotification,
        activeNotification, windSpeedNotification, otherNotification, temperatureWindSpeedOperator } = this.new;
@@ -315,14 +315,14 @@ export class ProfileComponent implements OnInit {
       console.log("windspeed: "+windSpeedNotification);
       console.log("operator: "+temperatureWindSpeedOperator);
 
-     
 
 
 
-  
+
+
     this.authService.addNewNotification(this.userId, notificationType, temperatureNotification, textNotification, activeNotification,
       descriptionNotification, windSpeedNotification, otherNotification, temperatureWindSpeedOperator).subscribe({
-      next: data => { 
+      next: data => {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
         this.roles = this.tokenStorage.getUser().roles;
@@ -334,7 +334,7 @@ export class ProfileComponent implements OnInit {
         this.userNotifications = this.currentUser.user_notifications;
 
        // window.location.reload()
-        this.showToastNotificationAdded(this.logicalPositions.BOTTOM_END, 10000) 
+        this.showToastNotificationAdded(this.logicalPositions.BOTTOM_END, 10000)
         this.getUnusedNotificationTypes();
       },
       error: err => {
@@ -366,7 +366,7 @@ export class ProfileComponent implements OnInit {
     const { notificationType, temperatureNotification , textNotification, activeNotification, descriptionNotification,
       windSpeedNotification, otherNotification, temperatureWindSpeedOperator, notificationId } = this.new;
 
-  
+
 
     console.log(notificationType)
     console.log(temperatureNotification)
@@ -376,7 +376,7 @@ export class ProfileComponent implements OnInit {
 
     this.authService.editNotification(this.userId, notificationId, temperatureNotification, textNotification,
       activeNotification, descriptionNotification, windSpeedNotification, otherNotification, notificationType, temperatureWindSpeedOperator ).subscribe({
-      next: data => { 
+      next: data => {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
         this.roles = this.tokenStorage.getUser().roles;
@@ -388,8 +388,8 @@ export class ProfileComponent implements OnInit {
         this.userNotifications = this.currentUser.user_notifications;
 
        // window.location.reload()
-        this.showToastNotificationUpdated(this.logicalPositions.BOTTOM_END, 10000) 
-     
+        this.showToastNotificationUpdated(this.logicalPositions.BOTTOM_END, 10000)
+
       },
       error: err => {
         console.log(err.error.message)
@@ -410,5 +410,5 @@ export class ProfileComponent implements OnInit {
     this.new.activeNotification = false;
   }
 
-  
+
 }

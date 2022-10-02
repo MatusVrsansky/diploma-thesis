@@ -8,7 +8,7 @@ import { AuthService } from '../_services/auth.service';
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
-  styleUrls: ['./history.component.css']
+  styleUrls: ['./history.component.scss']
 })
 
 
@@ -30,10 +30,10 @@ export class HistoryComponent implements OnInit {
 
 
   yesterdaySlovakFormat  = ''
-  
- 
-  
-  
+
+
+
+
   constructor(){}
 
 
@@ -54,7 +54,7 @@ export class HistoryComponent implements OnInit {
 
     this.yesterdaySlovakFormat = this.yesterdaySlovakFormatff as string;
 
-  
+
     this.getWeatherData();
     //console.log(this.historyData);
 
@@ -72,21 +72,21 @@ export class HistoryComponent implements OnInit {
     fetch(historyThingSpeak)
     .then(response=>response.json())
     .then(data=>{
-      
+
       var historyYesterday = this.pipe.transform(data.feeds[14].created_at, 'yyyy-MM-dd');
-      
-      
+
+
       for (var product of data.feeds) {
         if(this.pipe.transform(product.created_at, 'yyyy-MM-dd') == this.yesterdayFormatted) {
           apiThingSpeakHistoryData.push(product)
         }
     }
-    
+
       this.historyDataThingSpeak.main = apiThingSpeakHistoryData;
     })
   }
-  
-  
+
+
   getWeatherData(){
     var combinedString = 'https://api.weatherapi.com/v1/history.json?key=0419f763b19f42fba7b181204223006&q=Ostratice&dt='
     var combinedStringTwo = this.yesterdayFormatted;
@@ -103,7 +103,7 @@ export class HistoryComponent implements OnInit {
 
     // let data = JSON.parse('{"coord":{"lon":72.85,"lat":19.01},"weather":[{"id":721,"main":"Haze","description":"haze","icon":"50n"}],"base":"stations","main":{"temp":297.15,"feels_like":297.4,"temp_min":297.15,"temp_max":297.15,"pressure":1013,"humidity":69},"visibility":3500,"wind":{"speed":3.6,"deg":300},"clouds":{"all":20},"dt":1580141589,"sys":{"type":1,"id":9052,"country":"IN","sunrise":1580089441,"sunset":1580129884},"timezone":19800,"id":1275339,"name":"Mumbai","cod":200}');
     // this.setWeatherData(data);
-  
+
     setWeatherData(data:any){
       console.log('her i am')
       this.historyData.main = data.forecast.forecastday[0].hour;
@@ -115,7 +115,7 @@ export class HistoryComponent implements OnInit {
 
 
       for (var val of this.historyData.main) {
-        
+
         var historyYesterday = this.pipe.transform(val.time, 'dd.MM.yyyy HH:mm');
        const person = {
           hour: historyYesterday,
@@ -176,15 +176,15 @@ export class HistoryComponent implements OnInit {
           break;
         case 'NNW':
           wind_direction = 'Severo-severozápadný vietor'
-          break;  
+          break;
         case 'N':
           wind_direction = 'Severný vietor'
           break;
         case 'SE':
           wind_direction = 'Juchovýchodný vietor'
-          break;    
-        default: 
-            // 
+          break;
+        default:
+            //
             break;
      }
 
@@ -200,19 +200,51 @@ export class HistoryComponent implements OnInit {
           title: 'Teplota °C'
         },
         degreeF: {
-          title: 'Teplota ° F'
+          title: 'Teplota ° F',
+          "show": false
         },
         windDirection: {
-          title: 'Smer vetra'
-        }
+          title: 'Smer vetra',
+          editable: true
+        },
+        windDirecfffion: {
+          title: 'Smer vetra',
+          editable: true
+        },
+        windssDirection: {
+          title: 'Smer vetra',
+          editable: true
+        },
+        windssDirecfftion: {
+          title: 'Smer vetra',
+          editable: true
+        },
+        windssairection: {
+          title: 'Smer vetra',
+          editable: true
+        },
+
       },
+    
       actions: false,
+      attr: {
+        class: 'test-table'
+      },
+      pager : {
+        perPage: 5
+        }
     //  pager: { display: false }
 
   };
 
-
-    
-      
   
+
+
+
+  
+
+
+
+
+
 }

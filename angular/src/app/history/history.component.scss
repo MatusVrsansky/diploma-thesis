@@ -1,0 +1,61 @@
+.container-history {
+    max-width: 1400px;
+}
+
+.history {
+    padding: 1rem 4rem;
+}
+
+.test-table {
+    table, th, td {
+        border: 0.2rem solid bisque;
+    }
+}
+
+.table-container {
+    height: auto;
+    overflow-x: auto;
+    width: auto;
+    border-left: 1px solid var(--border-basic-color-3) ;
+    border-right: 1px solid var(--border-basic-color-3) ;
+    border-bottom: 1px solid var(--border-basic-color-3) ;
+    border-top: none;
+    .table {
+      margin-bottom: 0px;
+      th {
+        background: nb-theme(background-basic-color-1);
+        border: 1px solid nb-theme(border-basic-color-3);
+        position: sticky;
+        top: 0;
+      }
+      th:first-of-type,
+      td:first-of-type {
+        position: sticky;
+        left: 0;
+      }
+      th:first-of-type {
+        background: nb-theme(background-basic-color-1);
+        border: 1px solid nb-theme(border-basic-color-3) ;
+        border-left: none;
+        z-index: 2;
+      }
+      td:first-of-type {
+        background: nb-theme(background-basic-color-1);
+        border: 1px solid nb-theme(border-basic-color-3) ;
+        border-left: none;
+        z-index: 1;
+      }
+    }
+    ng2-smart-table-pager.ng-star-inserted {
+      position: sticky;
+      left: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .ng2-smart-pagination-nav {
+        text-align: center;
+        display: flex;
+        width: 100%;
+    }
+  }

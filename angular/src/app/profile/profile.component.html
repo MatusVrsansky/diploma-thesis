@@ -1,13 +1,13 @@
 <nb-card>
   <nb-card-header class="text-center"><h4>Profil používateľa: {{userName}}</h4></nb-card-header>
-  <nb-card-body class="example-items-col text-center test test2">
+  <nb-card-body class="example-items-col text-center profile">
     <nb-tabset >
-      <nb-tab tabTitle="Profil používateľa" tabIcon="person-outline" responsive>
+      <nb-tab tabTitle="Profil používateľa" tabIcon="person-outline" class="login_info" responsive>
         <form
         name="form"
         (ngSubmit)="f.form.valid && onSubmit()"
         #f="ngForm"
-        novalidate style="padding: 0 16rem"
+        novalidate 
       >
       
         <div class="mb-4">
@@ -32,7 +32,7 @@
         </div>
         <div class="mb-4">
           <label for="email">Email</label>
-          <input nbInput fullWidth  status="basic"
+          <input nbInput fullWidth  status="basic" readonly
             type="email"
             class="form-control"
             name="email"
@@ -73,37 +73,37 @@
         </div>
        
         
-        <nb-card-footer>  
-          <div class="control-status-example text-center mb-2">
-          <button nbButton hero status="primary">Uložiť</button>
-          </div>
-          <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
-            Uloženie zlyhalo!<br />{{ errorMessage }}
-          </div> 
-        </nb-card-footer>
+       
+        <div class="control-status-example text-center mb-2">
+        <button nbButton hero status="primary">Uložiť</button>
+        </div>
+        <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+          Uloženie zlyhalo!<br />{{ errorMessage }}
+        </div> 
+      
       
       </form>
       </nb-tab>
       <nb-tab tabTitle="Notifikácie" tabIcon="bell-outline" responsive>
         <div class="text-center">
  
-          <div style="margin-bottom: 80px">
+          <div>
            
             <div class="table-responsive">
               <div class="table-wrapper">
                
                 <div class="d-flex justify-content-start mb-2">
                   <div class="" nbTooltip="Máte pridané všetky typy notifikácii!"  [nbTooltipDisabled]="notificationTypes.main.length > 0" nbTooltipPlacement="top">
-                    <button [disabled]="notificationTypes.main.length == 0" ngButton (click)="open(formNewNotification)" type="button" class="btn btn-info add-new">
-                    <i class="fa fa-plus"></i>
+                    <button [disabled]="notificationTypes.main.length == 0" nbButton ngButton (click)="open(formNewNotification)" status="info">
+                    <nb-icon icon="plus"></nb-icon>
                      Pridať novú notifikáciu
                     </button>
                   </div>
                   <!-- Dialog for removing certain notification -->
-                  <ng-template #formNewNotification let-data let-ref="dialogRef">
-                    <nb-card>
+                  <ng-template #formNewNotification let-data let-ref="dialogRef" hasScroll="true">
+                    <nb-card class="own-scroll">
                       <nb-card-header>Nová notifikácia</nb-card-header>
-                      <nb-card-body>
+                      <nb-card-body class="modal-notification">
                         <form
                         name="form"
                         (ngSubmit)="n.form.valid && newNotification()"
@@ -280,15 +280,11 @@
                             <td>{{item.notification_type}}</td>
                             <td>{{item.description_notification}}</td>
                             
-                            <div *ngIf="item.notification_type === 'teplota'">
-                              <td >{{item.temperature_notification}} °C</td>
-                            </div>
-                            <div *ngIf="item.notification_type === 'rychlost_vetra'">
-                              <td >{{item.wind_speed_notification}}</td>
-                            </div>
-                            <div *ngIf="item.notificationType  !== 'teplota' && item.notificationType  !== 'rychlost_vetra'">
-                              <td >{{item.other_notification}}</td>
-                            </div>
+                           
+                              <td *ngIf="item.notification_type === 'teplota'">{{item.temperature_notification}} °C</td>
+                              <td *ngIf="item.notification_type === 'rychlost_vetra'">{{item.wind_speed_notification}}</td>
+                              <td *ngIf="item.notificationType  !== 'teplota' && item.notificationType  !== 'rychlost_vetra'">{{item.other_notification}}</td>
+                          
                            
                             <td>{{item.text_notification}}</td>
                             <td>{{item.active_notification == 1? 'Áno': 'Nie'}}</td>
@@ -301,10 +297,10 @@
                               <button nbButton ngButton (click)="open(formEditNotification)" (click)="editNotificationSetValues(item)" class="mb-2" status="primary">Editovať</button>
                               <button nbButton (click)="open(dialog)" status="danger">Vymazať</button>
                               <ng-template #formEditNotification let-data let-ref="dialogRef">
-                                <nb-card>
+                                <nb-card class="own-scroll">
                                   <nb-card-header>Upraviť notifikáciu</nb-card-header>
                             
-                                  <nb-card-body>
+                                  <nb-card-body class="modal-notification">
                                     
                                     <form
                                     name="form"
@@ -430,12 +426,12 @@
                             <!-- Dialog for removing certain notification -->
                             <ng-template #dialog let-data let-ref="dialogRef">
                               <nb-card>
-                                <nb-card-header>Vymazanie notifikácie</nb-card-header>
-                                <nb-card-body>{{ data }}</nb-card-body>
-                                <nb-card-footer>
-                                  <button nbButton (click)="removeNotification(item.id)" status="danger" class="mr-2">Áno</button>
-                                  <button nbButton (click)="ref.close()" status="basic">Nie</button>
-                                </nb-card-footer>
+                                <nb-card-header class=" p-2 mb-2">Vymazanie notifikácie</nb-card-header>
+                                <nb-card-body class="remove-notification mb-2">{{ data }}</nb-card-body>
+                                <div class="p-2">
+                                  <button nbButton (click)="removeNotification(item.id)"  status="danger" >Áno</button>
+                                  <button nbButton (click)="ref.close()" status="basic" class="mybutton">Nie</button>
+                                </div>
                               </nb-card>
                             </ng-template>
                           </tr>

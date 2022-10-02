@@ -6,7 +6,7 @@ import { TokenStorageService } from '../_services/token-storage.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   form: any = {
@@ -18,8 +18,8 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   showPassword = false;
 
-  
-  
+
+
   roles: string[] = [];
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService) { }
   ngOnInit(): void {
@@ -29,8 +29,8 @@ export class LoginComponent implements OnInit {
     }
   }
 
- 
-  
+
+
   onSubmit(): void {
     const { username, password } = this.form;
     this.authService.login(username, password).subscribe({

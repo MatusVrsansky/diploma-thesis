@@ -18,7 +18,7 @@
         <a href="/mod" class="nav-link" routerLink="mod">Moderator Board</a>
       </li>
       <li class="nav-item">
-        <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">Aktuálna predpoveď z Microbitu</a>
+        <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">Klimatické_Podmienky</a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
@@ -26,7 +26,7 @@
         <a href="/register" class="nav-link" routerLink="register">Registrácia</a>
       </li>
       <li class="nav-item">
-        <a href="/login" class="nav-link" routerLink="login">Prihlásiť sa</a>
+        <a href="/login" class="nav-link" routerLink="login">Prihlásenie</a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
@@ -42,11 +42,9 @@
 
   <nb-layout-column>
     <div id="app">
-    
+
       <div class="container">
-        <div class="nb-theme-default">
           <router-outlet></router-outlet>
-        </div>
       </div>
     </div>
   </nb-layout-column>

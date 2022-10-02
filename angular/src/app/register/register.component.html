@@ -172,7 +172,7 @@
 
 <nb-card>
   <nb-card-header class="text-center"><h4>Registrácia</h4></nb-card-header>
-  <nb-card-body class="example-items-col text-center test test2" style="padding: 1rem 22rem;">
+  <nb-card-body class="example-items-col text-center">
   <form
   *ngIf="!isSuccessful"
   name="form"
@@ -267,14 +267,13 @@
     </div>
   </div>
   
-  <nb-card-footer>  
     <div class="control-status-example text-center mb-2">
     <button nbButton hero status="primary">Registrovať sa</button>
     </div>
     <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
       Registrácia zlyhala!<br />{{ errorMessage }}
     </div> 
-  </nb-card-footer>
+
 
 </form>
 </nb-card-body>

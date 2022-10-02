@@ -78,7 +78,7 @@
 
   <nb-card>
     <nb-card-header class="text-center"><h4>Login</h4></nb-card-header>
-    <nb-card-body class="example-items-col text-center test test2" style="padding: 1rem 22rem;">
+    <nb-card-body class="example-items-col text-center">
       <form  *ngIf="!isLoggedIn"
       name="form"
       (ngSubmit)="f.form.valid && onSubmit()"
@@ -98,7 +98,7 @@
         </div>
       </div>
      
-  
+      <div class="mb-4">
       <nb-form-field>
           <input [type]="getInputType()" nbInput fullWidth status="info" placeholder="Heslo"  name="password"
           [(ngModel)]="form.password"
@@ -112,7 +112,8 @@
             </nb-icon>
           </button>
         </nb-form-field>
-        <div
+
+      <div
         class="alert alert-danger"
         role="alert"
         *ngIf="password.errors && f.submitted"> <div *ngIf="password.errors['required']">Heslo je povinné</div>
@@ -120,9 +121,8 @@
           Heslo musí obsahovať aspoň 6 znakov
         </div>
       </div>
+      </div>
   
-      
-      <nb-card-footer>
         <div class="control-status-example text-center mb-2">
           <button nbButton hero status="primary">Prihlásiť sa</button>
         </div>
@@ -135,7 +135,7 @@
             Prihlásenie zlyhalo: {{ errorMessage }}
           </div>
         </div>
-      </nb-card-footer>
+      
      
       </form>
     </nb-card-body>
