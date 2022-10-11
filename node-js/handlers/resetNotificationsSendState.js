@@ -1,9 +1,9 @@
 
-/*module.exports = () => {
+module.exports = () => {
 
-
+    
     const db = require("../models");
-    const User = db.user
+    const Notifications = db.notifications;
 
     // send email
     const nodemailer = require('nodemailer');
@@ -18,7 +18,7 @@
 
 
     async function notifyUser() {
-        const results = await User.findAll()
+        const results = await Notifications.findAll();
         const test = JSON.stringify(results)
 
         dataObj = JSON.parse(test);
@@ -27,8 +27,13 @@
         const weatherBitTemperature = 23;
 
         var result = [];
+ 
         for (var i = 0; i < dataObj.length; i++) {
-            result.push(dataObj[i].username + ' ' + dataObj[i].email);
+            console.log('fsdfdsfsdfsd')
+            await Notifications.update({notification_sent: false}, { where: {id: dataObj[i].id}})
+           
+            /*result.push(dataObj[i].username + ' ' + dataObj[i].email);
+            
 
             if(dataObj[i].active_notification) {
                 console.log(dataObj[i].username)
@@ -58,7 +63,8 @@
                         }
                         break;
                 }
-            }
+            }*/
+
     }
 }
 
@@ -66,24 +72,4 @@
     notifyUser();
 
 
-    function sendEmail(emailAdress, notificationText) {
-
-        const mailOptions = {
-            from: 'microbitpython@gmail.com',
-            to: emailAdress,
-            subject: 'Notifikácia z Node.js',
-            html: "<p><strong>Text notifikácie: </strong>" + notificationText + "</p>"
-        };
-        
-        
-        
-        transporter.sendMail(mailOptions, function(error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: '+ info.response);
-            }
-        });
-    }
-
-}*/
+}

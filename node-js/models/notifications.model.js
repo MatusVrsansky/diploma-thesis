@@ -27,6 +27,9 @@ module.exports = (sequelize, Sequelize) => {
       temperature_windSpeed_operator: {
         type: Sequelize.STRING 
       },
+      notification_sent: {
+        type: Sequelize.BOOLEAN
+      }
      /* created_at: {
         type: Sequelize.DATE
       },

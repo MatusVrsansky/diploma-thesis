@@ -1,14 +1,14 @@
 module.exports = {
     hello: {
-        frequency: "* * * * *",
+        frequency: "*/10 * * * * *",
         handler: "handlers/sayhello"
     },
-    goodbye: {
-        frequency: "*/10 * * * * *",
-        handler: "handlers/saygoodbye"
-    },
-    tacos: {
+    resetNotificationsSendState: {
+        frequency: "0 0 * * *",
+        handler: "handlers/resetNotificationsSendState"
+    }
+   /* tacos: {
         frequency: "* * * * *",
         handler: "handlers/tacos"
-    }
+    }*/
 }
