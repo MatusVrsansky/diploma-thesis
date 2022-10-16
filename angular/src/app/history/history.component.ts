@@ -27,12 +27,7 @@ export class HistoryComponent implements OnInit {
   yesterdayFormatted = this.pipe.transform(this.yesterday, 'yyyy-MM-dd')
   yesterdaySlovakFormatff = this.pipe.transform(this.yesterday, 'dd.MM.yyyy')
 
-
-
   yesterdaySlovakFormat  = ''
-
-
-
 
   constructor(){}
 

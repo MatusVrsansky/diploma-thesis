@@ -18,7 +18,6 @@ module.exports = () => {
          }
      });
 
-     console.log('sfod0sdfsdfsd fsdfsdfsdfds')
 
     
 
@@ -169,9 +168,4 @@ module.exports = () => {
         });
     }
 
-
-
-
-    
-     
 }

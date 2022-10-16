@@ -29,7 +29,6 @@ module.exports = () => {
         var result = [];
  
         for (var i = 0; i < dataObj.length; i++) {
-            console.log('fsdfdsfsdfsd')
             await Notifications.update({notification_sent: false}, { where: {id: dataObj[i].id}})
            
             /*result.push(dataObj[i].username + ' ' + dataObj[i].email);

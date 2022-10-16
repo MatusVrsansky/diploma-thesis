@@ -1,0 +1,14 @@
+<nb-card>
+    <nb-card-header><h4>Klimatické podmienky</h4></nb-card-header>
+    <nb-card-body class="history">
+        <h5>Posledný dátum a čas merania: {{climaticConditionsDataThingSpeak.dateTime | date:'dd.MM.yyyy HH:mm'}}</h5>
+        <h5>Teplota (°C): {{climaticConditionsDataThingSpeak.temperature}}</h5>
+        <h5>Rýchlosť vetra (MPH): {{climaticConditionsDataThingSpeak.windSpeed}}</h5>
+        <h5>Dažďomer (palce dažďa): {{climaticConditionsDataThingSpeak.rainGauge}}</h5>
+        <h5>Smer vetra: {{climaticConditionsDataThingSpeak.windDirection}}</h5>
+        <h5>Vlhkosť (%): {{climaticConditionsDataThingSpeak.humidity}}</h5>
+        <h5>Tlak (hPa): {{climaticConditionsDataThingSpeak.pressure}}</h5>
+        <h5>Teplota pôdy (v desiatkách °C): {{climaticConditionsDataThingSpeak.soilTemperature}}</h5>
+        <h5>Vhlkosť pôdy (hodnota 0 je suchý a 1023 je vlhký): {{climaticConditionsDataThingSpeak.soilMosture}}</h5>
+    </nb-card-body>
+  </nb-card>
