@@ -5,6 +5,7 @@ import { TokenStorageService } from '../_services/token-storage.service';
 import { AuthService } from '../_services/auth.service';
 
 
+
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
@@ -18,6 +19,7 @@ export class HistoryComponent implements OnInit {
   historyData: any;
   historyDataThingSpeak: any;
   arrayData: any;
+  arrayDataThingSpeak: any;
   today: Date = new Date();
   pipe = new DatePipe('en-US');
   todayWithPipe = null;
@@ -47,15 +49,16 @@ export class HistoryComponent implements OnInit {
       main: {},
     }
 
+    this.arrayDataThingSpeak = {
+      main: {},
+    }
+
     this.yesterdaySlovakFormat = this.yesterdaySlovakFormatff as string;
 
 
     this.getWeatherData();
-    //console.log(this.historyData);
 
     this.getThingSpeakHistory();
-
-
   }
 
   // api data for ThingSpeak
@@ -68,25 +71,28 @@ export class HistoryComponent implements OnInit {
     .then(response=>response.json())
     .then(data=>{
 
-      var historyYesterday = this.pipe.transform(data.feeds[14].created_at, 'yyyy-MM-dd');
+     
+
+    //  var historyYesterday = this.pipe.transform(data.feeds[14].created_at, 'yyyy-MM-dd');
 
 
-      for (var product of data.feeds) {
-        if(this.pipe.transform(product.created_at, 'yyyy-MM-dd') == this.yesterdayFormatted) {
-          apiThingSpeakHistoryData.push(product)
-        }
-    }
+    for (var product of data.feeds) {
 
-      this.historyDataThingSpeak.main = apiThingSpeakHistoryData;
+       // if(this.pipe.transform(product.created_at, 'yyyy-MM-dd') == this.yesterdayFormatted) {
+         apiThingSpeakHistoryData.push(product)
+        //}
+      }
+
+      this.setThingSpeakHistory(apiThingSpeakHistoryData);
     })
   }
 
 
-  getWeatherData(){
+  getWeatherData() {
     var combinedString = 'https://api.weatherapi.com/v1/history.json?key=0419f763b19f42fba7b181204223006&q=Ostratice&dt='
     var combinedStringTwo = this.yesterdayFormatted;
 
-   // console.log(this.yesterdaySlovakFormat)
+
 
 
     fetch(combinedString + combinedStringTwo)
@@ -96,126 +102,197 @@ export class HistoryComponent implements OnInit {
     })
     }
 
-    // let data = JSON.parse('{"coord":{"lon":72.85,"lat":19.01},"weather":[{"id":721,"main":"Haze","description":"haze","icon":"50n"}],"base":"stations","main":{"temp":297.15,"feels_like":297.4,"temp_min":297.15,"temp_max":297.15,"pressure":1013,"humidity":69},"visibility":3500,"wind":{"speed":3.6,"deg":300},"clouds":{"all":20},"dt":1580141589,"sys":{"type":1,"id":9052,"country":"IN","sunrise":1580089441,"sunset":1580129884},"timezone":19800,"id":1275339,"name":"Mumbai","cod":200}');
-    // this.setWeatherData(data);
 
     setWeatherData(data:any){
-      console.log('her i am')
       this.historyData.main = data.forecast.forecastday[0].hour;
+      console.log('herererererererere');
+      console.log(typeof(data.forecast.forecastday[0].hour));
+
 
       const dataToTable: object[] = [];
-
-
-      console.log(this.historyData.main)
 
 
       for (var val of this.historyData.main) {
 
         var historyYesterday = this.pipe.transform(val.time, 'dd.MM.yyyy HH:mm');
-       const person = {
+        
+        const person = {
           hour: historyYesterday,
           degreeC: val.temp_c,
           degreeF: val.temp_f,
-          windDirection: this.getWindDirection(val.wind_dir)
-      }
+          windDirection: this.getWindDirection(val.wind_dir),
+          humidity: val.humidity,
+          pressure_in: val.pressure_in,
+          wind_kph: val.wind_kph,
+          heatindex_c: val.heatindex_c
+        }
 
-      dataToTable.push(person)
+        dataToTable.push(person)
 
       }
 
       this.arrayData.main = dataToTable;
-
     }
 
-    getWindDirection(wind_direction:any) {
+    setThingSpeakHistory(data: any) {
+      this.historyDataThingSpeak.main = data;
 
-      switch ( wind_direction ) {
+      const dataToTable: object[] = [];
+      console.log(typeof(data))
+
+
+
+      for (var val of this.historyDataThingSpeak.main) {
+
+        var historyYesterday = this.pipe.transform(val.created_at, 'dd.MM.yyyy HH:mm');
+        
+        const person = {
+          hour: historyYesterday,
+          degreeC: val.field1,
+          windSpeed: val.field2,
+          rainGauge: val.field3,
+          windDirection: this.getWindDirectionThingSpeak(val.field4),
+          humidity: val.field5,
+          pressure: val.field6,
+          soilTemperature: val.field7,
+          soilMosture: val.field8
+        }
+
+        dataToTable.push(person)
+
+      }
+
+      this.arrayDataThingSpeak.main = dataToTable;
+    }
+
+
+
+    getWindDirection(windDirection:any) {
+
+      switch ( windDirection ) {
         case 'NE':
-            wind_direction = 'Severovýchodný vietor'
+          windDirection = 'Severovýchodný vietor'
             break;
         case 'NNE':
-          wind_direction = 'Severo-severovýchodný vietor'
+          windDirection = 'Severo-severovýchodný vietor'
           break;
         case 'E':
-          wind_direction = 'Východný vietor'
+          windDirection = 'Východný vietor'
           break;
         case 'S':
-          wind_direction = 'Južný vietor'
+          windDirection = 'Južný vietor'
           break;
         case 'ENE':
-            wind_direction = 'Východo-severovýchodný vietor'
+          windDirection = 'Východo-severovýchodný vietor'
             break;
         case 'ESE':
-            wind_direction = 'Východo-juhovýchodný vietor'
+          windDirection = 'Východo-juhovýchodný vietor'
             break;
         case 'SSE':
-            wind_direction = 'Juho-juhovýchodný vietor'
+          windDirection = 'Juho-juhovýchodný vietor'
             break;
         case 'SSW':
-            wind_direction = 'Juho-juhozápadný vietor'
+          windDirection = 'Juho-juhozápadný vietor'
             break;
         case 'SW':
-            wind_direction = 'Juhozápadný vietor'
+          windDirection = 'Juhozápadný vietor'
             break;
         case 'W':
-            wind_direction = 'Západný vietor'
+          windDirection = 'Západný vietor'
             break;
         case 'WNW':
-            wind_direction = 'Západo-serverozápadný vietor'
+          windDirection = 'Západo-serverozápadný vietor'
             break;
         case 'WSW':
-          wind_direction = 'Západo-juhozápadný vietor'
+          windDirection = 'Západo-juhozápadný vietor'
           break;
         case 'NW':
-          wind_direction = 'Severozápadný vietor'
+          windDirection = 'Severozápadný vietor'
           break;
         case 'NNW':
-          wind_direction = 'Severo-severozápadný vietor'
+          windDirection = 'Severo-severozápadný vietor'
           break;
         case 'N':
-          wind_direction = 'Severný vietor'
+          windDirection = 'Severný vietor'
           break;
         case 'SE':
-          wind_direction = 'Juchovýchodný vietor'
+          windDirection = 'Juchovýchodný vietor'
           break;
         default:
             //
             break;
      }
 
-      return wind_direction;
+      return windDirection;
     }
 
-    settings = {
+    getWindDirectionThingSpeak(windDirection:any) {
+
+      switch ( windDirection ) {
+        case '1': 
+          windDirection = 'Severný vietor'
+          break;
+        case '2':
+          windDirection = 'Východný vietor'
+          break;
+        case '3':
+          windDirection = 'Južný vietor'
+          break;
+        case '4':
+          windDirection = 'Západný vietor'
+          break;
+        case '5':
+          windDirection = 'Severovýchodný vietor'
+          break;
+        case '6':
+          windDirection = 'Severozápadný vietor'
+          break;
+        case '7':
+          windDirection = 'Juchovýchodný vietor'
+          break;
+        case '8':
+          windDirection = 'Juhozápadný vietor'
+          break;
+        default:
+            //
+            break;
+     }
+
+      return windDirection;
+    }
+
+    
+
+    historyWeatherApi = {
       columns: {
         hour: {
           title: 'Hodina'
         },
         degreeC: {
-          title: 'Teplota °C'
+          title: 'Teplota (°C)'
         },
         degreeF: {
-          title: 'Teplota ° F',
+          title: 'Teplota (°F)',
           "show": false
         },
         windDirection: {
           title: 'Smer vetra',
           editable: true
         },
-        windDirecfffion: {
-          title: 'Smer vetra',
+        humidity: {
+          title: 'Vľhkosť (%)',
           editable: true
         },
-        windssDirection: {
-          title: 'Smer vetra',
+        pressure_in: {
+          title: 'Tlak',
           editable: true
         },
-        windssDirecfftion: {
-          title: 'Smer vetra',
+        wind_kph: {
+          title: 'Vietor km/h',
           editable: true
         },
-        windssairection: {
-          title: 'Smer vetra',
+        heatindex_c: {
+          title: 'Tepelný index °C',
           editable: true
         },
 
@@ -230,7 +307,59 @@ export class HistoryComponent implements OnInit {
         }
     //  pager: { display: false }
 
-  };
+    };
+
+    historyThingSpeak = {
+      columns: {
+        hour: {
+          title: 'Hodina'
+        },
+        degreeC: {
+          title: 'Teplota (°C)'
+        },
+        windSpeed: {
+          title: 'Rýchlosť vetra (MPH)',
+          "show": false
+        },
+        rainGauge: {
+          title: 'Dažďometer (palce dažďa)',
+          editable: true
+        },
+        windDirection: {
+          title: 'Smer vetra',
+          "show": false
+        },
+        humidity: {
+          title: 'Vľhkosť (%)',
+          editable: true
+        },
+        pressure: {
+          title: 'Tlak (hPa)',
+          editable: true
+        },
+        soilTemperature: {
+          title: 'Teplota vody (°C)',
+          editable: true
+        },
+        soilMosture: {
+          title: 'Vlhkosť pôdy ()',
+          editable: true
+        },
+
+      },
+    
+      actions: false,
+      attr: {
+        class: 'test-table'
+      },
+      pager : {
+        perPage: 5
+        }
+    //  pager: { display: false }
+
+    };
+
+
 
   
 
