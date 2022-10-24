@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const http = require('http').createServer(app);
+
 var corsOptions = {
   origin: "http://localhost:8081"
 };
@@ -64,3 +66,9 @@ scheduler.initCrons(config);
   // routes
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
+
+
+http.listen(process.env.PORT || 3000, () => {
+  console.log(`Server is running ${process.env.PORT || 3000}`);
+  
+})
