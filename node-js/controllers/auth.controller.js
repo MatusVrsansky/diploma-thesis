@@ -163,7 +163,6 @@ exports.addNewNotification = (req, res) => {
   console.log("Notification type: "+ req.body.notificationType)
   console.log("Operator: "+ req.body.temperatureWindSpeedOperator)
   console.log("Windspeed notification: "+ req.body.windSpeedNotification)
-  console.log("Other notification: "+ req.body.otherNotification)
   console.log("Description notification: "+ req.body.descriptionNotification)
 
 
@@ -184,7 +183,12 @@ exports.addNewNotification = (req, res) => {
     description_notification: req.body.descriptionNotification,
     temperature_notification: req.body.temperatureNotification,
     wind_speed_notification: req.body.windSpeedNotification,
-    other_notification: req.body.otherNotification,
+    rain_gauge_notification: req.body.rainGaugeNotification,
+    wind_direction_notification: req.body.windDirectionNotification,
+    humidity_notification: req.body.humidityNotification,
+    pressure_notification: req.body.pressureNotification,
+    soil_temperature_notification: req.body.soilTemperatureNotification,
+    soil_mosture_notification: req.body.soilMostureNotification,    
     text_notification: req.body.textNotification,
     active_notification: req.body.activeNotification,
     temperature_windSpeed_operator: req.body.temperatureWindSpeedOperator
@@ -252,7 +256,12 @@ exports.editNotification = (req, res) => {
     active_notification: req.body.activeNotification,
     temperature_windSpeed_operator: req.body.temperatureWindSpeedOperator,
     wind_speed_notification: req.body.windSpeedNotification,
-    other_notification: req.body.otherNotification,
+    rain_gauge_notification: req.body.rainGaugeNotification,
+    wind_direction_notification: req.body.windDirectionNotification,
+    humidity_notification: req.body.humidityNotification,
+    pressure_notification: req.body.pressureNotification,
+    soil_temperature_notification: req.body.soilTemperatureNotification,
+    soil_mosture_notification: req.body.soilMostureNotification,
     temperature_windSpeed_operator: req.body.temperatureWindSpeedOperator,
     description_notification: req.body.descriptionNotification
   }

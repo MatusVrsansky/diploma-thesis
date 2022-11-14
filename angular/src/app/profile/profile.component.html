@@ -119,7 +119,7 @@
                               <nb-icon class="icon" *ngIf="type === 'teplota'" nbTooltip="Microbit posiela teplotu vo formáte čísla. Nastavte si, pre akú teplotu Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
                               <nb-icon class="icon" *ngIf="type === 'rychlost_vetra'" nbTooltip="Microbit posiela rýchlost vetra fo vo formáte čsla. Nastavte si, pre akú intenzitu rýchlosti vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
                               <nb-icon class="icon" *ngIf="type === 'smer_vetra'" nbTooltip="Microbit posiela smer vetra fo v textovom formáte. Nastavte si, pre akú smer vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="type === 'uroven_svetla'" nbTooltip="Microbit posiela úroveň svetla v textovom formáte. Nastavte si, pre akú úroveň svetla Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="type === 'teplota_pody'" nbTooltip="Microbit posiela úroveň svetla v textovom formáte. Nastavte si, pre akú úroveň svetla Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
                               <nb-icon class="icon" *ngIf="type === 'vlhost_pody'" nbTooltip="Microbit posiela vlhkosť pôdy v textovom formáte. Nastavte si, pre vlhosť pôdy Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
                               <nb-icon class="icon" *ngIf="type === 'vlhkost'" nbTooltip="Microbit posiela vlhkosť vo formáte čísla. Nastavte si, pre akú vlhkosť Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
                               <nb-icon class="icon" *ngIf="type === 'dazdometer'" nbTooltip="Microbit pošle informáciu, keď vonku prší. Nastavte si, či Vám má aplikácia poslať notifikáciu, keď bude pršať" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
@@ -130,13 +130,8 @@
                           </nb-radio-group>
                         </div>
 
-                        
-                        
-
-                        
-        
                         <div class="mb-4">
-                           <label>Popis konkrétnej notifikácie</label>
+                           <label>Popis notifikácie</label>
                            <textarea nbInput name="description_notification"  [(ngModel)]="new.descriptionNotification" fullWidth
                             placeholder="Popíšte, o čom bude Vaša notifikácia, aby ste mali lepší prehľad">
                            </textarea>
@@ -167,7 +162,7 @@
                         </div>
         
                         <div class="mb-4" *ngIf="new.notificationType === 'rychlost_vetra'" >
-                          <label for="wind_speed_notification">Rýchlosť vetra, pre ktorú poslať notifikácie</label>
+                          <label for="wind_speed_notification">Rýchlosť vetra, pre ktorú poslať notifikáciu</label>
                           <input nbInput fullWidth  status="primary"
                             type="number"
                             class="form-control"
@@ -188,26 +183,139 @@
                             </div>
                           </div>
                         </div>
-        
-                        <div class="mb-4" *ngIf="!(new.notificationType  === 'teplota' ||new.notificationType  === 'rychlost_vetra')" >
-                          <label for="otherNotification">Iny typ notifikacie</label>
+
+                        <div class="mb-4" *ngIf="new.notificationType === 'teplota_pody'" >
+                          <label for="soil_temperature_notification">Teplota pôdy, pre ktorú poslať notifikáciu</label>
                           <input nbInput fullWidth  status="primary"
-                            type="text"
+                            type="number"
                             class="form-control"
-                            name="otherNotification"
-                            [(ngModel)]="new.otherNotification"
+                            name="soil_temperature_notification"
+                            [(ngModel)]="new.soilTemperatureNotification"
                             required
                             minlength="1"
-                            maxlength="100"
-                            #otherNotification="ngModel"
+                            maxlength="20"
+                            #soilTemperatureNotification="ngModel"
                           />
-                          <div class="alert alert-danger" *ngIf="otherNotification.errors && n.submitted">
-                            <div *ngIf="otherNotification.errors['required']">Iny typ je povinný, ak chcete poslať notifikáciu</div>
-                            <div *ngIf="otherNotification.errors['minlength']">
-                              Iny typ notifikácie musí mať aspoň 1 znak
+                          <div class="alert alert-danger" *ngIf="soilTemperatureNotification.errors && n.submitted">
+                            <div *ngIf="soilTemperatureNotification.errors['required']">Teplota pôdy je povinná, ak chcete poslať notifikáciu</div>
+                            <div *ngIf="soilTemperatureNotification.errors['minlength']">
+                              Teplota pôdy musí mať aspoň 1 znak
                             </div>
-                            <div *ngIf="otherNotification.errors['maxlength']">
-                              Iny typ notifikácie musí mať najviac 20 znakov
+                            <div *ngIf="soilTemperatureNotification.errors['maxlength']">
+                              Teplota pôdy musí mať najviac 20 znakov
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mb-4" *ngIf="new.notificationType === 'smer_vetra'" >
+                          <label for="wind_direction_notification">Smer vetra, pre ktorý poslať notifikáciu</label>
+                      
+                          <nb-radio-group
+                            name="wind_direction_notification"
+                            [(ngModel)]="new.windDirectionNotification"
+                            #windDirectionNotification="ngModel">
+                            <nb-radio value="1">Severný vietor</nb-radio>
+                            <nb-radio value="2">Východný vieto</nb-radio>
+                            <nb-radio value="3">Južný vietor</nb-radio>
+                            <nb-radio value="4">Západný vietor</nb-radio>
+                            <nb-radio value="5">Severovýchodný vietor</nb-radio>
+                            <nb-radio value="6">Severozápadný vietor</nb-radio>
+                            <nb-radio value="7">Juchovýchodný vietor</nb-radio>
+                            <nb-radio value="8">Juhozápadný vietor</nb-radio>
+                          </nb-radio-group>
+                          <div class="alert alert-danger" *ngIf="windDirectionNotification.errors && n.submitted">
+                            <div *ngIf="windDirectionNotification.errors['required']">Smer vetra je povinný, ak chcete poslať notifikáciu</div>
+                          </div>
+                        </div>
+
+                        <div class="mb-4" *ngIf="new.notificationType === 'vlhkost_pody'" >
+                          <label for="soil_mosture_notification">Vlhkosť pôdy, pre ktorú poslať notifikáciu</label>
+                          <input nbInput fullWidth  status="primary"
+                            type="number"
+                            class="form-control"
+                            name="soil_mosture_notification"
+                            [(ngModel)]="new.soilMostureNotification"
+                            required
+                            minlength="1"
+                            maxlength="20"
+                            #soilMostureNotification="ngModel"
+                          />
+                          <div class="alert alert-danger" *ngIf="soilMostureNotification.errors && n.submitted">
+                            <div *ngIf="soilMostureNotification.errors['required']">Vlhkosť pôdy je povinná, ak chcete poslať notifikáciu</div>
+                            <div *ngIf="soilMostureNotification.errors['minlength']">
+                              Vlhkosť pôdy musí mať aspoň 1 znak
+                            </div>
+                            <div *ngIf="soilMostureNotification.errors['maxlength']">
+                              Vlhkosť pôdy musí mať najviac 20 znakov
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mb-4" *ngIf="new.notificationType === 'vlhkost'" >
+                          <label for="humidity_notification">Vlhkosť, pre ktorú poslať notifikáciu</label>
+                          <input nbInput fullWidth  status="primary"
+                            type="number"
+                            class="form-control"
+                            name="humidity_notification"
+                            [(ngModel)]="new.humidityNotification"
+                            required
+                            minlength="1"
+                            maxlength="20"
+                            #humidityNotification="ngModel"
+                          />
+                          <div class="alert alert-danger" *ngIf="humidityNotification.errors && n.submitted">
+                            <div *ngIf="humidityNotification.errors['required']">Vlhkosť je povinná, ak chcete poslať notifikáciu</div>
+                            <div *ngIf="humidityNotification.errors['minlength']">
+                              Vlhkosť musí mať aspoň 1 znak
+                            </div>
+                            <div *ngIf="humidityNotification.errors['maxlength']">
+                              Vlhkosť musí mať najviac 20 znakov
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mb-4" *ngIf="new.notificationType === 'dazdometer'" >
+                          <label for="rain_gauge_notification">Daždometer, pre ktorú poslať notifikáciu</label>
+                          <input nbInput fullWidth  status="primary"
+                            type="number"
+                            class="form-control"
+                            name="rain_gauge_notification"
+                            [(ngModel)]="new.rainGaugeNotification"
+                            required
+                            minlength="1"
+                            maxlength="20"
+                            #rainGaugeNotification="ngModel"
+                          />
+                          <div class="alert alert-danger" *ngIf="rainGaugeNotification.errors && n.submitted">
+                            <div *ngIf="rainGaugeNotification.errors['required']">Daždometer je povinný, ak chcete poslať notifikáciu</div>
+                            <div *ngIf="rainGaugeNotification.errors['minlength']">
+                              Daždometer musí mať aspoň 1 znak
+                            </div>
+                            <div *ngIf="rainGaugeNotification.errors['maxlength']">
+                              Daždometer musí mať najviac 20 znakov
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="mb-4" *ngIf="new.notificationType === 'tlak'" >
+                          <label for="pressure_notification">Tlak, pre ktorý poslať notifikáciu</label>
+                          <input nbInput fullWidth  status="primary"
+                            type="number"
+                            class="form-control"
+                            name="pressure_notification"
+                            [(ngModel)]="new.pressureNotification"
+                            required
+                            minlength="1"
+                            maxlength="20"
+                            #pressureNotification="ngModel"
+                          />
+                          <div class="alert alert-danger" *ngIf="pressureNotification.errors && n.submitted">
+                            <div *ngIf="pressureNotification.errors['required']">Tlak je povinný, ak chcete poslať notifikáciu</div>
+                            <div *ngIf="pressureNotification.errors['minlength']">
+                              Tlak musí mať aspoň 1 znak
+                            </div>
+                            <div *ngIf="pressureNotification.errors['maxlength']">
+                              Tlak musí mať najviac 20 znakov
                             </div>
                           </div>
                         </div>
@@ -283,7 +391,14 @@
                            
                               <td *ngIf="item.notification_type === 'teplota'">{{item.temperature_notification}} °C</td>
                               <td *ngIf="item.notification_type === 'rychlost_vetra'">{{item.wind_speed_notification}}</td>
-                              <td *ngIf="item.notificationType  !== 'teplota' && item.notificationType  !== 'rychlost_vetra'">{{item.other_notification}}</td>
+                              <td *ngIf="item.notification_type === 'dazdometer'">{{item.rain_gauge_notification}}</td>
+                              <td *ngIf="item.notification_type === 'smer_vetra'">{{getWindDirectionThingSpeak(item.wind_direction_notification)}}</td>
+                              <td *ngIf="item.notification_type === 'vlhkost'">{{item.humidity_notification}}</td>
+                              <td *ngIf="item.notification_type === 'tlak'">{{item.pressure_notification}}</td>
+                              <td *ngIf="item.notification_type === 'teplota_pody'">{{item.soil_temperature_notification}}</td>
+                              <td *ngIf="item.notification_type === 'vlhost_pody'">{{item.soil_mosture_notification}}</td>
+                             
+                             
                           
                            
                             <td>{{item.text_notification}}</td>
@@ -320,7 +435,7 @@
                                     </div>
         
                                     <div class="mb-4">
-                                      <label>Popis konkrétnej notifikácie</label>
+                                      <label>Popis notifikácie</label>
                                       <textarea nbInput name="description_notification"  [(ngModel)]="new.descriptionNotification" fullWidth
                                        placeholder="Popíšte, o čom bude Vaša notifikácia, aby ste mali lepší prehľad">
                                       </textarea>
@@ -349,31 +464,144 @@
                                         </div>
                                       </div>
                                     </div>
-        
-                                    <div class="mb-4" *ngIf="!(new.notificationType  === 'teplota' ||new.notificationType  === 'rychlost_vetra')" >
-                                      <label for="otherNotification">Iny typ notifikacie</label>
+
+                                    <div class="mb-4" *ngIf="new.notificationType === 'smer_vetra'" >
+                                      <label for="wind_direction_notification">Smer vetra, pre ktorý poslať notifikácie</label>
+                                  
+                                      <nb-radio-group
+                                        name="wind_direction_notification"
+                                        [(ngModel)]="new.windDirectionNotification"
+                                        #windDirectionNotification="ngModel">
+                                        <nb-radio value="1">Severný vietor</nb-radio>
+                                        <nb-radio value="2">Východný vieto</nb-radio>
+                                        <nb-radio value="3">Južný vietor</nb-radio>
+                                        <nb-radio value="4">Západný vietor</nb-radio>
+                                        <nb-radio value="5">Severovýchodný vietor</nb-radio>
+                                        <nb-radio value="6">Severozápadný vietor</nb-radio>
+                                        <nb-radio value="7">Juchovýchodný vietor</nb-radio>
+                                        <nb-radio value="8">Juhozápadný vietor</nb-radio>
+                                      </nb-radio-group>
+                                      <div class="alert alert-danger" *ngIf="windDirectionNotification.errors && n.submitted">
+                                        <div *ngIf="windDirectionNotification.errors['required']">Smer vetra je povinný, ak chcete poslať notifikáciu</div>
+                                      </div>
+                                    </div>
+
+                                    <div class="mb-4" *ngIf="new.notificationType === 'teplota_pody'" >
+                                      <label for="soil_temperature_notification">Teplota pôdy, pre ktorú poslať notifikáciu</label>
                                       <input nbInput fullWidth  status="primary"
-                                        type="text"
+                                        type="number"
                                         class="form-control"
-                                        name="otherNotification"
-                                        [(ngModel)]="new.otherNotification"
+                                        name="soil_temperature_notification"
+                                        [(ngModel)]="new.soilTemperatureNotification"
                                         required
                                         minlength="1"
-                                        maxlength="100"
-                                        #otherNotification="ngModel"
+                                        maxlength="20"
+                                        #soilTemperatureNotification="ngModel"
                                       />
-                                      <div class="alert alert-danger" *ngIf="otherNotification.errors && n.submitted">
-                                        <div *ngIf="otherNotification.errors['required']">Iny typ je povinný, ak chcete poslať notifikáciu</div>
-                                        <div *ngIf="otherNotification.errors['minlength']">
-                                          Iny typ notifikácie musí mať aspoň 1 znak
+                                      <div class="alert alert-danger" *ngIf="soilTemperatureNotification.errors && n.submitted">
+                                        <div *ngIf="soilTemperatureNotification.errors['required']">Teplota pôdy je povinná, ak chcete poslať notifikáciu</div>
+                                        <div *ngIf="soilTemperatureNotification.errors['minlength']">
+                                          Teplota pôdy musí mať aspoň 1 znak
                                         </div>
-                                        <div *ngIf="otherNotification.errors['maxlength']">
-                                          Iny typ notifikácie musí mať najviac 20 znakov
+                                        <div *ngIf="soilTemperatureNotification.errors['maxlength']">
+                                          Teplota pôdy musí mať najviac 20 znakov
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="mb-4" *ngIf="new.notificationType === 'vlhkost_pody'" >
+                                      <label for="soil_mosture_notification">Vlhkosť pôdy, pre ktorú poslať notifikácie</label>
+                                      <input nbInput fullWidth  status="primary"
+                                        type="number"
+                                        class="form-control"
+                                        name="soil_mosture_notification"
+                                        [(ngModel)]="new.soilMostureNotification"
+                                        required
+                                        minlength="1"
+                                        maxlength="20"
+                                        #soilMostureNotification="ngModel"
+                                      />
+                                      <div class="alert alert-danger" *ngIf="soilMostureNotification.errors && n.submitted">
+                                        <div *ngIf="soilMostureNotification.errors['required']">Vlhkosť pôdy je povinná, ak chcete poslať notifikáciu</div>
+                                        <div *ngIf="soilMostureNotification.errors['minlength']">
+                                          Vlhkosť pôdy musí mať aspoň 1 znak
+                                        </div>
+                                        <div *ngIf="soilMostureNotification.errors['maxlength']">
+                                          Vlhkosť pôdy musí mať najviac 20 znakov
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="mb-4" *ngIf="new.notificationType === 'vlhkost'" >
+                                      <label for="humidity_notification">Vlhkosť, pre ktorú poslať notifikáciu</label>
+                                      <input nbInput fullWidth  status="primary"
+                                        type="number"
+                                        class="form-control"
+                                        name="humidity_notification"
+                                        [(ngModel)]="new.humidityNotification"
+                                        required
+                                        minlength="1"
+                                        maxlength="20"
+                                        #humidityNotification="ngModel"
+                                      />
+                                      <div class="alert alert-danger" *ngIf="humidityNotification.errors && n.submitted">
+                                        <div *ngIf="humidityNotification.errors['required']">Vlhkosť je povinná, ak chcete poslať notifikáciu</div>
+                                        <div *ngIf="humidityNotification.errors['minlength']">
+                                          Vlhkosť musí mať aspoň 1 znak
+                                        </div>
+                                        <div *ngIf="humidityNotification.errors['maxlength']">
+                                          Vlhkosť musí mať najviac 20 znakov
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="mb-4" *ngIf="new.notificationType === 'dazdometer'" >
+                                      <label for="rain_gauge_notification">Daždometer, pre ktorú poslať notifikácie</label>
+                                      <input nbInput fullWidth  status="primary"
+                                        type="number"
+                                        class="form-control"
+                                        name="rain_gauge_notification"
+                                        [(ngModel)]="new.rainGaugeNotification"
+                                        required
+                                        minlength="1"
+                                        maxlength="20"
+                                        #rainGaugeNotification="ngModel"
+                                      />
+                                      <div class="alert alert-danger" *ngIf="rainGaugeNotification.errors && n.submitted">
+                                        <div *ngIf="rainGaugeNotification.errors['required']">Daždometer je povinný, ak chcete poslať notifikáciu</div>
+                                        <div *ngIf="rainGaugeNotification.errors['minlength']">
+                                          Daždometer musí mať aspoň 1 znak
+                                        </div>
+                                        <div *ngIf="rainGaugeNotification.errors['maxlength']">
+                                          Daždometer musí mať najviac 20 znakov
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="mb-4" *ngIf="new.notificationType === 'tlak'" >
+                                      <label for="pressure_notification">Tlak, pre ktorý poslať notifikáciu</label>
+                                      <input nbInput fullWidth  status="primary"
+                                        type="number"
+                                        class="form-control"
+                                        name="pressure_notification"
+                                        [(ngModel)]="new.pressureNotification"
+                                        required
+                                        minlength="1"
+                                        maxlength="20"
+                                        #pressureNotification="ngModel"
+                                      />
+                                      <div class="alert alert-danger" *ngIf="pressureNotification.errors && n.submitted">
+                                        <div *ngIf="pressureNotification.errors['required']">Tlak je povinný, ak chcete poslať notifikáciu</div>
+                                        <div *ngIf="pressureNotification.errors['minlength']">
+                                          Tlak musí mať aspoň 1 znak
+                                        </div>
+                                        <div *ngIf="pressureNotification.errors['maxlength']">
+                                          Tlak musí mať najviac 20 znakov
                                         </div>
                                       </div>
                                     </div>
         
-                                  
+                            
                                     <div class="mb-4">
                                       <label for="text_notification">Text notifikácie</label>
                                       <input nbInput fullWidth  status="primary"

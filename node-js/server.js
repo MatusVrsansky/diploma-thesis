@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const http = require('http').createServer(app);
+
 var corsOptions = {
   origin: "http://localhost:8081"
 };
@@ -10,6 +12,7 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 // simple route
+
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
 });
@@ -64,3 +67,9 @@ scheduler.initCrons(config);
   // routes
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
+
+
+http.listen(process.env.PORT || 3000, () => {
+  console.log(`Server is running ${process.env.PORT || 3000}`);
+
+})

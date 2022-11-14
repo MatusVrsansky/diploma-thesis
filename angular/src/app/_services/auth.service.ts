@@ -1,6 +1,7 @@
 import { Injectable, Optional } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { NumberSymbol } from '@angular/common';
 const AUTH_API = 'http://localhost:8080/api/auth/';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -10,6 +11,10 @@ const httpOptions = {
 })
 export class AuthService {
   constructor(private http: HttpClient) { }
+  signOut(): void {
+    window.sessionStorage.clear();
+  }
+  
   login(username: string, password: string): Observable<any> {
     return this.http.post(AUTH_API + 'signin', {
       username,
@@ -50,7 +55,9 @@ export class AuthService {
   }
 
   addNewNotification(currentLoggedUserId: number, notificationType: string, temperatureNotification: string, textNotification: string, activeNotification: boolean,
-    descriptionNotification: string, windSpeedNotification: number, otherNotification: string, temperatureWindSpeedOperator:string):  Observable<any> {
+    descriptionNotification: string, windSpeedNotification: number, windDirectionNotification: string, soilTemperatureNotification: null,
+    soilMostureNotification: number, humidityNotification: number, rainGaugeNotification: number, pressureNotification: number,
+    temperatureWindSpeedOperator:string):  Observable<any> {
  
 
     // when notification type is : Temperature, WindSpeed
@@ -61,17 +68,25 @@ export class AuthService {
       currentLoggedUserId,
       notificationType,
       temperatureNotification,
+      windDirectionNotification,
+      soilTemperatureNotification, 
+      soilMostureNotification,
+      humidityNotification, 
+      rainGaugeNotification, 
+      pressureNotification,
       textNotification,
       activeNotification,
       windSpeedNotification, 
-      otherNotification,
       descriptionNotification, 
       temperatureWindSpeedOperator
     }, httpOptions);
   }
 
   editNotification(currentLoggedUserId: number, notificationId: number, temperatureNotification: string, textNotification: string, activeNotification: boolean,
-    descriptionNotification: string, windSpeedNotification: number, otherNotification: string, notificationType: string, temperatureWindSpeedOperator:string):  Observable<any> {
+    descriptionNotification: string, windSpeedNotification: number,
+    windDirectionNotification: string, soilTemperatureNotification: null,
+    soilMostureNotification: number, humidityNotification: number, rainGaugeNotification: number, pressureNotification: number,
+    notificationType: string, temperatureWindSpeedOperator:string):  Observable<any> {
     console.log(notificationId)
     console.log(temperatureNotification)
     console.log(textNotification)
@@ -81,11 +96,16 @@ export class AuthService {
       currentLoggedUserId,
       notificationId,
       temperatureNotification,
+      windDirectionNotification,
+      soilTemperatureNotification,
+      soilMostureNotification,
+      humidityNotification, 
+      rainGaugeNotification, 
+      pressureNotification,
       textNotification,
       activeNotification,
       descriptionNotification,
       windSpeedNotification,
-      otherNotification,
       temperatureWindSpeedOperator,
       notificationType
     }, httpOptions);

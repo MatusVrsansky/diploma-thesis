@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-climatic-conditions',
-  templateUrl: './climatic-conditions.component.html',
-  styleUrls: ['./climatic-conditions.component.scss']
+  templateUrl: './board-user.component.html',
+  styleUrls: ['./board-user.component.scss']
 })
-export class ClimaticConditionsComponent implements OnInit {
+export class BoardUserComponent implements OnInit {
 
   climaticConditionsDataThingSpeak: any;
 

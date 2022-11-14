@@ -299,6 +299,7 @@ export class HistoryComponent implements OnInit {
       },
     
       actions: false,
+      noDataMessage: 'Žiadne dáta na zobrazenie',
       attr: {
         class: 'test-table'
       },
@@ -349,6 +350,7 @@ export class HistoryComponent implements OnInit {
       },
     
       actions: false,
+      noDataMessage: 'Žiadne dáta na zobrazenie',
       attr: {
         class: 'test-table'
       },

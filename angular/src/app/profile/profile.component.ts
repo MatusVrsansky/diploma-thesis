@@ -3,7 +3,8 @@ import { TokenStorageService } from '../_services/token-storage.service';
 import { AuthService } from '../_services/auth.service';
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService } from '@nebular/theme';
 import { NbDialogService, NbDialogRef } from '@nebular/theme';
-import { ThisReceiver } from '@angular/compiler';
+
+
 
 
 
@@ -28,10 +29,13 @@ export class ProfileComponent implements OnInit {
 
     temperatureNotification: null,
     windSpeedNotification: null,
-    otherNotification: null,
-
+    windDirectionNotification: '1',
+    soilTemperatureNotification: null,
+    soilMostureNotification: null,
+    humidityNotification: null,
+    rainGaugeNotification: null,
+    pressureNotification: null,
     textNotification: null,
-
 
     // default value set on true
     activeNotification: true,
@@ -100,7 +104,7 @@ export class ProfileComponent implements OnInit {
     const dataToTable: object[] = [];
 
 
-    this.currentUser.user_notifications.forEach(function(item:any) {
+    Array.from(this.currentUser.user_notifications).forEach(function(item:any) {
       //usedNotificationsType.puh
 
 
@@ -126,8 +130,8 @@ export class ProfileComponent implements OnInit {
       {name: "teplota"},
       {name: "smer_vetra"},
       {name: "rychlost_vetra"},
-      {name: "uroven_svetla"},
-      {name: "vlhost_pody"},
+      {name: "teplota_pody"},
+      {name: "vlhkost_pody"},
       {name: "vlhkost"},
       {name: "dazdometer"},
       {name: "tlak"},
@@ -168,7 +172,12 @@ export class ProfileComponent implements OnInit {
   // reset input values
   this.new.temperatureNotification = null;
   this.new.windSpeedNotification = null;
-  this.new.otherNotification = null;
+  this.new.windDirectionNotification = '1';
+  this.new.soilTemperatureNotification = null;
+  this.new.soilMostureNotification = null;
+  this.new.humidityNotification = null;
+  this.new.rainGaugeNotification = null;
+  this.new.pressureNotification = null;
   this.new.textNotification = null;
   this.new.temperatureWindSpeedOperator = '>';
   this.new.descriptionNotification = null;
@@ -179,23 +188,9 @@ export class ProfileComponent implements OnInit {
 
   }
 
-  showToast(position: NbGlobalPosition, duration: number) {
-    this.toastrService.success('Zmeny boli uložené!', 'Aktualizácia profilu', { position, duration });
+  showToast(position: NbGlobalPosition, duration: number, message: string, title: string) {
+    this.toastrService.success(message, title, { position, duration });
   }
-
-  showToastNotificationRemoved(position: NbGlobalPosition, duration: number) {
-    this.toastrService.success('Notifikácia bola odstránená!', 'Odstránenie notifikácie', { position, duration });
-  }
-
-  showToastNotificationAdded(position: NbGlobalPosition, duration: number) {
-    this.toastrService.success('Notifikácia bola pridaná!', 'Pridanie notifikácie', { position, duration });
-  }
-
-  showToastNotificationUpdated(position: NbGlobalPosition, duration: number) {
-    this.toastrService.success('Notifikácia bola upravená!', 'Úprava notifikácie', { position, duration });
-  }
-
-
 
   onSubmit(): void {
 
@@ -209,7 +204,7 @@ export class ProfileComponent implements OnInit {
         this.isSuccessful = true;
         this.isSignUpFailed = false;
         this.roles = this.tokenStorage.getUser().roles;
-        this.showToast(this.logicalPositions.BOTTOM_END, 10000)
+        this.showToast(this.logicalPositions.BOTTOM_END, 10000, 'Zmeny boli uložené!', 'Aktualizácia profilu');
       },
       error: err => {
         console.log(err.error.message)
@@ -292,8 +287,8 @@ export class ProfileComponent implements OnInit {
         this.currentUser = this.tokenStorage.getUser();
         this.userNotifications = this.currentUser.user_notifications;
 
-       // window.location.reload()
-        this.showToastNotificationRemoved(this.logicalPositions.BOTTOM_END, 10000)
+       // window.location.reload()        
+        this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikácia bola odstránená!", "Odstránenie notifikácie");
         this.getUnusedNotificationTypes();
       },
       error: err => {
@@ -307,11 +302,12 @@ export class ProfileComponent implements OnInit {
   newNotification(): void {
 
     const { notificationType, temperatureNotification , textNotification, descriptionNotification,
-       activeNotification, windSpeedNotification, otherNotification, temperatureWindSpeedOperator } = this.new;
+       activeNotification, windSpeedNotification,
+       windDirectionNotification, soilTemperatureNotification, soilMostureNotification, humidityNotification, 
+       rainGaugeNotification, pressureNotification, temperatureWindSpeedOperator } = this.new;
 
       console.log("Description: "+descriptionNotification);
       console.log("TemperatureL:"+temperatureNotification);
-      console.log("other: "+otherNotification);
       console.log("windspeed: "+windSpeedNotification);
       console.log("operator: "+temperatureWindSpeedOperator);
 
@@ -321,7 +317,8 @@ export class ProfileComponent implements OnInit {
 
 
     this.authService.addNewNotification(this.userId, notificationType, temperatureNotification, textNotification, activeNotification,
-      descriptionNotification, windSpeedNotification, otherNotification, temperatureWindSpeedOperator).subscribe({
+      descriptionNotification, windSpeedNotification, windDirectionNotification, soilTemperatureNotification, soilMostureNotification, humidityNotification, 
+      rainGaugeNotification, pressureNotification, temperatureWindSpeedOperator).subscribe({
       next: data => {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
@@ -334,7 +331,8 @@ export class ProfileComponent implements OnInit {
         this.userNotifications = this.currentUser.user_notifications;
 
        // window.location.reload()
-        this.showToastNotificationAdded(this.logicalPositions.BOTTOM_END, 10000)
+        
+        this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikácia bola pridaná!", "Pridanie notifikácie");
         this.getUnusedNotificationTypes();
       },
       error: err => {
@@ -350,7 +348,12 @@ export class ProfileComponent implements OnInit {
     this.new.temperatureNotification = notification.temperature_notification;
     this.new.descriptionNotification = notification.description_notification;
     this.new.windSpeedNotification = notification.wind_speed_notification;
-    this.new.otherNotification = notification.other_notification;
+    this.new.windDirectionNotification = notification.wind_direction_notification;
+    this.new.soilMostureNotification = notification.soil_mosture_notification;
+    this.new.soilTemperatureNotification = notification.soil_temperature_notification;
+    this.new.humidityNotification = notification.humidity_notification;
+    this.new.rainGaugeNotification = notification.rain_gauge_notification;
+    this.new.pressureNotification = notification.pressure_notification;    
     this.new.textNotification = notification.text_notification;
     this.new.activeNotification = notification.active_notification;
     this.new.notificationType = notification.notification_type;
@@ -363,8 +366,10 @@ export class ProfileComponent implements OnInit {
 
     console.log('//////////////////')
 
-    const { notificationType, temperatureNotification , textNotification, activeNotification, descriptionNotification,
-      windSpeedNotification, otherNotification, temperatureWindSpeedOperator, notificationId } = this.new;
+    const { notificationType, temperatureNotification , textNotification, descriptionNotification,
+      activeNotification, windSpeedNotification,
+      windDirectionNotification, soilTemperatureNotification, soilMostureNotification, humidityNotification, 
+      rainGaugeNotification, pressureNotification, temperatureWindSpeedOperator, notificationId } = this.new;
 
 
 
@@ -375,7 +380,9 @@ export class ProfileComponent implements OnInit {
     console.log(notificationId)
 
     this.authService.editNotification(this.userId, notificationId, temperatureNotification, textNotification,
-      activeNotification, descriptionNotification, windSpeedNotification, otherNotification, notificationType, temperatureWindSpeedOperator ).subscribe({
+      activeNotification, descriptionNotification, windSpeedNotification,
+      windDirectionNotification, soilTemperatureNotification, soilMostureNotification, humidityNotification, 
+      rainGaugeNotification, pressureNotification, notificationType, temperatureWindSpeedOperator ).subscribe({
       next: data => {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
@@ -388,7 +395,7 @@ export class ProfileComponent implements OnInit {
         this.userNotifications = this.currentUser.user_notifications;
 
        // window.location.reload()
-        this.showToastNotificationUpdated(this.logicalPositions.BOTTOM_END, 10000)
+        this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikácia bola upravená!", "Úprava notifikácie");
 
       },
       error: err => {
@@ -403,11 +410,51 @@ export class ProfileComponent implements OnInit {
     console.log(e);
     this.new.temperatureNotification = null;
     this.new.windSpeedNotification = null;
-    this.new.otherNotification = null;
+    this.new.windDirectionNotification = '1';
+    this.new.soilTemperatureNotification = null;
+    this.new.soilMostureNotification = null;
+    this.new.humidityNotification = null;
+    this.new.rainGaugeNotification = null;
+    this.new.pressureNotification = null;    
     this.new.textNotification = null;
     this.new.temperatureWindSpeedOperator = '>';
     this.new.descriptionNotification = null;
     this.new.activeNotification = false;
+  }
+
+  getWindDirectionThingSpeak(windDirection:any) {
+
+    switch ( windDirection ) {
+      case '1': 
+        windDirection = 'Severný vietor'
+        break;
+      case '2':
+        windDirection = 'Východný vietor'
+        break;
+      case '3':
+        windDirection = 'Južný vietor'
+        break;
+      case '4':
+        windDirection = 'Západný vietor'
+        break;
+      case '5':
+        windDirection = 'Severovýchodný vietor'
+        break;
+      case '6':
+        windDirection = 'Severozápadný vietor'
+        break;
+      case '7':
+        windDirection = 'Juchovýchodný vietor'
+        break;
+      case '8':
+        windDirection = 'Juhozápadný vietor'
+        break;
+      default:
+          //
+          break;
+   }
+
+    return windDirection;
   }
 
 

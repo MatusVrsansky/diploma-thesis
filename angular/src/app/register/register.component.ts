@@ -42,6 +42,7 @@ export class RegisterComponent implements OnInit {
         console.log('tu som');
         this.isSuccessful = true;
         this.isSignUpFailed = false;
+       // this.reloadPage();
       },
       error: err => {
         this.errorMessage = err.error.message;
@@ -62,5 +63,9 @@ export class RegisterComponent implements OnInit {
   toggleShowPassword(event: Event) {
     event.preventDefault();
     this.showPassword = !this.showPassword;
+  }
+
+  reloadPage(): void {
+    window.location.replace('/');
   }
 }

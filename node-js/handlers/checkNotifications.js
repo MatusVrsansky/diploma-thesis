@@ -24,14 +24,8 @@ module.exports = () => {
 
     axios.get('https://api.thingspeak.com/channels/1825300/feeds.json?api_key=ERX6U69VZ9F5MSFM&results=1')
     .then(res => {
-
-       
        checkTemperatureNotification(res.data.feeds[0]['field1'])
        checkWindSpeedNotification(res.data.feeds[0]['field2'])
-        
-       
-       
-
     })
     .catch(err => {
         console.log('Error: ', err.message);
@@ -39,12 +33,9 @@ module.exports = () => {
 
 
     async function checkTemperatureNotification(value) {
-        const results = await Notifications.findAll();
-        const test = JSON.stringify(results)
-
-        dataObj = JSON.parse(test);
         
-
+        dataObj = getAllNotifications();
+        
         for (var i = 0; i < dataObj.length; i++) {
 
             // teplota
@@ -55,11 +46,10 @@ module.exports = () => {
                 case '>':
                     if(value > dataObj[i].temperature_notification) {
                         //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je VYSSIA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
-                        
                         Notifications.update({notification_sent : true}, { where: {id: dataObj[i].id}})
                         sendEmail(dataObj[i].user_id, dataObj[i].text_notification)
                     }
-
+                    break;
                 case '<':
                     if(value < dataObj[i].temperature_notification) {
                         //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je NIZSIA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
@@ -81,17 +71,15 @@ module.exports = () => {
                         sendEmail(dataObj[i].user_id, dataObj[i].text_notification)
                     }
                     break;
+                default: break;
                 }
             }
         }   
     }
 
-    async function checkWindSpeedNotification(value) {
-        const results = await Notifications.findAll();
-        const test = JSON.stringify(results)
-
-        dataObj = JSON.parse(test);
+    async function checkWindSpeedNotification() {
         
+        dataObj = getAllNotifications();
 
         for (var i = 0; i < dataObj.length; i++) {
 
@@ -102,37 +90,45 @@ module.exports = () => {
     
                 switch(dataObj[i].temperature_windSpeed_operator) {
                     case '>':
-                        if(value > dataObj[i].wind_speed_notification) {
-                            //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je VYSSIA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
-                            
+                        if(value > dataObj[i].wind_speed_notification) {                            
                             Notifications.update({notification_sent : true}, { where: {id: dataObj[i].id}})
                             sendEmail(dataObj[i].user_id, dataObj[i].text_notification)
                         }
-    
+                        break;
                     case '<':
                         if(value < dataObj[i].wind_speed_notification) {
-                            //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je NIZSIA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
                             Notifications.update({notification_sent : true}, { where: {id: dataObj[i].id}})
                             sendEmail(dataObj[i].user_id, dataObj[i].text_notification)
                         }
                         break;
                     case '>=':
                         if(value >= dataObj[i].wind_speed_notification) {
-                            //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je VYSSIA /ROVNA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
                             Notifications.update({notification_sent : true}, { where: {id: dataObj[i].id}})
                             sendEmail(dataObj[i].user_id, dataObj[i].text_notification)
                         }
                         break;
                     case '<=':
                         if(value <= dataObj[i].wind_speed_notification) {
-                            //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je NIZSIA /ROVNA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
                             Notifications.update({notification_sent : true}, { where: {id: dataObj[i].id}})
                             sendEmail(dataObj[i].user_id, dataObj[i].text_notification)
                         }
                         break;
+                    default: break;
                     }
                 }
         }   
+    }
+
+    async function checkWindDirectionNotification() {
+        dataObj = getAllNotifications();
+        
+    }
+
+    async function getAllNotifications() {
+        const results = await Notifications.findAll();
+        const test = JSON.stringify(results)
+
+        return JSON.parse(test);
     }
 
    async function sendEmail(userId, notificationText) {
