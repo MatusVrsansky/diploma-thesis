@@ -24,8 +24,9 @@ module.exports = () => {
 
     axios.get('https://api.thingspeak.com/channels/1825300/feeds.json?api_key=ERX6U69VZ9F5MSFM&results=1')
     .then(res => {
-       checkTemperatureNotification(res.data.feeds[0]['field1'])
-       checkWindSpeedNotification(res.data.feeds[0]['field2'])
+       checkTemperatureNotification(res.data.feeds[0]['field1']);
+       checkWindSpeedNotification(res.data.feeds[0]['field2']);
+       checkWindDirectionNotification(res.data.feeds[0]['field4']);
     })
     .catch(err => {
         console.log('Error: ', err.message);
@@ -77,7 +78,7 @@ module.exports = () => {
         }   
     }
 
-    async function checkWindSpeedNotification() {
+    async function checkWindSpeedNotification(value) {
         
         dataObj = getAllNotifications();
 
@@ -119,16 +120,23 @@ module.exports = () => {
         }   
     }
 
-    async function checkWindDirectionNotification() {
-        dataObj = getAllNotifications();
-        
+    async function checkWindDirectionNotification(value) {
+        const results = await getAllNotifications();
+
+        console.log(results);
+
+        for (let i = 0; i < results.length; i++)  {
+            if(results[i].dataValues.notification_type == 'smer_vetra' && value == results[i].dataValues.wind_direction_notification &&
+            results[i].dataValues.active_notification == true && results[i].dataValues.notification_sent == false) {
+                Notifications.update({notification_sent : true}, { where: {id: results[i].dataValues.id}})
+                sendEmail(results[i].dataValues.user_id, results[i].dataValues.text_notification);
+                console.log(results[i].dataValues.wind_direction_notification);
+            }
+        }
     }
 
     async function getAllNotifications() {
-        const results = await Notifications.findAll();
-        const test = JSON.stringify(results)
-
-        return JSON.parse(test);
+        return await Notifications.findAll();
     }
 
    async function sendEmail(userId, notificationText) {

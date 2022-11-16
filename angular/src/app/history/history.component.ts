@@ -304,7 +304,7 @@ export class HistoryComponent implements OnInit {
         class: 'test-table'
       },
       pager : {
-        perPage: 5
+        perPage: 4
         }
     //  pager: { display: false }
 
@@ -355,7 +355,7 @@ export class HistoryComponent implements OnInit {
         class: 'test-table'
       },
       pager : {
-        perPage: 5
+        perPage: 4
         }
     //  pager: { display: false }
 
