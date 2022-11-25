@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { TokenStorageService } from '../_services/token-storage.service';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @Component({
@@ -9,10 +12,13 @@ import { TokenStorageService } from '../_services/token-storage.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  form: any = {
+  
+  /*form: any = {
     username: null,
     password: null
   };
+  */
+
   isLoggedIn = false;
   isLoginFailed = false;
   errorMessage = '';
@@ -20,47 +26,86 @@ export class LoginComponent implements OnInit {
 
 
 
+  // new values
+  form: FormGroup;
+  submitted = false;
+
+
   roles: string[] = [];
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService) { }
+  constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private formBuilder: FormBuilder) { }
   ngOnInit(): void {
+
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
       this.roles = this.tokenStorage.getUser().roles;
     }
+
+    // new values
+    this.form = this.formBuilder.group(
+      {
+        name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(20)
+        ]
+      ],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(20)
+          ]
+        ]
+        //acceptTerms: [false, Validators.requiredTrue]
+      }
+    );
   }
 
-
+  toggleEditable(event:Event) {
+   console.log(event.target);
+  }
 
   onSubmit(): void {
-    const { username, password } = this.form;
-    this.authService.login(username, password).subscribe({
-      next: data => {
-        this.tokenStorage.saveToken(data.accessToken);
-        this.tokenStorage.saveUser(data);
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
-        this.roles = this.tokenStorage.getUser().roles;
-        this.reloadPage();
-      },
-      error: err => {
-        this.errorMessage = err.error.message;
-        this.isLoginFailed = true;
-      }
-    });
-  }
-  reloadPage(): void {
-    window.location.replace('/');
-  }
 
-  getInputType() {
-    if (this.showPassword) {
-      return 'text';
+    this.submitted = true;
+
+    if (this.form.invalid) {
+      return;
     }
-    return 'password';
+
+    else {
+
+      this.authService.login(Array(this.form.value)).subscribe({
+        next: data => {
+          this.tokenStorage.saveToken(data.accessToken);
+          this.tokenStorage.saveUser(data);
+          this.isLoginFailed = false;
+          this.isLoggedIn = true;
+          this.roles = this.tokenStorage.getUser().roles;
+          this.reloadPage();
+        },
+        error: err => {
+          this.errorMessage = err.error.message;
+          this.isLoginFailed = true;
+        }
+      });
+  }
+}
+
+  // new values
+  get f(): { [key: string]: AbstractControl } {
+    return this.form.controls;
   }
 
-  toggleShowPassword(event: Event) {
-    event.preventDefault();
-    this.showPassword = !this.showPassword;
+  onReset(): void {
+    this.submitted = false;
+    this.form.reset();
+  }
+
+ reloadPage(): void {
+    window.location.replace('/');
   }
 }

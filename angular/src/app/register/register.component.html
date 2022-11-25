@@ -1,178 +1,144 @@
-
-<!--<div class="col-md-12">
-    <h1>Registration</h1>
-    <div class="card card-container">
-      <img
-        id="profile-img"
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-        class="profile-img-card"
-      />
-      <form
-        *ngIf="!isSuccessful"
-        name="form"
-        (ngSubmit)="f.form.valid && onSubmit()"
-        #f="ngForm"
-        novalidate
-      >
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input
-            type="text"
-            class="form-control"
-            name="username"
-            [(ngModel)]="form.username"
-            required
-            minlength="3"
-            maxlength="20"
-            #username="ngModel"
-          />
-          <div class="alert-danger" *ngIf="username.errors && f.submitted">
-            <div *ngIf="username.errors['required']">Username is required</div>
-            <div *ngIf="username.errors['minlength']">
-              Username must be at least 3 characters
-            </div>
-            <div *ngIf="username.errors['maxlength']">
-              Username must be at most 20 characters
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            name="password"
-            [(ngModel)]="form.password"
-            required
-            minlength="6"
-            #password="ngModel"
-          />
-          <div class="alert-danger" *ngIf="password.errors && f.submitted">
-            <div *ngIf="password.errors['required']">Password is required</div>
-            <div *ngIf="password.errors['minlength']">
-              Password must be at least 6 characters
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            name="email"
-            [(ngModel)]="form.email"
-            required
-            email
-            #email="ngModel"
-          />
-          <div class="alert-danger" *ngIf="email.errors && f.submitted">
-            <div *ngIf="email.errors['required']">Email is required</div>
-            <div *ngIf="email.errors['email']">
-              Email must be a valid email address
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="phone_number">Phone number</label>
-          <input
-            type="text"
-            class="form-control"
-            name="phone_number"
-            [(ngModel)]="form.phone_number"
-            required
-            minlength="1"
-            maxlength="20"
-            #phone_number="ngModel"
-          />
-          <div class="alert-danger" *ngIf="phone_number.errors && f.submitted">
-            <div *ngIf="phone_number.errors['required']">Phone number is required</div>
-            <div *ngIf="phone_number.errors['minlength']">
-              Temperature must be at least 3 characters
-            </div>
-            <div *ngIf="phone_number.errors['maxlength']">
-              Temperature must be at most 20 characters
-            </div>
-          </div>
-        </div> 
-     <div class="form-group">
-          <label for="temperature_notification">Temperature notification</label>
-          <input
-            type="number"
-            class="form-control"
-            name="temperature_notification"
-            [(ngModel)]="form.temperature_notification"
-            required
-            minlength="1"
-            maxlength="20"
-            #temperature_notification="ngModel"
-          />
-          <div class="alert-danger" *ngIf="temperature_notification.errors && f.submitted">
-            <div *ngIf="temperature_notification.errors['required']">Temperature notification is required</div>
-            <div *ngIf="temperature_notification.errors['minlength']">
-              Temperature must be at least 3 characters
-            </div>
-            <div *ngIf="temperature_notification.errors['maxlength']">
-              Temperature must be at most 20 characters
-            </div>
-          </div>
-        </div> 
-        <div class="form-group">
-          <p for="text_notification_greater_smaller_than">Send notification when temperature above is bigger / smaller ?</p>
-          <p class="subtitle">NgModel value: {{ form.temperature_operator }}</p>
-
-          <nb-radio-group [(ngModel)]="form.temperature_operator" name="ng-model-group">
-            <nb-radio value=">">Bigger</nb-radio>
-            <nb-radio value="<">Smaller</nb-radio>
-            <nb-radio value=">=">Bigger / Equals</nb-radio>
-            <nb-radio value="<=">Smaller / Equals</nb-radio>
-          </nb-radio-group>
-        </div>
-        <div class="form-group mt-4">
-          <label for="text_notification">Text notification</label>
-          <input
-            type="text"
-            class="form-control"
-            name="text_notification"
-            [(ngModel)]="form.text_notification"
-            required
-            minlength="5"
-            maxlength="50"
-            #text_notification="ngModel"
-          />
-          <div class="alert-danger" *ngIf="text_notification.errors && f.submitted">
-            <div *ngIf="text_notification.errors['required']">Text notification is required</div>
-            <div *ngIf="text_notification.errors['minlength']">
-              Text must be at least 5 characters
-            </div>
-            <div *ngIf="text_notification.errors['maxlength']">
-              Text must be at most 20 characters
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Set notification active?</label>
-          <nb-card>
-            <nb-card-body class="example-items-col">
-              <nb-toggle [(ngModel)]="form.active_notification" name="ng-toggle"></nb-toggle>
-            </nb-card-body>
-          </nb-card>
-        </div>
-        <div class="form-group">
-          <button class="btn btn-primary btn-block">Sign Up</button>
-        </div>
-        <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
-          Signup failed!<br />{{ errorMessage }}
-        </div>
-      </form>
-      <div class="alert alert-success" *ngIf="isSuccessful">
-        Your registration is successful!
-      </div>
-    </div>
-</div>-->
-
 <nb-card>
   <nb-card-header class="text-center"><h4>Registrácia</h4></nb-card-header>
   <nb-card-body class="example-items-col text-center">
+    <div class="card" *ngIf="!isSuccessful" >
+      <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="form-group mb-3">
+            <label>Prihlasovacie meno</label>
+            <input
+              type="text" placeholder="prihlasovacie meno"
+              formControlName="name"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+            />
+            <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+              <div *ngIf="f['name'].errors['required']">Prihlasovacie meno je povinné</div>
+              <div *ngIf="f['name'].errors['minlength']">
+                Prihlasovacie meno musí mať najmenej 6 nakov
+               </div>
+              <div *ngIf="f['name'].errors['maxlength']">
+                Prihlasovacie meno musí mať najviac 20 znakov
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Email</label>
+            <input
+              type="text" placeholder="email"
+              formControlName="email"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+            />
+            <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+              <div *ngIf="f['email'].errors['required']">Email je povinný</div>
+              <div *ngIf="f['email'].errors['email']">Email je nevalídny</div>
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Telefónne číslo</label>
+            <input
+              type="text" placeholder="telefónne číslo"
+              formControlName="phone_number"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f['phone_number'].errors }"
+            />
+            <div *ngIf="submitted && f['phone_number'].errors" class="invalid-feedback">
+              <div *ngIf="f['phone_number'].errors['required']">Telefónne číslo je povinné</div>
+              <div *ngIf="f['phone_number'].errors['minlength']">
+                Telefónne číslo musí mať najmenej 10 znakov
+               </div>
+              <div *ngIf="f['phone_number'].errors['maxlength']">
+                Telefónne číslo musí mať najviac 20 znakov
+              </div>
+            </div>
+          </div>
+      
+          <div class="form-group mb-3">
+            <label>Heslo</label>
+            <input
+              [type]="showPassword ? 'text' : 'password'" placeholder="heslo"
+              formControlName="password"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+            />
+            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+              <div *ngIf="f['password'].errors['required']">Heslo je povinné</div>
+              <div *ngIf="f['password'].errors['minlength']">
+                Heslo musí mať najmenej 6 znakov
+               </div>
+              <div *ngIf="f['password'].errors['maxlength']">
+                Heslo musí mať najviac 20 znakov
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group mb-3">
+            <label>Potvrdiť heslo</label>
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="confirmPassword"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f['confirmPassword'].errors }"
+            />
+            <div *ngIf="submitted && f['confirmPassword'].errors" class="invalid-feedback">
+              <div *ngIf="f['confirmPassword'].errors['required']">
+                Potvrdenie hesla je povinné
+              </div>
+              <div *ngIf="f['confirmPassword'].errors['minlength']">
+                Potvrdenie hesla musí mať najmenej 6 znakov
+               </div>
+              <div *ngIf="f['confirmPassword'].errors['maxlength']">
+                Potvrdenie hesla musí mať najviac 20 znakov
+              </div>
+              <div *ngIf="f['confirmPassword'].errors['matching']">
+                Heslá sa nezhodujú
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-2">
+            <nb-checkbox status="basic" (change)="showPassword = !showPassword">Zobraziť heslo</nb-checkbox>
+          </div>
+
+   
+
+          <div class="form-group">
+            <div
+              class="alert alert-danger"
+              role="alert"
+              *ngIf="submitted && isSignUpFailed"
+            >
+            Registrácia zlyhala: {{ errorMessage }}
+            </div>
+          </div>
+      
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Prihlásiť sa</button>
+           <!-- <button
+              type="button"
+              (click)="onReset()"
+              class="btn btn-warning float-right ml-2"
+            >
+              Reset
+            </button> -->
+          </div>
+        </form>
+      </div>
+    </div>
+    <strong *ngIf="isSuccessful">Registrácia bola úspešná, môžete sa prihlásiť.</strong>
+  </nb-card-body>
+  
+</nb-card>
+
+<!--<nb-card>
+  <nb-card-header class="text-center"><h4>Registrácia</h4></nb-card-header>
+  <nb-card-body class="example-items-col text-center">
+    <div class="card">
+      <div class="card-body">
   <form
   *ngIf="!isSuccessful"
   name="form"
@@ -274,10 +240,12 @@
       Registrácia zlyhala!<br />{{ errorMessage }}
     </div> 
 
-
+    
 </form>
+</div>
+</div>
 <p *ngIf="isSuccessful">Registrácia bola úspešná</p>
 </nb-card-body>
 
  
-</nb-card>
+</nb-card> -->

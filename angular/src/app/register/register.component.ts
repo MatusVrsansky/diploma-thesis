@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
+import { AbstractControl, FormBuilder, FormGroup, Validators, ValidatorFn } from '@angular/forms';
+
+
 
 @Component({
   selector: 'app-register',
@@ -8,64 +11,131 @@ import { AuthService } from '../_services/auth.service';
 
 })
 export class RegisterComponent implements OnInit {
-  form: any = {
-    username: null,
-    email: null,
-    password: null,
-    //temperature_notification: null,
-   // text_notification: null,
-   // temperature_operator_bigger: null,
-   // temperature_operator_smaller: null,
-  //  temperature_operator : '<',
-    phone_number : null,
-  //  active_notification: true
-  };
-
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
   showPassword = false;
 
+  // new values
+  form: FormGroup;
+  submitted = false;
+  
 
-
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private formBuilder: FormBuilder) { }
   ngOnInit(): void {
+
+        // new values
+        this.form = this.formBuilder.group(
+          {
+            name: [
+            '',
+            [
+              Validators.required,
+              Validators.minLength(6),
+              Validators.maxLength(20)
+            ]
+          ],
+          email: ['', [Validators.required, Validators.email]],
+            password: [
+              '',
+              [
+                Validators.required,
+                Validators.minLength(6),
+                Validators.maxLength(20)
+              ]
+            ],
+            confirmPassword: [
+              '',
+              [
+                Validators.required,
+                Validators.minLength(6),
+                Validators.maxLength(20)
+              ],
+            ],
+            phone_number: [
+              '',
+              [
+                Validators.required,
+                Validators.minLength(10),
+                Validators.maxLength(20)
+              ]
+            ],
+           
+            //acceptTerms: [false, Validators.requiredTrue]
+          },
+          {
+            validators: [Validation.match('password', 'confirmPassword')]
+          }
+        );
   }
 
 
 
   onSubmit(): void {
-    const { username, email, password, phone_number } = this.form;
-    this.authService.register(username, email, password, phone_number).subscribe({
-      next: data => {
-        console.log(data);
-        console.log('tu som');
-        this.isSuccessful = true;
-        this.isSignUpFailed = false;
-       // this.reloadPage();
-      },
-      error: err => {
-        this.errorMessage = err.error.message;
-        this.isSignUpFailed = true;
+    
+    this.submitted = true;
 
-        console.log(err)
-      }
-    })
-  }
-
-  getInputType() {
-    if (this.showPassword) {
-      return 'text';
+    if (this.form.invalid) {
+      return;
     }
-    return 'password';
+
+    else {
+      this.authService.register(Array(this.form.value)).subscribe({
+       
+        next: data => {
+          console.log(data);
+          console.log('tu som');
+          
+          this.isSuccessful = true;
+          this.isSignUpFailed = false;
+         // this.reloadPage();
+        },
+        error: err => {
+          this.errorMessage = err.error.message;
+          console.log(typeof(this.form.controls));
+          this.isSignUpFailed = true;
+  
+          console.log(err)
+        }
+      })
+    }
+
+
+
+    }
+
+  // new values
+  get f(): { [key: string]: AbstractControl } {
+    return this.form.controls;
   }
 
-  toggleShowPassword(event: Event) {
-    event.preventDefault();
-    this.showPassword = !this.showPassword;
+  onReset(): void {
+    this.submitted = false;
+    this.form.reset();
   }
 
   reloadPage(): void {
     window.location.replace('/');
+  }
+}
+
+
+export default class Validation {
+  static match(controlName: string, checkControlName: string): ValidatorFn {
+    return (controls: AbstractControl) => {
+      const control = controls.get(controlName);
+      const checkControl = controls.get(checkControlName);
+
+      if (checkControl?.errors && !(checkControl?.errors['matching'])) {
+        return null;
+      }
+    
+      if (control?.value !== checkControl?.value) {
+        controls.get(checkControlName)?.setErrors({ matching: true });
+        return { matching: true };
+      } else {
+        return null;
+      }
+    };
   }
 }

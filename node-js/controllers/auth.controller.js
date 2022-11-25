@@ -16,7 +16,7 @@ exports.signup = (req, res) => {
   User.create({
     username: req.body.username,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8),
+    password: req.body.password,
     phone_number: req.body.phone_number
   })
     .then(user => {
@@ -315,9 +315,6 @@ exports.editNotification = (req, res) => {
     });
 }
 
-
-
-
 exports.signin = (req, res) => {
   User.findOne({
     where: {
@@ -326,7 +323,7 @@ exports.signin = (req, res) => {
   })
     .then(user => {
       if (!user) {
-        return res.status(404).send({ message: "Meno používateľa neexistuje!" });
+        return res.status(404).send({ message: "meno používateľa neexistuje!" });
       }
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
@@ -335,7 +332,7 @@ exports.signin = (req, res) => {
       if (!passwordIsValid) {
         return res.status(401).send({
           accessToken: null,
-          message: "Zadali ste zlé heslo!"
+          message: "zadali ste zlé heslo!"
         });
       }
       var token = jwt.sign({ id: user.id }, config.secret, {

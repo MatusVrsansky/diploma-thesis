@@ -1,14 +1,11 @@
 <nb-card >
-  <nb-card-header class="text-center"><h4>História</h4></nb-card-header>
     <nb-card-body class="example-items-col text-center history">
-      <div class="">
         <div class="row">
-          <div class="col-12">
+          <div class="col-12 mb-3">
             <h4>História z webovej služby Weather API - {{yesterdaySlovakFormat}}</h4>
             <div class="table-container">
               <ng2-smart-table [settings]="historyWeatherApi" [source]="arrayData.main"></ng2-smart-table>
             </div>
-            
           </div>
           <div class="col-12 pr-0">
             <h4>História z domácej meteostanice - {{yesterdaySlovakFormat}}</h4>
@@ -19,7 +16,6 @@
           </div>
         </div>  
       
-      </div>
     </nb-card-body>
 </nb-card>
 

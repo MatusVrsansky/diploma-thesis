@@ -18,10 +18,6 @@ module.exports = () => {
          }
      });
 
-
-    
-
-
     axios.get('https://api.thingspeak.com/channels/1825300/feeds.json?api_key=ERX6U69VZ9F5MSFM&results=1')
     .then(res => {
        checkTemperatureNotification(res.data.feeds[0]['field1']);
@@ -35,41 +31,42 @@ module.exports = () => {
 
     async function checkTemperatureNotification(value) {
         
-        dataObj = getAllNotifications();
+        notifications = getAllNotifications();
         
-        for (var i = 0; i < dataObj.length; i++) {
+        for (var i = 0; i < notifications.length; i++) {
 
             // teplota
-            if(dataObj[i].notification_type == 'teplota' && dataObj[i].active_notification == true && dataObj[i].notification_sent == false) {
+            if(notifications[i].dataValues.notification_type == 'teplota' && notifications[i].dataValues.active_notification == true && 
+            notifications[i].dataValues.notification_sent == false) {
             console.log('teplota')
 
-            switch(dataObj[i].temperature_windSpeed_operator) {
+            switch(notifications[i].temperature_windSpeed_operator) {
                 case '>':
-                    if(value > dataObj[i].temperature_notification) {
+                    if(value > notifications[i].dataValues.temperature_notification) {
                         //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je VYSSIA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
-                        Notifications.update({notification_sent : true}, { where: {id: dataObj[i].id}})
-                        sendEmail(dataObj[i].user_id, dataObj[i].text_notification)
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
                     }
                     break;
                 case '<':
-                    if(value < dataObj[i].temperature_notification) {
+                    if(value < notifications[i].dataValues.temperature_notification) {
                         //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je NIZSIA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
-                        Notifications.update({notification_sent : true}, { where: {id: dataObj[i].id}})
-                        sendEmail(dataObj[i].user_id, dataObj[i].text_notification)
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
                     }
                     break;
                 case '>=':
-                    if(value >= dataObj[i].temperature_notification) {
+                    if(value >= notifications[i].dataValues.temperature_notification) {
                         //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je VYSSIA /ROVNA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
-                        Notifications.update({notification_sent : true}, { where: {id: dataObj[i].id}})
-                        sendEmail(dataObj[i].user_id, dataObj[i].text_notification)
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
                     }
                     break;
                 case '<=':
-                    if(value <= dataObj[i].temperature_notification) {
+                    if(value <= notifications[i].dataValues.temperature_notification) {
                         //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je NIZSIA /ROVNA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
-                        Notifications.update({notification_sent : true}, { where: {id: dataObj[i].id}})
-                        sendEmail(dataObj[i].user_id, dataObj[i].text_notification)
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].id}})
+                        sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
                     }
                     break;
                 default: break;
@@ -80,57 +77,59 @@ module.exports = () => {
 
     async function checkWindSpeedNotification(value) {
         
-        dataObj = getAllNotifications();
+        notifications = await getAllNotifications();
 
-        for (var i = 0; i < dataObj.length; i++) {
+        for (var i = 0; i < notifications.length; i++) {
 
-    
             // rychlost vetra
-             if(dataObj[i].notification_type == 'rychlost_vetra' && dataObj[i].active_notification == true && dataObj[i].notification_sent == false) {
-                console.log('Rychlost vetra')
+            if(notifications[i].dataValues.notification_type == 'rychlost_vetra' && notifications[i].dataValues.active_notification == true &&
+            notifications[i].dataValues.notification_sent == false) {
+            console.log('Rychlost vetra')
     
-                switch(dataObj[i].temperature_windSpeed_operator) {
-                    case '>':
-                        if(value > dataObj[i].wind_speed_notification) {                            
-                            Notifications.update({notification_sent : true}, { where: {id: dataObj[i].id}})
-                            sendEmail(dataObj[i].user_id, dataObj[i].text_notification)
-                        }
-                        break;
-                    case '<':
-                        if(value < dataObj[i].wind_speed_notification) {
-                            Notifications.update({notification_sent : true}, { where: {id: dataObj[i].id}})
-                            sendEmail(dataObj[i].user_id, dataObj[i].text_notification)
-                        }
-                        break;
-                    case '>=':
-                        if(value >= dataObj[i].wind_speed_notification) {
-                            Notifications.update({notification_sent : true}, { where: {id: dataObj[i].id}})
-                            sendEmail(dataObj[i].user_id, dataObj[i].text_notification)
-                        }
-                        break;
-                    case '<=':
-                        if(value <= dataObj[i].wind_speed_notification) {
-                            Notifications.update({notification_sent : true}, { where: {id: dataObj[i].id}})
-                            sendEmail(dataObj[i].user_id, dataObj[i].text_notification)
-                        }
-                        break;
-                    default: break;
+            switch(notifications[i].dataValues.temperature_windSpeed_operator) {
+                case '>':
+                    if(value > notifications[i].dataValues.wind_speed_notification) {                            
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
                     }
+                    break;
+                case '<':
+                    if(value < notifications[i].dataValues.wind_speed_notification) {
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
+                    }
+                    break;
+                case '>=':
+                    if(value >= notifications[i].dataValues.wind_speed_notification) {
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
+                    }
+                    break;
+                case '<=':
+                    if(value <= notifications[i].dataValues.wind_speed_notification) {
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
+                    }
+                    break;
+                default: break;
                 }
+            }
         }   
     }
 
+    // tested notification
     async function checkWindDirectionNotification(value) {
-        const results = await getAllNotifications();
+        
+        notifications = await getAllNotifications();
 
-        console.log(results);
+        console.log('funkcia bezi');
 
-        for (let i = 0; i < results.length; i++)  {
-            if(results[i].dataValues.notification_type == 'smer_vetra' && value == results[i].dataValues.wind_direction_notification &&
-            results[i].dataValues.active_notification == true && results[i].dataValues.notification_sent == false) {
-                Notifications.update({notification_sent : true}, { where: {id: results[i].dataValues.id}})
-                sendEmail(results[i].dataValues.user_id, results[i].dataValues.text_notification);
-                console.log(results[i].dataValues.wind_direction_notification);
+        for (let i = 0; i < notifications.length; i++)  {
+            if(notifications[i].dataValues.notification_type == 'smer_vetra' && value == notifications[i].dataValues.wind_direction_notification &&
+            notifications[i].dataValues.active_notification == true && notifications[i].dataValues.notification_sent == false) {
+                Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification);
+                console.log(notifications[i].dataValues.wind_direction_notification);
             }
         }
     }

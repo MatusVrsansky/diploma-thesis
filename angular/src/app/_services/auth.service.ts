@@ -15,18 +15,18 @@ export class AuthService {
     window.sessionStorage.clear();
   }
   
-  login(username: string, password: string): Observable<any> {
+  login(form: Array<any>): Observable<any> {
     return this.http.post(AUTH_API + 'signin', {
-      username,
-      password
+      username: [...form].shift().name,
+      password: [...form].shift().password
     }, httpOptions);
   }
-  register(username: string, email: string, password: string, phone_number: string): Observable<any> {
+  register(form: Array<any>): Observable<any> {
     return this.http.post(AUTH_API + 'signup', {
-      username,
-      email,
-      password,
-      phone_number,
+      username: [...form].shift().name,
+      email: [...form].shift().email,
+      password: [...form].shift().password,
+      phone_number: [...form].shift().phone_number
     }, httpOptions);
   }
   update(id: number, username: string, email: string, phone_number: string): Observable<any> {
