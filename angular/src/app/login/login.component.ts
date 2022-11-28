@@ -13,17 +13,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   
-  /*form: any = {
-    username: null,
-    password: null
-  };
-  */
-
   isLoggedIn = false;
   isLoginFailed = false;
   errorMessage = '';
   showPassword = false;
-
 
 
   // new values

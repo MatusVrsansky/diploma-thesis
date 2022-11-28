@@ -2,7 +2,9 @@ import { Component, OnInit,TemplateRef, ViewChild, HostBinding, OnDestroy, Optio
 import { TokenStorageService } from '../_services/token-storage.service';
 import { AuthService } from '../_services/auth.service';
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService } from '@nebular/theme';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NbDialogService, NbDialogRef } from '@nebular/theme';
+import { not } from '@angular/compiler/src/output/output_ast';
 
 
 
@@ -16,11 +18,12 @@ import { NbDialogService, NbDialogRef } from '@nebular/theme';
 })
 export class ProfileComponent implements OnInit {
 
-
-
   currentUser = this.tokenStorage.getUser();
   @HostBinding('class')
   classes = 'example-items-rows';
+
+
+  isAddMode = true;
 
   new: any = {
     notificationType: null,
@@ -47,7 +50,7 @@ export class ProfileComponent implements OnInit {
   };
 
 
-  form: any = {
+  user: any = {
     username: this.currentUser.username,
     email: this.currentUser.email,
     phone_number: this.currentUser.phone_number,
@@ -77,8 +80,16 @@ export class ProfileComponent implements OnInit {
   logicalPositions = NbGlobalLogicalPosition;
 
 
+
+
+    // new values
+    notification: FormGroup;
+    submitted = false;
+
+
+
   constructor(private tokenStorage: TokenStorageService, private authService: AuthService, private toastrService: NbToastrService,
-     private dialogService: NbDialogService, @Optional() private dialogRef: NbDialogRef<any>) { }
+     private dialogService: NbDialogService, @Optional() private dialogRef: NbDialogRef<any>, private formBuilder: FormBuilder) { }
   ngOnInit(): void {
 
     this.usedNotifications = {
@@ -94,8 +105,120 @@ export class ProfileComponent implements OnInit {
     };
 
 
+    // new values
+    this.notification = this.formBuilder.group(
+      {
+        notificationType: [
+        null,
+        [
+         // Validators.required,
+        ]
+      ],
+      descriptionNotification: [
+        null,
+          [
+           // Validators.required,
+           // Validators.minLength(6),
+           // Validators.maxLength(20)
+          ]
+        ],
+        temperatureNotification: [
+          null,
+          [
+            //Validators.minLength(6),
+            //Validators.maxLength(20),
+          ]
+        ],
+        windSpeedNotification: [
+          null,
+          [
+            /* Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(20)*/
+          ]
+        ],
+        windDirectionNotification: [
+          '1',
+          [
+            /* Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(20)*/
+          ]
+        ],
+        soilTemperatureNotification: [
+          null,
+          [
+           /* Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(20)*/
+          ]
+        ],
+        soilMostureNotification: [
+          null,
+          [
+            /* Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(20)*/
+          ]
+        ],
+        humidityNotification: [
+          null,
+          [
+           /* Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(20)*/
+          ]
+        ],
+        rainGaugeNotification: [
+          null,
+          [
+            /* Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(20)*/
+        ],
+        ],
+        pressureNotification: [
+          null,
+          [
+            /* Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(20)*/
+          ]
+        ],
+        textNotification: [
+          null,
+          [
+           //  Validators.required,
+           // Validators.minLength(6),
+           // Validators.maxLength(20)
+          ]
+        ],
+        activeNotification: [
+          true,
+          [
+           // Validators.required,
+          ]
+        ],
+        notificationId: [
+          '',
+          [
+            //Validators.required,
+          ]
+        ],
+        temperatureWindSpeedOperator: [
+          '>',
+          [
+            //Validators.required,
+          ]
+        ],
+      }
+    );
+
+
     this.getUnusedNotificationTypes();
   }
+
+
 
   getUnusedNotificationTypes() {
 
@@ -144,49 +267,38 @@ export class ProfileComponent implements OnInit {
 
   this.notificationTypes.main = result;
 
- this.new.notificationTypes = this.notificationTypes.main;
+ this.notification.value.notificationType = this.notificationTypes.main;
 
 
 
   let myArray: any = [];
 
 
-  this.new.notificationTypes.forEach(function(item:any) {
+  this.notification.value.notificationType.forEach(function(item:any) {
     //console.log(item.name)
     myArray.push(item.name)
   });
 
-  this.new.notificationTypes = myArray;
+  this.notification.value.notificationType = myArray;
+
+ 
 
 
-  this.notificationTypes.main = this.new.notificationTypes;
-  console.log(this.notificationTypes.main.length);
-  //console.log('nepouziteeeeeeeeeeeeeeeeeeeeeeeeeeee')
-  //console.log(this.notificationTypes.main)
- // console.log('nepouziteeeeeeeeeeeeeeeeeeeeeeeeeeee')
+
+  this.notificationTypes.main = this.notification.value.notificationType;
+
+
 
 
   // set first radio button checked
-  this.new.notificationType = this.notificationTypes.main[0];
-
-  // reset input values
-  this.new.temperatureNotification = null;
-  this.new.windSpeedNotification = null;
-  this.new.windDirectionNotification = '1';
-  this.new.soilTemperatureNotification = null;
-  this.new.soilMostureNotification = null;
-  this.new.humidityNotification = null;
-  this.new.rainGaugeNotification = null;
-  this.new.pressureNotification = null;
-  this.new.textNotification = null;
-  this.new.temperatureWindSpeedOperator = '>';
-  this.new.descriptionNotification = null;
-
-
-
-
-
+  console.log('prva hodnota je tuuuuuuuuuuuuuuuuuuuuu');
+  this.notification.patchValue({'notificationType': this.notificationTypes.main[0]});
   }
+
+    // new values
+    get f(): { [key: string]: AbstractControl } {
+      return this.notification.controls;
+    }
 
   showToast(position: NbGlobalPosition, duration: number, message: string, title: string) {
     this.toastrService.success(message, title, { position, duration });
@@ -194,29 +306,48 @@ export class ProfileComponent implements OnInit {
 
   onSubmit(): void {
 
-    const { username, email , phone_number } = this.form;
+   // const { username, email , phone_number } = this.user;
 
-    this.authService.update(this.userId, username, email, phone_number).subscribe({
-      next: data => {
-        //console.log(data);
-        this.tokenStorage.saveToken(data.accessToken);
-        this.tokenStorage.saveUser(data);
-        this.isSuccessful = true;
-        this.isSignUpFailed = false;
-        this.roles = this.tokenStorage.getUser().roles;
-        this.showToast(this.logicalPositions.BOTTOM_END, 10000, 'Zmeny boli uložené!', 'Aktualizácia profilu');
-      },
-      error: err => {
-        console.log(err.error.message)
-        this.errorMessage = err.error.message;
-        this.isSignUpFailed = true;
-      }
-    });
+    console.log('stlacil som submit');
+
+    this.submitted = true;
+
+    this.setFieldsRequired();
+    
+      //this.notification.get('temperatureNotification')?.clearValidators();
+      //.notification.get('temperatureNotification')?.updateValueAndValidity();
+      
+    if (this.notification.invalid) {
+      console.log('prejde vyssia podmienka');
+      return;
+    }
+
+    else {
+      console.log('prisiel som sem');
+      console.log(this.notification.value.notificationType);
+
+      this.authService.addNewNotification(this.userId, Array(this.notification.value)).subscribe({
+        next: data => {
+          this.tokenStorage.saveToken(data.accessToken);
+          this.tokenStorage.saveUser(data);
+          this.roles = this.tokenStorage.getUser().roles;
+          this.closeDialog();
+  
+           // get new token data again
+           this.currentUser = this.tokenStorage.getUser();
+           this.userNotifications = this.currentUser.user_notifications;
+  
+           this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikácia bola pridaná!", "Pridanie notifikácie");
+           this.getUnusedNotificationTypes();
+        },
+        error: err => {
+          console.log(err.error.message)
+          this.errorMessage = err.error.message;
+          this.isSignUpFailed = true;
+        }
+      });
+    }
   }
-
-
-
-
 
   reloadPage(): void {
     window.location.reload();
@@ -247,6 +378,84 @@ export class ProfileComponent implements OnInit {
   };
 
 
+  setFieldsRequired() {
+    if(this.notification.value.notificationType == 'teplota') {
+      console.log('teploa je tu');
+      this.notification.get('temperatureNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+      this.notification.get('temperatureNotification')?.updateValueAndValidity();
+    }
+
+    else if(this.notification.value.notificationType == 'rychlost_vetra') {
+      this.notification.get('windSpeedNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+      this.notification.get('windSpeedNotification')?.updateValueAndValidity();
+    }
+
+    else if(this.notification.value.notificationType == 'teplota_pody') {
+      this.notification.get('soilTemperatureNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+      this.notification.get('soilTemperatureNotification')?.updateValueAndValidity();
+    }
+
+    else if(this.notification.value.notificationType == 'vlhkost_pody') {
+      this.notification.get('soilMostureNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+      this.notification.get('soilMostureNotification')?.updateValueAndValidity();
+    }
+
+    else if(this.notification.value.notificationType == 'vlhkost') {
+      this.notification.get('humidityNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+      this.notification.get('humidityNotification')?.updateValueAndValidity();
+    }
+
+    else if(this.notification.value.notificationType == 'dazdometer') {
+      this.notification.get('rainGaugeNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+      this.notification.get('rainGaugeNotification')?.updateValueAndValidity();
+    }
+
+    else if(this.notification.value.notificationType == 'tlak') {
+      this.notification.get('pressureNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+      this.notification.get('pressureNotification')?.updateValueAndValidity();
+    }
+
+   
+    this.notification.get('descriptionNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+    this.notification.get('descriptionNotification')?.updateValueAndValidity();
+
+    this.notification.get('textNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+    this.notification.get('textNotification')?.updateValueAndValidity();
+
+
+
+    
+     /* this.notification.get('temperatureNotification')?.clearValidators();
+      this.notification.get('temperatureNotification')?.updateValueAndValidity(); */
+    
+
+  }
+
+  resetFieldsRequired() {
+    this.notification.patchValue({'descriptionNotification': null});
+    this.notification.patchValue({'textNotification': null});
+
+    this.notification.get(['temperatureNotification', 'humidityNotification', 'pressureNotification', 'rainGaugeNotification',
+    'soilMostureNotification', 'windSpeedNotification', 'soilTemperatureNotification'])?.clearValidators();
+
+    this.notification.get(['temperatureNotification', 'humidityNotification', 'pressureNotification', 'rainGaugeNotification',
+    'soilMostureNotification', 'windSpeedNotification', 'soilTemperatureNotification'])?.updateValueAndValidity();
+
+    this.notification.get('descriptionNotification')?.clearValidators();
+    this.notification.get('descriptionNotification')?.updateValueAndValidity();
+
+    this.notification.get('textNotification')?.clearValidators();
+    this.notification.get('textNotification')?.updateValueAndValidity();
+
+
+
+  /* this.notification.get(['temperatureNotification', 'humidityNotification', 'pressureNotification', 'rainGaugeNotification',
+   'soilMostureNotification', 'windSpeedNotification', 'soilTemperatureNotification', 'descriptionNotification', 'textNotification'])?.updateValueAndValidity();*/
+
+ 
+ 
+  }
+
 
   getInputType() {
     if (this.showPassword) {
@@ -261,12 +470,16 @@ export class ProfileComponent implements OnInit {
   }
 
   open(dialog: TemplateRef<any>) {
+  
     this.dialogRef = this.dialogService.open(dialog, { context: 'Naozaj chcete vymazať notifikáciu?' });
 
-    this.new.temperatureNotification = null;
-    this.new.textNotification = null;
-    this.new.activeNotification = false;
+
+    console.log('FUNKCIA OPEEEN')
+
+  
+    
     this.getUnusedNotificationTypes();
+    this.resetFieldsRequired();
    // this.new.notificationType = notification.notification_type;
   }
 
@@ -299,22 +512,14 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  newNotification(): void {
+ /* newNotification(): void {
 
     const { notificationType, temperatureNotification , textNotification, descriptionNotification,
        activeNotification, windSpeedNotification,
        windDirectionNotification, soilTemperatureNotification, soilMostureNotification, humidityNotification, 
        rainGaugeNotification, pressureNotification, temperatureWindSpeedOperator } = this.new;
 
-      console.log("Description: "+descriptionNotification);
-      console.log("TemperatureL:"+temperatureNotification);
-      console.log("windspeed: "+windSpeedNotification);
-      console.log("operator: "+temperatureWindSpeedOperator);
-
-
-
-
-
+     
 
     this.authService.addNewNotification(this.userId, notificationType, temperatureNotification, textNotification, activeNotification,
       descriptionNotification, windSpeedNotification, windDirectionNotification, soilTemperatureNotification, soilMostureNotification, humidityNotification, 
@@ -341,10 +546,34 @@ export class ProfileComponent implements OnInit {
         this.isSignUpFailed = true;
       }
     });
-  }
+  }*/
 
   editNotificationSetValues(notification:any) {
-    console.log(notification)
+
+    this.isAddMode = false;
+
+    console.log('editacia je tuu');
+    console.log(notification);
+
+
+    this.notification.patchValue({'pressureNotification': notification.pressure_notification});
+    this.notification.patchValue({'notificationType': notification.notification_type});
+    this.notification.patchValue({'temperatureNotification': notification.temperature_notification});
+    this.notification.patchValue({'descriptionNotification': notification.description_notification});
+    this.notification.patchValue({'windSpeedNotification': notification.wind_speed_notification});
+    this.notification.patchValue({'windDirectionNotification': notification.wind_direction_notification});
+    this.notification.patchValue({'soilMostureNotification': notification.soil_mosture_notification});
+    this.notification.patchValue({'soilTemperatureNotification': notification.soil_temperature_notification});
+    this.notification.patchValue({'humidityNotification': notification.humidity_notification});
+    this.notification.patchValue({'rainGaugeNotification': notification.rain_gauge_notification});
+    this.notification.patchValue({'pressureNotification': notification.pressure_notification});
+    this.notification.patchValue({'textNotification': notification.text_notification});
+    this.notification.patchValue({'activeNotification': notification.active_notification});
+    this.notification.patchValue({'notificationType': notification.notification_type});
+    this.notification.patchValue({'notificationId': notification.id});
+
+
+
     this.new.temperatureNotification = notification.temperature_notification;
     this.new.descriptionNotification = notification.description_notification;
     this.new.windSpeedNotification = notification.wind_speed_notification;
@@ -362,9 +591,7 @@ export class ProfileComponent implements OnInit {
   }
 
   editNotification() {
-    console.log('//////////////////')
-
-    console.log('//////////////////')
+  
 
     const { notificationType, temperatureNotification , textNotification, descriptionNotification,
       activeNotification, windSpeedNotification,
@@ -372,12 +599,6 @@ export class ProfileComponent implements OnInit {
       rainGaugeNotification, pressureNotification, temperatureWindSpeedOperator, notificationId } = this.new;
 
 
-
-    console.log(notificationType)
-    console.log(temperatureNotification)
-    console.log(textNotification)
-    console.log(activeNotification)
-    console.log(notificationId)
 
     this.authService.editNotification(this.userId, notificationId, temperatureNotification, textNotification,
       activeNotification, descriptionNotification, windSpeedNotification,
@@ -408,18 +629,7 @@ export class ProfileComponent implements OnInit {
 
   changeGender(e:any) {
     console.log(e);
-    this.new.temperatureNotification = null;
-    this.new.windSpeedNotification = null;
-    this.new.windDirectionNotification = '1';
-    this.new.soilTemperatureNotification = null;
-    this.new.soilMostureNotification = null;
-    this.new.humidityNotification = null;
-    this.new.rainGaugeNotification = null;
-    this.new.pressureNotification = null;    
-    this.new.textNotification = null;
-    this.new.temperatureWindSpeedOperator = '>';
-    this.new.descriptionNotification = null;
-    this.new.activeNotification = false;
+    this.resetFieldsRequired();
   }
 
   getWindDirectionThingSpeak(windDirection:any) {

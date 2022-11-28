@@ -54,31 +54,33 @@ export class AuthService {
     }, httpOptions);
   }
 
-  addNewNotification(currentLoggedUserId: number, notificationType: string, temperatureNotification: string, textNotification: string, activeNotification: boolean,
-    descriptionNotification: string, windSpeedNotification: number, windDirectionNotification: string, soilTemperatureNotification: null,
-    soilMostureNotification: number, humidityNotification: number, rainGaugeNotification: number, pressureNotification: number,
-    temperatureWindSpeedOperator:string):  Observable<any> {
+  addNewNotification(userId: number, notification: Array<any>):  Observable<any> {
  
+    
 
     // when notification type is : Temperature, WindSpeed
+
+    console.log('idem pridat novu notifikaciuu');
+    console.log([...notification].shift().notificationType);
+
 
 
 
     return this.http.post(AUTH_API + 'addNewNotification', {
-      currentLoggedUserId,
-      notificationType,
-      temperatureNotification,
-      windDirectionNotification,
-      soilTemperatureNotification, 
-      soilMostureNotification,
-      humidityNotification, 
-      rainGaugeNotification, 
-      pressureNotification,
-      textNotification,
-      activeNotification,
-      windSpeedNotification, 
-      descriptionNotification, 
-      temperatureWindSpeedOperator
+      currentLoggedUserId : userId,
+      notificationType: [...notification].shift().notificationType,
+      temperatureNotification: [...notification].shift().temperatureNotification,
+      windDirectionNotification: [...notification].shift().windDirectionNotification,
+      soilTemperatureNotification: [...notification].shift().soilTemperatureNotification,
+      soilMostureNotification: [...notification].shift().soilMostureNotification,
+      humidityNotification: [...notification].shift().humidityNotification,
+      rainGaugeNotification: [...notification].shift().rainGaugeNotification,
+      pressureNotification: [...notification].shift().pressureNotification,
+      textNotification: [...notification].shift().textNotification,
+      activeNotification: [...notification].shift().activeNotification,
+      windSpeedNotification: [...notification].shift().windSpeedNotification,
+      descriptionNotification:  [...notification].shift().descriptionNotification,
+      temperatureWindSpeedOperator: [...notification].shift().temperatureWindSpeedOperator
     }, httpOptions);
   }
 

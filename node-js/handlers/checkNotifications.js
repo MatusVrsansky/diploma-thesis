@@ -122,8 +122,6 @@ module.exports = () => {
         
         notifications = await getAllNotifications();
 
-        console.log('funkcia bezi');
-
         for (let i = 0; i < notifications.length; i++)  {
             if(notifications[i].dataValues.notification_type == 'smer_vetra' && value == notifications[i].dataValues.wind_direction_notification &&
             notifications[i].dataValues.active_notification == true && notifications[i].dataValues.notification_sent == false) {
