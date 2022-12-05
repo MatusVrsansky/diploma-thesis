@@ -23,8 +23,4 @@ module.exports = function(app) {
     verifySignUp.checkRolesExisted
   ],
   controller.update);
-  app.post("/api/auth/removeNotification", controller.removeNotification);
-  app.post("/api/auth/addNewNotification", controller.addNewNotification);
-  app.post("/api/auth/editNotification", controller.editNotification);
-
 };

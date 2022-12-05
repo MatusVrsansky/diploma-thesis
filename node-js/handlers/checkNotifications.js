@@ -36,9 +36,9 @@ module.exports = () => {
         for (var i = 0; i < notifications.length; i++) {
 
             // teplota
-            if(notifications[i].dataValues.notification_type == 'teplota' && notifications[i].dataValues.active_notification == true && 
+            if(notifications[i].dataValues.notification_type == 'temperature' && notifications[i].dataValues.active_notification == true && 
             notifications[i].dataValues.notification_sent == false) {
-            console.log('teplota')
+           // console.log('teplota')
 
             switch(notifications[i].temperature_windSpeed_operator) {
                 case '>':
@@ -82,9 +82,9 @@ module.exports = () => {
         for (var i = 0; i < notifications.length; i++) {
 
             // rychlost vetra
-            if(notifications[i].dataValues.notification_type == 'rychlost_vetra' && notifications[i].dataValues.active_notification == true &&
+            if(notifications[i].dataValues.notification_type == 'windSpeed' && notifications[i].dataValues.active_notification == true &&
             notifications[i].dataValues.notification_sent == false) {
-            console.log('Rychlost vetra')
+            //console.log('Rychlost vetra')
     
             switch(notifications[i].dataValues.temperature_windSpeed_operator) {
                 case '>':
@@ -123,11 +123,11 @@ module.exports = () => {
         notifications = await getAllNotifications();
 
         for (let i = 0; i < notifications.length; i++)  {
-            if(notifications[i].dataValues.notification_type == 'smer_vetra' && value == notifications[i].dataValues.wind_direction_notification &&
+            if(notifications[i].dataValues.notification_type == 'windDirection' && value == notifications[i].dataValues.wind_direction_notification &&
             notifications[i].dataValues.active_notification == true && notifications[i].dataValues.notification_sent == false) {
                 Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                 sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification);
-                console.log(notifications[i].dataValues.wind_direction_notification);
+               // console.log(notifications[i].dataValues.wind_direction_notification);
             }
         }
     }
@@ -146,7 +146,7 @@ module.exports = () => {
             }
           })
           .then(user => {
-            console.log(user.email)
+           // console.log(user.email)
           
             emailAddress = user.email
           });
@@ -164,7 +164,7 @@ module.exports = () => {
             if (error) {
                 console.log(error);
             } else {
-                console.log('Email sent: '+ info.response);
+              //  console.log('Email sent: '+ info.response);
             }
         });
     }

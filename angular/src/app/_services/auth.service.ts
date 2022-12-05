@@ -1,5 +1,5 @@
 import { Injectable, Optional } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { NumberSymbol } from '@angular/common';
 const AUTH_API = 'http://localhost:8080/api/auth/';
@@ -42,75 +42,4 @@ export class AuthService {
       phone_number
     }, httpOptions);
   }
-
-  removeNotification(userId:number, notificationId: number): Observable<any> {
-
-    console.log(userId);
-    console.log(notificationId)
-   
-    return this.http.post(AUTH_API + 'removeNotification', {
-      userId,
-      notificationId
-    }, httpOptions);
-  }
-
-  addNewNotification(userId: number, notification: Array<any>):  Observable<any> {
- 
-    
-
-    // when notification type is : Temperature, WindSpeed
-
-    console.log('idem pridat novu notifikaciuu');
-    console.log([...notification].shift().notificationType);
-
-
-
-
-    return this.http.post(AUTH_API + 'addNewNotification', {
-      currentLoggedUserId : userId,
-      notificationType: [...notification].shift().notificationType,
-      temperatureNotification: [...notification].shift().temperatureNotification,
-      windDirectionNotification: [...notification].shift().windDirectionNotification,
-      soilTemperatureNotification: [...notification].shift().soilTemperatureNotification,
-      soilMostureNotification: [...notification].shift().soilMostureNotification,
-      humidityNotification: [...notification].shift().humidityNotification,
-      rainGaugeNotification: [...notification].shift().rainGaugeNotification,
-      pressureNotification: [...notification].shift().pressureNotification,
-      textNotification: [...notification].shift().textNotification,
-      activeNotification: [...notification].shift().activeNotification,
-      windSpeedNotification: [...notification].shift().windSpeedNotification,
-      descriptionNotification:  [...notification].shift().descriptionNotification,
-      temperatureWindSpeedOperator: [...notification].shift().temperatureWindSpeedOperator
-    }, httpOptions);
-  }
-
-  editNotification(currentLoggedUserId: number, notificationId: number, temperatureNotification: string, textNotification: string, activeNotification: boolean,
-    descriptionNotification: string, windSpeedNotification: number,
-    windDirectionNotification: string, soilTemperatureNotification: null,
-    soilMostureNotification: number, humidityNotification: number, rainGaugeNotification: number, pressureNotification: number,
-    notificationType: string, temperatureWindSpeedOperator:string):  Observable<any> {
-    console.log(notificationId)
-    console.log(temperatureNotification)
-    console.log(textNotification)
-    console.log(activeNotification)
-
-    return this.http.post(AUTH_API + 'editNotification', {
-      currentLoggedUserId,
-      notificationId,
-      temperatureNotification,
-      windDirectionNotification,
-      soilTemperatureNotification,
-      soilMostureNotification,
-      humidityNotification, 
-      rainGaugeNotification, 
-      pressureNotification,
-      textNotification,
-      activeNotification,
-      descriptionNotification,
-      windSpeedNotification,
-      temperatureWindSpeedOperator,
-      notificationType
-    }, httpOptions);
-  }
-  
 }

@@ -4,7 +4,6 @@
     <nb-tabset >
       <nb-tab tabTitle="Profil používateľa" tabIcon="person-outline" class="login_info" responsive>
         <div class="user-information">
-         
           <div class="card">
 						<div class="card-body">
 							<div class="row mb-3">
@@ -37,16 +36,12 @@
 						</div>
           </div>
         </div>
-      
       </nb-tab>
       <nb-tab tabTitle="Notifikácie" tabIcon="bell-outline" responsive>
         <div class="text-center">
- 
           <div>
-           
             <div class="table-responsive">
               <div class="table-wrapper">
-               
                 <div class="d-flex justify-content-start mb-2">
                   <div class="" nbTooltip="Máte pridané všetky typy notifikácii!"  [nbTooltipDisabled]="notificationTypes.main.length > 0" nbTooltipPlacement="top">
                     <button [disabled]="notificationTypes.main.length == 0" nbButton ngButton (click)="open(formNewNotification)" (click)="isAddMode = true" status="info">
@@ -59,382 +54,218 @@
                     <nb-card class="own-scroll">
                       <nb-card-header *ngIf="isAddMode">Nová notifikácia</nb-card-header>
                       <nb-card-header *ngIf="!isAddMode">Upraviť notifikáciu</nb-card-header>
-                      
-
+                    
                       <nb-card-body class="modal-notification">
                         <form [formGroup]="notification" (ngSubmit)="onSubmit()">
-                          <div class="form-group mb-3" *ngIf="isAddMode">
-                            <label>Typ notifikácie</label>
-                            <nb-radio-group formControlName="notificationType" name="ng-model-group">
-                              <nb-radio *ngFor="let type of notificationTypes.main;first as isFirst" [checked]="isFirst" [value]="type" (valueChange)="changeGender($event)">
-                                {{type}} 
-                                <nb-icon class="icon" *ngIf="type === 'teplota'" nbTooltip="Microbit posiela teplotu vo formáte čísla. Nastavte si, pre akú teplotu Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                                <nb-icon class="icon" *ngIf="type === 'rychlost_vetra'" nbTooltip="Microbit posiela rýchlost vetra fo vo formáte čsla. Nastavte si, pre akú intenzitu rýchlosti vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                                <nb-icon class="icon" *ngIf="type === 'smer_vetra'" nbTooltip="Microbit posiela smer vetra fo v textovom formáte. Nastavte si, pre akú smer vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                                <nb-icon class="icon" *ngIf="type === 'teplota_pody'" nbTooltip="Microbit posiela úroveň svetla v textovom formáte. Nastavte si, pre akú úroveň svetla Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                                <nb-icon class="icon" *ngIf="type === 'vlhkost_pody'" nbTooltip="Microbit posiela vlhkosť pôdy v textovom formáte. Nastavte si, pre vlhosť pôdy Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                                <nb-icon class="icon" *ngIf="type === 'vlhkost'" nbTooltip="Microbit posiela vlhkosť vo formáte čísla. Nastavte si, pre akú vlhkosť Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                                <nb-icon class="icon" *ngIf="type === 'dazdometer'" nbTooltip="Microbit pošle informáciu, keď vonku prší. Nastavte si, či Vám má aplikácia poslať notifikáciu, keď bude pršať" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                                <nb-icon class="icon" *ngIf="type === 'tlak'" nbTooltip="Microbit posiela tlak vo formáte čísla. Nastavte si, pre aký tlak Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                            
-                              </nb-radio>
-                            </nb-radio-group>
-                          </div>
 
-                          <div class="form-group mb-3" *ngIf="!isAddMode">
-                            <label>Typ notifikácie</label>
-                            
-                            <nb-radio-group disabled name="ng-model-group">
-                              <nb-radio [checked]="true" value="{{notification.value.notificationType}}">{{notification.value.notificationType}}
-                                <nb-icon class="icon" *ngIf="notification.value.notificationType === 'teplota'" nbTooltip="Microbit posiela teplotu vo formáte čísla. Nastavte si, pre akú teplotu Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                                <nb-icon class="icon" *ngIf="notification.value.notificationType === 'rychlost_vetra'" nbTooltip="Microbit posiela rýchlost vetra fo vo formáte čsla. Nastavte si, pre akú intenzitu rýchlosti vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                                <nb-icon class="icon" *ngIf="notification.value.notificationType === 'smer_vetra'" nbTooltip="Microbit posiela smer vetra fo v textovom formáte. Nastavte si, pre akú smer vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                                <nb-icon class="icon" *ngIf="notification.value.notificationType === 'teplota_pody'" nbTooltip="Microbit posiela úroveň svetla v textovom formáte. Nastavte si, pre akú úroveň svetla Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                                <nb-icon class="icon" *ngIf="notification.value.notificationType === 'vlhkost_pody'" nbTooltip="Microbit posiela vlhkosť pôdy v textovom formáte. Nastavte si, pre vlhosť pôdy Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                                <nb-icon class="icon" *ngIf="notification.value.notificationType === 'vlhkost'" nbTooltip="Microbit posiela vlhkosť vo formáte čísla. Nastavte si, pre akú vlhkosť Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                                <nb-icon class="icon" *ngIf="notification.value.notificationType === 'dazdometer'" nbTooltip="Microbit pošle informáciu, keď vonku prší. Nastavte si, či Vám má aplikácia poslať notifikáciu, keď bude pršať" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                                <nb-icon class="icon" *ngIf="notification.value.notificationType === 'tlak'" nbTooltip="Microbit posiela tlak vo formáte čísla. Nastavte si, pre aký tlak Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              </nb-radio>
-                            </nb-radio-group>
-                             
-                             <!-- <nb-radio formControlName="notificationType" disabled [checked]="true" [value]="" (valueChange)="changeGender($event)" >
-                               test
-                              </nb-radio>-->
-                               
-                              
-                              
-                           
-                          </div>
-
-                          <div class="form-group mb-3">
-                            <label>Popis notifikácie</label>
-                            <input
-                              type="text" placeholder="popis notifikácie"
-                              formControlName="descriptionNotification"
-                              class="form-control"
-                              [ngClass]="{ 'is-invalid': submitted && f['descriptionNotification'].errors }"
-                            />
-                            <div *ngIf="submitted && f['descriptionNotification'].errors" class="invalid-feedback">
-                              <div *ngIf="f['descriptionNotification'].errors['required']">Popis notifikácie je povinný</div>
-                              <div *ngIf="f['descriptionNotification'].errors['minlength']">
-                                Prihlasovacie meno / email musí mať najmenej 6 znakov
-                              </div>
-                              <div *ngIf="f['descriptionNotification'].errors['maxlength']">
-                                Prihlasovacie meno / email musí mať najviac 100 znakov
-                              </div>
-                            </div>
-                          </div>
-                          <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'teplota'" >
-                            <label>Teplota, pre ktorú poslať notifikáciu</label>
-                            <input
-                              type="text" placeholder="teplota notifikácie"
-                              formControlName="temperatureNotification"
-                              class="form-control"
-                              [ngClass]="{ 'is-invalid': submitted && f['temperatureNotification'].errors }"
-                            />
-                            <div *ngIf="submitted && f['temperatureNotification'].errors" class="invalid-feedback">
-                              <div *ngIf="f['temperatureNotification'].errors['required']">Teplota notifikácie je povinná</div>
-                              <div *ngIf="f['temperatureNotification'].errors['minlength']">
-                                Prihlasovacie meno / email musí mať najmenej 6 znakov
-                              </div>
-                              <div *ngIf="f['temperatureNotification'].errors['maxlength']">
-                                Prihlasovacie meno / email musí mať najviac 20 znakov
-                              </div>
-                            </div>
-                          </div>
-                          <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'rychlost_vetra'" >
-                            <label>Rýchlosť vetra, pre ktorú poslať notifikáciu</label>
-                            <input
-                              type="text" placeholder="rýchlosť vetra"
-                              formControlName="windSpeedNotification"
-                              class="form-control"
-                              [ngClass]="{ 'is-invalid': submitted && f['windSpeedNotification'].errors }"
-                            />
-                            <div *ngIf="submitted && f['windSpeedNotification'].errors" class="invalid-feedback">
-                              <div *ngIf="f['windSpeedNotification'].errors['required']">Rychlosť vetra je povinná, ak chcete poslať notifikáciu</div>
-                              <div *ngIf="f['windSpeedNotification'].errors['minlength']">
-                                Rychlosť vetra je povinná, ak chcete poslať notifikáciu musí mať najmenej 6 znakov
-                              </div>
-                              <div *ngIf="f['windSpeedNotification'].errors['maxlength']">
-                                Rychlosť vetra je povinná, ak chcete poslať notifikáciu musí mať najviac 20 znakov
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'vlhkost_pody'" >
-                            <label>Vlhkosť pôdy, pre ktorú poslať notifikáciu</label>
-                            <input
-                              type="text" placeholder="vlhkosť pôdy"
-                              formControlName="soilMostureNotification"
-                              class="form-control"
-                              [ngClass]="{ 'is-invalid': submitted && f['soilMostureNotification'].errors }"
-                            />
-                            <div *ngIf="submitted && f['soilMostureNotification'].errors" class="invalid-feedback">
-                              <div *ngIf="f['soilMostureNotification'].errors['required']">Vlhkosť pôdy je povinná, ak chcete poslať notifikáciu</div>
-                              <div *ngIf="f['soilMostureNotification'].errors['minlength']">
-                                Vlhkosť pôdy musí mať najmenej 6 znakov
-                              </div>
-                              <div *ngIf="f['soilMostureNotification'].errors['maxlength']">
-                                Vlhkosť pôdy musí mať najviac 20 znakov
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'vlhkost'" >
-                            <label>Vlhkosť, pre ktorú poslať notifikáciu</label>
-                            <input
-                              type="text" placeholder="vlhkosť"
-                              formControlName="humidityNotification"
-                              class="form-control"
-                              [ngClass]="{ 'is-invalid': submitted && f['humidityNotification'].errors }"
-                            />
-                            <div *ngIf="submitted && f['humidityNotification'].errors" class="invalid-feedback">
-                              <div *ngIf="f['humidityNotification'].errors['required']">Vlhkosť je povinná, ak chcete poslať notifikáciu</div>
-                              <div *ngIf="f['humidityNotification'].errors['minlength']">
-                                Vlhkosť musí mať najmenej 6 znakov
-                              </div>
-                              <div *ngIf="f['humidityNotification'].errors['maxlength']">
-                                Vlhkosť musí mať najviac 20 znakov
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'dazdometer'" >
-                            <label>Daždometer, pre ktorý poslať notifikáciu</label>
-                            <input
-                              type="text" placeholder="daždometer"
-                              formControlName="rainGaugeNotification"
-                              class="form-control"
-                              [ngClass]="{ 'is-invalid': submitted && f['rainGaugeNotification'].errors }"
-                            />
-                            <div *ngIf="submitted && f['rainGaugeNotification'].errors" class="invalid-feedback">
-                              <div *ngIf="f['rainGaugeNotification'].errors['required']">Daždometer je povinný, ak chcete poslať notifikáciu</div>
-                              <div *ngIf="f['rainGaugeNotification'].errors['minlength']">
-                                Daždometer musí mať najmenej 6 znakov
-                              </div>
-                              <div *ngIf="f['rainGaugeNotification'].errors['maxlength']">
-                                Daždometer musí mať najviac 20 znakov
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'tlak'" >
-                            <label>Tlak, pre ktorý poslať notifikáciu</label>
-                            <input
-                              type="text" placeholder="tlak"
-                              formControlName="pressureNotification"
-                              class="form-control"
-                              [ngClass]="{ 'is-invalid': submitted && f['pressureNotification'].errors }"
-                            />
-                            <div *ngIf="submitted && f['pressureNotification'].errors" class="invalid-feedback">
-                              <div *ngIf="f['pressureNotification'].errors['required']">Tlak je povinný, ak chcete poslať notifikáciu</div>
-                              <div *ngIf="f['pressureNotification'].errors['minlength']">
-                                Tlak musí mať najmenej 6 znakov
-                              </div>
-                              <div *ngIf="f['pressureNotification'].errors['maxlength']">
-                                Tlak musí mať najviac 20 znakov
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="form-group mb-3">
-                            <label>Text notifikácie</label>
-                            <input
-                              type="text" placeholder="text notifikácie"
-                              formControlName="textNotification"
-                              class="form-control"
-                              [ngClass]="{ 'is-invalid': submitted && f['textNotification'].errors }"
-                            />
-                            <div *ngIf="submitted && f['textNotification'].errors" class="invalid-feedback">
-                              <div *ngIf="f['textNotification'].errors['required']">Tlak je povinný, ak chcete poslať notifikáciu</div>
-                              <div *ngIf="f['textNotification'].errors['minlength']">
-                                Text notifikácie musí mať najmenej 6 znakov
-                              </div>
-                              <div *ngIf="f['textNotification'].errors['maxlength']">
-                                Text notifikácie musí mať najviac 20 znakov
-                              </div>
-                            </div>
-                          </div>
-
-
-
-
-
-
-                          <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'teplota_pody'" >
-                            <label>Teplota pôdy, pre ktorú poslať notifikáciu</label>
-                            <input
-                              type="text" placeholder="teplota pôdy"
-                              formControlName="soilTemperatureNotification"
-                              class="form-control"
-                              [ngClass]="{ 'is-invalid': submitted && f['soilTemperatureNotification'].errors }"
-                            />
-                            <div *ngIf="submitted && f['soilTemperatureNotification'].errors" class="invalid-feedback">
-                              <div *ngIf="f['soilTemperatureNotification'].errors['required']">Teplota pôdy je povinná, ak chcete poslať notifikáciu</div>
-                              <div *ngIf="f['soilTemperatureNotification'].errors['minlength']">
-                                Teplota pôdy musí mať najmenej 6 znakov
-                              </div>
-                              <div *ngIf="f['soilTemperatureNotification'].errors['maxlength']">
-                                Teplota pôdy musí mať najviac 20 znakov
-                              </div>
-                            </div>
-                          </div>
-                          <div class="form-group mb-3" *ngIf="notification.value.notificationType === 'smer_vetra'" >
-                            <label>Teplota pôdy, pre ktorú poslať notifikáciu</label>
-                            <nb-radio-group formControlName="windDirectionNotification">
-                              <nb-radio value="1">Severný vietor</nb-radio>
-                              <nb-radio value="2">Východný vieto</nb-radio>
-                              <nb-radio value="3">Južný vietor</nb-radio>
-                              <nb-radio value="4">Západný vietor</nb-radio>
-                              <nb-radio value="5">Severovýchodný vietor</nb-radio>
-                              <nb-radio value="6">Severozápadný vietor</nb-radio>
-                              <nb-radio value="7">Juchovýchodný vietor</nb-radio>
-                              <nb-radio value="8">Juhozápadný vietor</nb-radio>
-                            </nb-radio-group>
-                        </div>
-
-                        <div class="form-group mb-3" *ngIf="notification.value.notificationType !== 'smer_vetra'" >
-                          <label>Porovnávací operátor</label>
-                          <nb-radio-group formControlName="temperatureWindSpeedOperator">
-                            <nb-radio [value]="'>'">Väčšia</nb-radio>
-                            <nb-radio [value]="'<'">Menšia</nb-radio>
-                            <nb-radio [value]="'>='">Väčšia a rovná</nb-radio>
-                            <nb-radio [value]="'<='">Menšia a rovná</nb-radio>
-                          </nb-radio-group>
-                        </div>
-                        
-                        <div class="mb-1">
-                          <label>Nastaviť notifikáciu ako aktívnu?</label>
-                        </div>
-                        <div class="mb-4">
-                          <nb-toggle formControlName="activeNotification" name="ng-toggle"></nb-toggle>
-                        </div>
-
-
-
+                        <div class="form-group mb-3" *ngIf="isAddMode">
+                          <label>Typ notifikácie</label>
+                          <nb-radio-group formControlName="notificationType" name="ng-model-group">
+                            <nb-radio *ngFor="let notification of notificationTypes.main;first as isFirst" [checked]="isFirst" [value]="notification.type" (valueChange)="changeGender($event)">
+                              {{notification.name}} 
+                              <nb-icon class="icon" *ngIf="notification.type === 'temperature'" nbTooltip="Microbit posiela teplotu vo formáte čísla. Nastavte si, pre akú teplotu Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.type === 'windSpeed'" nbTooltip="Microbit posiela rýchlost vetra fo vo formáte čsla. Nastavte si, pre akú intenzitu rýchlosti vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.type === 'windDirection'" nbTooltip="Microbit posiela smer vetra fo v textovom formáte. Nastavte si, pre akú smer vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.type === 'soilTemperature'" nbTooltip="Microbit posiela úroveň svetla v textovom formáte. Nastavte si, pre akú úroveň svetla Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.type === 'soilMosture'" nbTooltip="Microbit posiela vlhkosť pôdy v textovom formáte. Nastavte si, pre vlhosť pôdy Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.type === 'humidity'" nbTooltip="Microbit posiela vlhkosť vo formáte čísla. Nastavte si, pre akú vlhkosť Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.type === 'rainGauge'" nbTooltip="Microbit pošle informáciu, keď vonku prší. Nastavte si, či Vám má aplikácia poslať notifikáciu, keď bude pršať" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.type === 'pressure'" nbTooltip="Microbit posiela tlak vo formáte čísla. Nastavte si, pre aký tlak Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
                           
-                          <div class="form-group">
-                            <button nbButton type="submit" class="btn btn-primary">Pridať</button>
-                            <button nbButton (click)="ref.close()" status="basic">Zrušiť</button>
-                           <!-- <button
-                              type="button"
-                              (click)="onReset()"
-                              class="btn btn-warning float-right ml-2"
-                            >
-                              Reset
-                            </button> -->
-                          </div>
-                        </form>
-                        <!--<form
-                        name="form"
-                        (ngSubmit)="n.form.valid && newNotification()"
-                        #n="ngForm"
-                        novalidate
-                      >
-                        <label>Typ notifikácie</label>
-                        
-                        <div class="mb-4">
-                          <nb-radio-group [(ngModel)]="new.notificationType" name="ng-model-group">
-                            <nb-radio *ngFor="let type of notificationTypes.main;first as isFirst" [checked]="isFirst" [value]="type" (valueChange)="changeGender($event)">
-                              {{type}} 
-                              <nb-icon class="icon" *ngIf="type === 'teplota'" nbTooltip="Microbit posiela teplotu vo formáte čísla. Nastavte si, pre akú teplotu Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="type === 'rychlost_vetra'" nbTooltip="Microbit posiela rýchlost vetra fo vo formáte čsla. Nastavte si, pre akú intenzitu rýchlosti vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="type === 'smer_vetra'" nbTooltip="Microbit posiela smer vetra fo v textovom formáte. Nastavte si, pre akú smer vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="type === 'teplota_pody'" nbTooltip="Microbit posiela úroveň svetla v textovom formáte. Nastavte si, pre akú úroveň svetla Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="type === 'vlhost_pody'" nbTooltip="Microbit posiela vlhkosť pôdy v textovom formáte. Nastavte si, pre vlhosť pôdy Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="type === 'vlhkost'" nbTooltip="Microbit posiela vlhkosť vo formáte čísla. Nastavte si, pre akú vlhkosť Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="type === 'dazdometer'" nbTooltip="Microbit pošle informáciu, keď vonku prší. Nastavte si, či Vám má aplikácia poslať notifikáciu, keď bude pršať" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="type === 'tlak'" nbTooltip="Microbit posiela tlak vo formáte čísla. Nastavte si, pre aký tlak Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              
                             </nb-radio>
-                          
                           </nb-radio-group>
                         </div>
 
-                        <div class="mb-4">
-                           <label>Popis notifikácie</label>
-                           <textarea nbInput name="description_notification"  [(ngModel)]="new.descriptionNotification" fullWidth
-                            placeholder="Popíšte, o čom bude Vaša notifikácia, aby ste mali lepší prehľad">
-                           </textarea>
+                        <div class="form-group mb-3" *ngIf="!isAddMode">
+                          <label>Typ notifikácie</label>
+                          <nb-radio-group disabled name="ng-model-group">
+                            <nb-radio [checked]="true" value="{{notification.value.notificationType}}">{{notification.value.notificationType}}
+                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'temperature'" nbTooltip="Microbit posiela teplotu vo formáte čísla. Nastavte si, pre akú teplotu Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'windSpeed'" nbTooltip="Microbit posiela rýchlost vetra fo vo formáte čsla. Nastavte si, pre akú intenzitu rýchlosti vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'windDirection'" nbTooltip="Microbit posiela smer vetra fo v textovom formáte. Nastavte si, pre akú smer vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'soilTemperature'" nbTooltip="Microbit posiela úroveň svetla v textovom formáte. Nastavte si, pre akú úroveň svetla Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'soilMosture'" nbTooltip="Microbit posiela vlhkosť pôdy v textovom formáte. Nastavte si, pre vlhosť pôdy Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'humidity'" nbTooltip="Microbit posiela vlhkosť vo formáte čísla. Nastavte si, pre akú vlhkosť Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'rainGauge'" nbTooltip="Microbit pošle informáciu, keď vonku prší. Nastavte si, či Vám má aplikácia poslať notifikáciu, keď bude pršať" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'pressure'" nbTooltip="Microbit posiela tlak vo formáte čísla. Nastavte si, pre aký tlak Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                            </nb-radio>
+                          </nb-radio-group>
                         </div>
-                        
-                        <div class="mb-4"  *ngIf="new.notificationType === 'teplota'" >
-                          <label for="temperature_notificatoin">Teplota, pre ktorú poslať notifikáciu</label>
-                        
-                          <input nbInput fullWidth  status="primary"
-                            type="number"
+
+                        <div class="form-group mb-3">
+                          <label>Popis notifikácie</label>
+                          <input
+                            type="text" placeholder="popis notifikácie"
+                            formControlName="descriptionNotification"
                             class="form-control"
-                            name="temperature_notificatoin"
-                            [(ngModel)]="new.temperatureNotification"
-                            required
-                            minlength="1"
-                            maxlength="20"
-                            #temperatureNotification="ngModel"
+                            [ngClass]="{ 'is-invalid': submitted && f['descriptionNotification'].errors }"
                           />
-                          <div class="alert alert-danger" *ngIf="temperatureNotification.errors && n.submitted">
-                            <div *ngIf="temperatureNotification.errors['required']">Teplota je povinná, ak chcete poslať notifikáciu</div>
-                            <div *ngIf="temperatureNotification.errors['minlength']">
-                              Teplota notifikácie musí mať aspoň 1 znak
+                          <div *ngIf="submitted && f['descriptionNotification'].errors" class="invalid-feedback">
+                            <div *ngIf="f['descriptionNotification'].errors['required']">Popis notifikácie je povinný</div>
+                            <div *ngIf="f['descriptionNotification'].errors['minlength']">
+                              Prihlasovacie meno / email musí mať najmenej 6 znakov
                             </div>
-                            <div *ngIf="temperatureNotification.errors['maxlength']">
-                              Teplota notifikácie musí mať najviac 20 znakov
-                            </div>
-                          </div>
-                        </div>
-        
-                        <div class="mb-4" *ngIf="new.notificationType === 'rychlost_vetra'" >
-                          <label for="wind_speed_notification">Rýchlosť vetra, pre ktorú poslať notifikáciu</label>
-                          <input nbInput fullWidth  status="primary"
-                            type="number"
-                            class="form-control"
-                            name="wind_speed_notification"
-                            [(ngModel)]="new.windSpeedNotification"
-                            required
-                            minlength="1"
-                            maxlength="20"
-                            #windSpeedNotification="ngModel"
-                          />
-                          <div class="alert alert-danger" *ngIf="windSpeedNotification.errors && n.submitted">
-                            <div *ngIf="windSpeedNotification.errors['required']">Rychlosť vetra je povinná, ak chcete poslať notifikáciu</div>
-                            <div *ngIf="windSpeedNotification.errors['minlength']">
-                              Teplota notifikácie musí mať aspoň 1 znak
-                            </div>
-                            <div *ngIf="windSpeedNotification.errors['maxlength']">
-                              Teplota notifikácie musí mať najviac 20 znakov
+                            <div *ngIf="f['descriptionNotification'].errors['maxlength']">
+                              Prihlasovacie meno / email musí mať najviac 100 znakov
                             </div>
                           </div>
                         </div>
 
-                        <div class="mb-4" *ngIf="new.notificationType === 'teplota_pody'" >
-                          <label for="soil_temperature_notification">Teplota pôdy, pre ktorú poslať notifikáciu</label>
-                          <input nbInput fullWidth  status="primary"
-                            type="number"
+                        <div class="form-group mb-3"  *ngIf="notification.value.notificationType == 'temperature'" >
+                          <label>Teplota, pre ktorú poslať notifikáciu</label>
+                          <input
+                            type="text" placeholder="teplota notifikácie"
+                            formControlName="temperatureNotification"
                             class="form-control"
-                            name="soil_temperature_notification"
-                            [(ngModel)]="new.soilTemperatureNotification"
-                            required
-                            minlength="1"
-                            maxlength="20"
-                            #soilTemperatureNotification="ngModel"
+                            [ngClass]="{ 'is-invalid': submitted && f['temperatureNotification'].errors }"
                           />
-                          <div class="alert alert-danger" *ngIf="soilTemperatureNotification.errors && n.submitted">
-                            <div *ngIf="soilTemperatureNotification.errors['required']">Teplota pôdy je povinná, ak chcete poslať notifikáciu</div>
-                            <div *ngIf="soilTemperatureNotification.errors['minlength']">
-                              Teplota pôdy musí mať aspoň 1 znak
+                          <div *ngIf="submitted && f['temperatureNotification'].errors" class="invalid-feedback">
+                            <div *ngIf="f['temperatureNotification'].errors['required']">Teplota notifikácie je povinná</div>
+                            <div *ngIf="f['temperatureNotification'].errors['minlength']">
+                              Prihlasovacie meno / email musí mať najmenej 6 znakov
                             </div>
-                            <div *ngIf="soilTemperatureNotification.errors['maxlength']">
+                            <div *ngIf="f['temperatureNotification'].errors['maxlength']">
+                              Prihlasovacie meno / email musí mať najviac 20 znakov
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'windSpeed'" >
+                          <label>Rýchlosť vetra, pre ktorú poslať notifikáciu</label>
+                          <input
+                            type="text" placeholder="rýchlosť vetra"
+                            formControlName="windSpeedNotification"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f['windSpeedNotification'].errors }"
+                          />
+                          <div *ngIf="submitted && f['windSpeedNotification'].errors" class="invalid-feedback">
+                            <div *ngIf="f['windSpeedNotification'].errors['required']">Rychlosť vetra je povinná, ak chcete poslať notifikáciu</div>
+                            <div *ngIf="f['windSpeedNotification'].errors['minlength']">
+                              Rychlosť vetra je povinná, ak chcete poslať notifikáciu musí mať najmenej 6 znakov
+                            </div>
+                            <div *ngIf="f['windSpeedNotification'].errors['maxlength']">
+                              Rychlosť vetra je povinná, ak chcete poslať notifikáciu musí mať najviac 20 znakov
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'soilMosture'" >
+                          <label>Vlhkosť pôdy, pre ktorú poslať notifikáciu</label>
+                          <input
+                            type="text" placeholder="vlhkosť pôdy"
+                            formControlName="soilMostureNotification"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f['soilMostureNotification'].errors }"
+                          />
+                          <div *ngIf="submitted && f['soilMostureNotification'].errors" class="invalid-feedback">
+                            <div *ngIf="f['soilMostureNotification'].errors['required']">Vlhkosť pôdy je povinná, ak chcete poslať notifikáciu</div>
+                            <div *ngIf="f['soilMostureNotification'].errors['minlength']">
+                              Vlhkosť pôdy musí mať najmenej 6 znakov
+                            </div>
+                            <div *ngIf="f['soilMostureNotification'].errors['maxlength']">
+                              Vlhkosť pôdy musí mať najviac 20 znakov
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'humidity'" >
+                          <label>Vlhkosť, pre ktorú poslať notifikáciu</label>
+                          <input
+                            type="text" placeholder="vlhkosť"
+                            formControlName="humidityNotification"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f['humidityNotification'].errors }"
+                          />
+                          <div *ngIf="submitted && f['humidityNotification'].errors" class="invalid-feedback">
+                            <div *ngIf="f['humidityNotification'].errors['required']">Vlhkosť je povinná, ak chcete poslať notifikáciu</div>
+                            <div *ngIf="f['humidityNotification'].errors['minlength']">
+                              Vlhkosť musí mať najmenej 6 znakov
+                            </div>
+                            <div *ngIf="f['humidityNotification'].errors['maxlength']">
+                              Vlhkosť musí mať najviac 20 znakov
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'rainGauge'" >
+                          <label>Daždometer, pre ktorý poslať notifikáciu</label>
+                          <input
+                            type="text" placeholder="daždometer"
+                            formControlName="rainGaugeNotification"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f['rainGaugeNotification'].errors }"
+                          />
+                          <div *ngIf="submitted && f['rainGaugeNotification'].errors" class="invalid-feedback">
+                            <div *ngIf="f['rainGaugeNotification'].errors['required']">Daždometer je povinný, ak chcete poslať notifikáciu</div>
+                            <div *ngIf="f['rainGaugeNotification'].errors['minlength']">
+                              Daždometer musí mať najmenej 6 znakov
+                            </div>
+                            <div *ngIf="f['rainGaugeNotification'].errors['maxlength']">
+                              Daždometer musí mať najviac 20 znakov
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'pressure'" >
+                          <label>Tlak, pre ktorý poslať notifikáciu</label>
+                          <input
+                            type="text" placeholder="tlak"
+                            formControlName="pressureNotification"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f['pressureNotification'].errors }"
+                          />
+                          <div *ngIf="submitted && f['pressureNotification'].errors" class="invalid-feedback">
+                            <div *ngIf="f['pressureNotification'].errors['required']">Tlak je povinný, ak chcete poslať notifikáciu</div>
+                            <div *ngIf="f['pressureNotification'].errors['minlength']">
+                              Tlak musí mať najmenej 6 znakov
+                            </div>
+                            <div *ngIf="f['pressureNotification'].errors['maxlength']">
+                              Tlak musí mať najviac 20 znakov
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                          <label>Text notifikácie</label>
+                          <input
+                            type="text" placeholder="text notifikácie"
+                            formControlName="textNotification"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f['textNotification'].errors }"
+                          />
+                          <div *ngIf="submitted && f['textNotification'].errors" class="invalid-feedback">
+                            <div *ngIf="f['textNotification'].errors['required']">Tlak je povinný, ak chcete poslať notifikáciu</div>
+                            <div *ngIf="f['textNotification'].errors['minlength']">
+                              Text notifikácie musí mať najmenej 6 znakov
+                            </div>
+                            <div *ngIf="f['textNotification'].errors['maxlength']">
+                              Text notifikácie musí mať najviac 20 znakov
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'soilTemperature'" >
+                          <label>Teplota pôdy, pre ktorú poslať notifikáciu</label>
+                          <input
+                            type="text" placeholder="teplota pôdy"
+                            formControlName="soilTemperatureNotification"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f['soilTemperatureNotification'].errors }"
+                          />
+                          <div *ngIf="submitted && f['soilTemperatureNotification'].errors" class="invalid-feedback">
+                            <div *ngIf="f['soilTemperatureNotification'].errors['required']">Teplota pôdy je povinná, ak chcete poslať notifikáciu</div>
+                            <div *ngIf="f['soilTemperatureNotification'].errors['minlength']">
+                              Teplota pôdy musí mať najmenej 6 znakov
+                            </div>
+                            <div *ngIf="f['soilTemperatureNotification'].errors['maxlength']">
                               Teplota pôdy musí mať najviac 20 znakov
                             </div>
                           </div>
                         </div>
 
-                        <div class="mb-4" *ngIf="new.notificationType === 'smer_vetra'" >
-                          <label for="wind_direction_notification">Smer vetra, pre ktorý poslať notifikáciu</label>
-                      
-                          <nb-radio-group
-                            name="wind_direction_notification"
-                            [(ngModel)]="new.windDirectionNotification"
-                            #windDirectionNotification="ngModel">
+                        <div class="form-group mb-3" *ngIf="notification.value.notificationType === 'windDirection'" >
+                          <label>Teplota pôdy, pre ktorú poslať notifikáciu</label>
+                          <nb-radio-group formControlName="windDirectionNotification">
                             <nb-radio value="1">Severný vietor</nb-radio>
                             <nb-radio value="2">Východný vieto</nb-radio>
                             <nb-radio value="3">Južný vietor</nb-radio>
@@ -444,147 +275,32 @@
                             <nb-radio value="7">Juchovýchodný vietor</nb-radio>
                             <nb-radio value="8">Juhozápadný vietor</nb-radio>
                           </nb-radio-group>
-                          <div class="alert alert-danger" *ngIf="windDirectionNotification.errors && n.submitted">
-                            <div *ngIf="windDirectionNotification.errors['required']">Smer vetra je povinný, ak chcete poslať notifikáciu</div>
-                          </div>
                         </div>
 
-                        <div class="mb-4" *ngIf="new.notificationType === 'vlhkost_pody'" >
-                          <label for="soil_mosture_notification">Vlhkosť pôdy, pre ktorú poslať notifikáciu</label>
-                          <input nbInput fullWidth  status="primary"
-                            type="number"
-                            class="form-control"
-                            name="soil_mosture_notification"
-                            [(ngModel)]="new.soilMostureNotification"
-                            required
-                            minlength="1"
-                            maxlength="20"
-                            #soilMostureNotification="ngModel"
-                          />
-                          <div class="alert alert-danger" *ngIf="soilMostureNotification.errors && n.submitted">
-                            <div *ngIf="soilMostureNotification.errors['required']">Vlhkosť pôdy je povinná, ak chcete poslať notifikáciu</div>
-                            <div *ngIf="soilMostureNotification.errors['minlength']">
-                              Vlhkosť pôdy musí mať aspoň 1 znak
-                            </div>
-                            <div *ngIf="soilMostureNotification.errors['maxlength']">
-                              Vlhkosť pôdy musí mať najviac 20 znakov
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="mb-4" *ngIf="new.notificationType === 'vlhkost'" >
-                          <label for="humidity_notification">Vlhkosť, pre ktorú poslať notifikáciu</label>
-                          <input nbInput fullWidth  status="primary"
-                            type="number"
-                            class="form-control"
-                            name="humidity_notification"
-                            [(ngModel)]="new.humidityNotification"
-                            required
-                            minlength="1"
-                            maxlength="20"
-                            #humidityNotification="ngModel"
-                          />
-                          <div class="alert alert-danger" *ngIf="humidityNotification.errors && n.submitted">
-                            <div *ngIf="humidityNotification.errors['required']">Vlhkosť je povinná, ak chcete poslať notifikáciu</div>
-                            <div *ngIf="humidityNotification.errors['minlength']">
-                              Vlhkosť musí mať aspoň 1 znak
-                            </div>
-                            <div *ngIf="humidityNotification.errors['maxlength']">
-                              Vlhkosť musí mať najviac 20 znakov
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="mb-4" *ngIf="new.notificationType === 'dazdometer'" >
-                          <label for="rain_gauge_notification">Daždometer, pre ktorú poslať notifikáciu</label>
-                          <input nbInput fullWidth  status="primary"
-                            type="number"
-                            class="form-control"
-                            name="rain_gauge_notification"
-                            [(ngModel)]="new.rainGaugeNotification"
-                            required
-                            minlength="1"
-                            maxlength="20"
-                            #rainGaugeNotification="ngModel"
-                          />
-                          <div class="alert alert-danger" *ngIf="rainGaugeNotification.errors && n.submitted">
-                            <div *ngIf="rainGaugeNotification.errors['required']">Daždometer je povinný, ak chcete poslať notifikáciu</div>
-                            <div *ngIf="rainGaugeNotification.errors['minlength']">
-                              Daždometer musí mať aspoň 1 znak
-                            </div>
-                            <div *ngIf="rainGaugeNotification.errors['maxlength']">
-                              Daždometer musí mať najviac 20 znakov
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="mb-4" *ngIf="new.notificationType === 'tlak'" >
-                          <label for="pressure_notification">Tlak, pre ktorý poslať notifikáciu</label>
-                          <input nbInput fullWidth  status="primary"
-                            type="number"
-                            class="form-control"
-                            name="pressure_notification"
-                            [(ngModel)]="new.pressureNotification"
-                            required
-                            minlength="1"
-                            maxlength="20"
-                            #pressureNotification="ngModel"
-                          />
-                          <div class="alert alert-danger" *ngIf="pressureNotification.errors && n.submitted">
-                            <div *ngIf="pressureNotification.errors['required']">Tlak je povinný, ak chcete poslať notifikáciu</div>
-                            <div *ngIf="pressureNotification.errors['minlength']">
-                              Tlak musí mať aspoň 1 znak
-                            </div>
-                            <div *ngIf="pressureNotification.errors['maxlength']">
-                              Tlak musí mať najviac 20 znakov
-                            </div>
-                          </div>
-                        </div>
-        
-                        <div class="mb-4">
-                          <label for="text_notification">Text notifikácie</label>
-                          <input nbInput fullWidth  status="primary"
-                            type="text"
-                            class="form-control"
-                            name="text_notification"
-                            [(ngModel)]="new.textNotification"
-                            required
-                            minlength="1"
-                            maxlength="10"
-                            #textNotification="ngModel"
-                          />
-                          <div class="alert alert-danger" *ngIf="textNotification.errors && n.submitted">
-                            <div *ngIf="textNotification.errors['required']">Text notifikácie je povinný</div>
-                            <div *ngIf="textNotification.errors['minlength']">
-                              Text notifikácie musí mať aspoň 1 znak
-                            </div>
-                            <div *ngIf="textNotification.errors['maxlength']">
-                              Text notifikácie musí mať najviac 100 znakov
-                            </div>
-                          </div>
-                        </div>
-                        <div *ngIf="new.notificationType === 'teplota' || new.notificationType === 'rychlost_vetra'" class="mb-2">
-                          <p *ngIf="new.notificationType === 'teplota'">Aká má byť teplota z meteostanice, aby sa poslala notifikácia oproti Vašej zadanej teplote?</p>
-                          <p *ngIf="new.notificationType === 'rychlost_vetra'">Aká by mala byť rýchlosť vetra z meteostanice, aby sa poslala notifikácia oproti Vašej zadanej rýchlosti vetra?</p>
-                          <nb-radio-group [(ngModel)]="new.temperatureWindSpeedOperator" name="ng-model-group-two" >
+                        <div class="form-group mb-3" *ngIf="notification.value.notificationType !== 'windDirection'" >
+                          <label>Porovnávací operátor</label>
+                          <nb-radio-group formControlName="temperatureWindSpeedOperator">
                             <nb-radio [value]="'>'">Väčšia</nb-radio>
                             <nb-radio [value]="'<'">Menšia</nb-radio>
                             <nb-radio [value]="'>='">Väčšia a rovná</nb-radio>
                             <nb-radio [value]="'<='">Menšia a rovná</nb-radio>
                           </nb-radio-group>
                         </div>
+                      
                         <div class="mb-1">
-                          <label for="text_notification">Nastaviť notifikáciu aktívnu?</label>
+                          <label>Nastaviť notifikáciu ako aktívnu?</label>
                         </div>
                         <div class="mb-4">
-                          <nb-toggle [(ngModel)]="new.activeNotification" name="ng-toggle"></nb-toggle>
+                          <nb-toggle formControlName="activeNotification" name="ng-toggle"></nb-toggle>
                         </div>
-                      
-                        <button nbButton status="success" class="mr-2">Pridať</button>
-                        <button nbButton (click)="ref.close()" status="basic">Zrušiť</button>
-                      
-                        </form>-->
-                      </nb-card-body>
+
+                        <div class="form-group">
+                          <button nbButton *ngIf="isAddMode" type="submit" class="btn btn-primary">Pridať</button>
+                          <button nbButton *ngIf="!isAddMode" type="submit" class="btn btn-primary">Upraviť</button>
+                          <button nbButton (click)="ref.close()" status="basic">Zrušiť</button>
+                        </div>
+                      </form>
+                    </nb-card-body>
         
                     
                       </nb-card>
@@ -606,273 +322,23 @@
                       <tbody>
                           <tr *ngFor="let item of userNotifications; index as i">
                             <td>{{i+1}}</td>
-                            <td>{{item.notification_type}}</td>
+                            <td>{{getNotificationName(item.notification_type)}}</td>
                             <td>{{item.description_notification}}</td>
                             
-                           
-                              <td *ngIf="item.notification_type === 'teplota'">{{item.temperature_notification}} °C</td>
-                              <td *ngIf="item.notification_type === 'rychlost_vetra'">{{item.wind_speed_notification}}</td>
-                              <td *ngIf="item.notification_type === 'dazdometer'">{{item.rain_gauge_notification}}</td>
-                              <td *ngIf="item.notification_type === 'smer_vetra'">{{getWindDirectionThingSpeak(item.wind_direction_notification)}}</td>
-                              <td *ngIf="item.notification_type === 'vlhkost'">{{item.humidity_notification}}</td>
-                              <td *ngIf="item.notification_type === 'tlak'">{{item.pressure_notification}}</td>
-                              <td *ngIf="item.notification_type === 'teplota_pody'">{{item.soil_temperature_notification}}</td>
-                              <td *ngIf="item.notification_type === 'vlhost_pody'">{{item.soil_mosture_notification}}</td>
-                             
-                             
+                            <td *ngIf="item.notification_type === 'temperature'">{{item.temperature_notification}} °C</td>
+                            <td *ngIf="item.notification_type === 'windSpeed'">{{item.wind_speed_notification}}</td>
+                            <td *ngIf="item.notification_type === 'rainGauge'">{{item.rain_gauge_notification}}</td>
+                            <td *ngIf="item.notification_type === 'windDirection'">{{getWindDirectionThingSpeak(item.wind_direction_notification)}}</td>
+                            <td *ngIf="item.notification_type === 'humidity'">{{item.humidity_notification}}</td>
+                            <td *ngIf="item.notification_type === 'pressure'">{{item.pressure_notification}}</td>
+                            <td *ngIf="item.notification_type === 'soilTemperature'">{{item.soil_temperature_notification}}</td>
+                            <td *ngIf="item.notification_type === 'soilMosture'">{{item.soil_mosture_notification}}</td>
                           
-                           
                             <td>{{item.text_notification}}</td>
                             <td>{{item.active_notification == 1? 'Áno': 'Nie'}}</td>
                             <td>
-                             <!-- <a href="#" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>-->
-                              <!--<a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                              <a href="#" class="delete" title="Delete" data-toggle="tooltip" data-toggle="modal" data-target="#exampleModal"><i class="material-icons">&#xE872;</i></a>
-                              -->
-                              
-                              <!--<button nbButton ngButton (click)="open(formEditNotification)" (click)="editNotificationSetValues(item)" class="mb-2" status="primary">Editovať</button>
-                              -->
-                                <button nbButton ngButton (click)="open(formNewNotification)" (click)="editNotificationSetValues(item)" class="mb-2" status="primary">Editovať</button>
+                              <button nbButton ngButton (click)="open(formNewNotification)" (click)="editNotificationSetValues(item)" class="mb-2" status="primary">Editovať</button>
                               <button nbButton (click)="open(dialog)" status="danger">Vymazať</button>
-                              <ng-template #formEditNotification let-data let-ref="dialogRef">
-                                <nb-card class="own-scroll">
-                                  <nb-card-header>Upraviť notifikáciu</nb-card-header>
-                            
-                                  <nb-card-body class="modal-notification">
-                                    
-                                  <!--  <form
-                                    name="form"
-                                    (ngSubmit)="n.form.valid && editNotification()"
-                                    #n="ngForm"
-                                    novalidate
-                                  >
-                                    <div class="mb-4">
-                                      <label>Typ notifikácie</label>
-                                      <div class="mb-4">
-                                        <nb-radio-group disabled  [(ngModel)]="new.notificationType" name="ng-model-group">
-                                          <nb-radio  [value]="new.notificationType">
-                                            {{new.notificationType}}
-                                          </nb-radio>
-                                        </nb-radio-group>
-                                      </div>
-                                    </div>
-        
-                                    <div class="mb-4">
-                                      <label>Popis notifikácie</label>
-                                      <textarea nbInput name="description_notification"  [(ngModel)]="new.descriptionNotification" fullWidth
-                                       placeholder="Popíšte, o čom bude Vaša notifikácia, aby ste mali lepší prehľad">
-                                      </textarea>
-                                   </div>
-        
-                                    <div class="mb-4"  *ngIf="new.notificationType === 'teplota'" >
-                                      <label for="temperature_notificatoin">Teplota, pre ktorú poslať notifikáciu</label>
-                                    
-                                      <input nbInput fullWidth  status="primary"
-                                        type="number"
-                                        class="form-control"
-                                        name="temperature_notificatoin"
-                                        [(ngModel)]="new.temperatureNotification"
-                                        required
-                                        minlength="1"
-                                        maxlength="20"
-                                        #temperatureNotification="ngModel"
-                                      />
-                                      <div class="alert alert-danger" *ngIf="temperatureNotification.errors && n.submitted">
-                                        <div *ngIf="temperatureNotification.errors['required']">Teplota je povinná, ak chcete poslať notifikáciu</div>
-                                        <div *ngIf="temperatureNotification.errors['minlength']">
-                                          Teplota notifikácie musí mať aspoň 1 znak
-                                        </div>
-                                        <div *ngIf="temperatureNotification.errors['maxlength']">
-                                          Teplota notifikácie musí mať najviac 20 znakov
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="mb-4" *ngIf="new.notificationType === 'smer_vetra'" >
-                                      <label for="wind_direction_notification">Smer vetra, pre ktorý poslať notifikácie</label>
-                                  
-                                      <nb-radio-group
-                                        name="wind_direction_notification"
-                                        [(ngModel)]="new.windDirectionNotification"
-                                        #windDirectionNotification="ngModel">
-                                        <nb-radio value="1">Severný vietor</nb-radio>
-                                        <nb-radio value="2">Východný vieto</nb-radio>
-                                        <nb-radio value="3">Južný vietor</nb-radio>
-                                        <nb-radio value="4">Západný vietor</nb-radio>
-                                        <nb-radio value="5">Severovýchodný vietor</nb-radio>
-                                        <nb-radio value="6">Severozápadný vietor</nb-radio>
-                                        <nb-radio value="7">Juchovýchodný vietor</nb-radio>
-                                        <nb-radio value="8">Juhozápadný vietor</nb-radio>
-                                      </nb-radio-group>
-                                      <div class="alert alert-danger" *ngIf="windDirectionNotification.errors && n.submitted">
-                                        <div *ngIf="windDirectionNotification.errors['required']">Smer vetra je povinný, ak chcete poslať notifikáciu</div>
-                                      </div>
-                                    </div>
-
-                                    <div class="mb-4" *ngIf="new.notificationType === 'teplota_pody'" >
-                                      <label for="soil_temperature_notification">Teplota pôdy, pre ktorú poslať notifikáciu</label>
-                                      <input nbInput fullWidth  status="primary"
-                                        type="number"
-                                        class="form-control"
-                                        name="soil_temperature_notification"
-                                        [(ngModel)]="new.soilTemperatureNotification"
-                                        required
-                                        minlength="1"
-                                        maxlength="20"
-                                        #soilTemperatureNotification="ngModel"
-                                      />
-                                      <div class="alert alert-danger" *ngIf="soilTemperatureNotification.errors && n.submitted">
-                                        <div *ngIf="soilTemperatureNotification.errors['required']">Teplota pôdy je povinná, ak chcete poslať notifikáciu</div>
-                                        <div *ngIf="soilTemperatureNotification.errors['minlength']">
-                                          Teplota pôdy musí mať aspoň 1 znak
-                                        </div>
-                                        <div *ngIf="soilTemperatureNotification.errors['maxlength']">
-                                          Teplota pôdy musí mať najviac 20 znakov
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="mb-4" *ngIf="new.notificationType === 'vlhkost_pody'" >
-                                      <label for="soil_mosture_notification">Vlhkosť pôdy, pre ktorú poslať notifikácie</label>
-                                      <input nbInput fullWidth  status="primary"
-                                        type="number"
-                                        class="form-control"
-                                        name="soil_mosture_notification"
-                                        [(ngModel)]="new.soilMostureNotification"
-                                        required
-                                        minlength="1"
-                                        maxlength="20"
-                                        #soilMostureNotification="ngModel"
-                                      />
-                                      <div class="alert alert-danger" *ngIf="soilMostureNotification.errors && n.submitted">
-                                        <div *ngIf="soilMostureNotification.errors['required']">Vlhkosť pôdy je povinná, ak chcete poslať notifikáciu</div>
-                                        <div *ngIf="soilMostureNotification.errors['minlength']">
-                                          Vlhkosť pôdy musí mať aspoň 1 znak
-                                        </div>
-                                        <div *ngIf="soilMostureNotification.errors['maxlength']">
-                                          Vlhkosť pôdy musí mať najviac 20 znakov
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="mb-4" *ngIf="new.notificationType === 'vlhkost'" >
-                                      <label for="humidity_notification">Vlhkosť, pre ktorú poslať notifikáciu</label>
-                                      <input nbInput fullWidth  status="primary"
-                                        type="number"
-                                        class="form-control"
-                                        name="humidity_notification"
-                                        [(ngModel)]="new.humidityNotification"
-                                        required
-                                        minlength="1"
-                                        maxlength="20"
-                                        #humidityNotification="ngModel"
-                                      />
-                                      <div class="alert alert-danger" *ngIf="humidityNotification.errors && n.submitted">
-                                        <div *ngIf="humidityNotification.errors['required']">Vlhkosť je povinná, ak chcete poslať notifikáciu</div>
-                                        <div *ngIf="humidityNotification.errors['minlength']">
-                                          Vlhkosť musí mať aspoň 1 znak
-                                        </div>
-                                        <div *ngIf="humidityNotification.errors['maxlength']">
-                                          Vlhkosť musí mať najviac 20 znakov
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="mb-4" *ngIf="new.notificationType === 'dazdometer'" >
-                                      <label for="rain_gauge_notification">Daždometer, pre ktorú poslať notifikácie</label>
-                                      <input nbInput fullWidth  status="primary"
-                                        type="number"
-                                        class="form-control"
-                                        name="rain_gauge_notification"
-                                        [(ngModel)]="new.rainGaugeNotification"
-                                        required
-                                        minlength="1"
-                                        maxlength="20"
-                                        #rainGaugeNotification="ngModel"
-                                      />
-                                      <div class="alert alert-danger" *ngIf="rainGaugeNotification.errors && n.submitted">
-                                        <div *ngIf="rainGaugeNotification.errors['required']">Daždometer je povinný, ak chcete poslať notifikáciu</div>
-                                        <div *ngIf="rainGaugeNotification.errors['minlength']">
-                                          Daždometer musí mať aspoň 1 znak
-                                        </div>
-                                        <div *ngIf="rainGaugeNotification.errors['maxlength']">
-                                          Daždometer musí mať najviac 20 znakov
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="mb-4" *ngIf="new.notificationType === 'tlak'" >
-                                      <label for="pressure_notification">Tlak, pre ktorý poslať notifikáciu</label>
-                                      <input nbInput fullWidth  status="primary"
-                                        type="number"
-                                        class="form-control"
-                                        name="pressure_notification"
-                                        [(ngModel)]="new.pressureNotification"
-                                        required
-                                        minlength="1"
-                                        maxlength="20"
-                                        #pressureNotification="ngModel"
-                                      />
-                                      <div class="alert alert-danger" *ngIf="pressureNotification.errors && n.submitted">
-                                        <div *ngIf="pressureNotification.errors['required']">Tlak je povinný, ak chcete poslať notifikáciu</div>
-                                        <div *ngIf="pressureNotification.errors['minlength']">
-                                          Tlak musí mať aspoň 1 znak
-                                        </div>
-                                        <div *ngIf="pressureNotification.errors['maxlength']">
-                                          Tlak musí mať najviac 20 znakov
-                                        </div>
-                                      </div>
-                                    </div>
-        
-                            
-                                    <div class="mb-4">
-                                      <label for="text_notification">Text notifikácie</label>
-                                      <input nbInput fullWidth  status="primary"
-                                        type="text"
-                                        class="form-control"
-                                        name="text_notification"
-                                        [(ngModel)]="new.textNotification"
-                                        required
-                                        minlength="1"
-                                        maxlength="10"
-                                        #textNotification="ngModel"
-                                      />
-                                      <div class="alert alert-danger" *ngIf="textNotification.errors && n.submitted">
-                                        <div *ngIf="textNotification.errors['required']">Text notifikácie je povinný</div>
-                                        <div *ngIf="textNotification.errors['minlength']">
-                                          Text notifikácie musí mať aspoň 1 znak
-                                        </div>
-                                        <div *ngIf="textNotification.errors['maxlength']">
-                                          Text notifikácie musí mať najviac 10 znakov
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="mb-1">
-                                      <label for="text_notification" class="active_notification">Nastaviť notifikáciu aktívnu?</label>
-                                    </div>
-                                    <div class="mb-4"> <nb-toggle [(ngModel)]="new.activeNotification" name="ng-toggle"></nb-toggle></div>
-                                    <div *ngIf="new.notificationType === 'teplota' || new.notificationType === 'rychlost_vetra'" class="mb-4 ml-4">
-                                      <p *ngIf="new.notificationType === 'teplota'">Aká má byť teplota z meteostanice, aby sa poslala notifikácia oproti Vašej zadanej teplote?</p>
-                                      <p *ngIf="new.notificationType === 'rychlost_vetra'">Aká by mala byť rýchlosť vetra z meteostanice, aby sa poslala notifikácia oproti Vašej zadanej rýchlosti vetra?</p>
-                                      <nb-radio-group [(ngModel)]="new.temperatureWindSpeedOperator" name="ng-model-group-two" >
-                                        <nb-radio [value]="'>'">Väčšia</nb-radio>
-                                        <nb-radio [value]="'<'">Menšia</nb-radio>
-                                        <nb-radio [value]="'>='">Väčšia a rovná</nb-radio>
-                                        <nb-radio [value]="'<='">Menšia a rovná</nb-radio>
-                                      </nb-radio-group>
-                                    </div>
-        
-                                    <button nbButton status="success" class="mr-2">Uložiť</button>
-                                    <button nbButton (click)="ref.close()" status="basic">Zrušiť</button>
-                                  
-                                    </form>-->
-                                    
-                             
-                                  </nb-card-body>
-                                  
-                                
-                                  </nb-card>
-                                </ng-template>
                             </td>
                             <!-- Dialog for removing certain notification -->
                             <ng-template #dialog let-data let-ref="dialogRef">

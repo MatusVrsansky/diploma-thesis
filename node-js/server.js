@@ -67,6 +67,7 @@ scheduler.initCrons(config);
   // routes
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
+require('./routes/notifications.routes')(app);
 
 
 http.listen(process.env.PORT || 3000, () => {
