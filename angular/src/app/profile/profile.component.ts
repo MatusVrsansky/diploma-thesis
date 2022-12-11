@@ -65,18 +65,9 @@ export class ProfileComponent implements OnInit {
      private dialogService: NbDialogService, private userService: UserService, private notificationsService: NotificationService, @Optional() private dialogRef: NbDialogRef<any>, private formBuilder: FormBuilder) { }
   
   
-     ngOnInit(): void {
+  ngOnInit(): void {
 
-   
-      this.notificationsService.getAllNotifications(this.userId).subscribe({
-        next: data => {
-          console.log(data.user_notifications);
-          this.userNotifications = data.user_notifications;
-        },
-        error: err => {
-          console.log(err);
-        }
-      });
+    this.findAll();
 
     this.usedNotifications = {
       main : {},
@@ -290,7 +281,7 @@ export class ProfileComponent implements OnInit {
       this.notificationsService.addNewNotification(this.userId, Array(this.notification.value)).subscribe({
         next: data => {
           console.log(data.user_notifications);
-        this.userNotifications = data.user_notifications;
+          this.findAll();
           this.closeDialog();
           this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikácia bola pridaná!", "Pridanie notifikácie");
           this.getUnusedNotificationTypes();
@@ -319,7 +310,7 @@ export class ProfileComponent implements OnInit {
 
       this.notificationsService.editNotification(this.userId, Array(this.notification.value)).subscribe({
         next: data => {
-          this.userNotifications = data.user_notifications;
+          this.findAll();
           this.closeDialog();
            this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikácia bola upravená!", "Úprava notifikácie");
         },
@@ -333,6 +324,18 @@ export class ProfileComponent implements OnInit {
 
   }
    
+  }
+
+  findAll() {
+    this.notificationsService.getAllNotifications(this.userId).subscribe({
+      next: data => {
+        console.log(data.user_notifications);
+        this.userNotifications = data.user_notifications;
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
   }
 
   reloadPage(): void {
@@ -497,7 +500,7 @@ export class ProfileComponent implements OnInit {
 
     this.notificationsService.removeNotification(this.currentUser.id, id).subscribe({
       next: data => {
-        this.userNotifications = data.user_notifications;
+        this.findAll();
         this.closeDialog();
         this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikácia bola odstránená!", "Odstránenie notifikácie");
         this.getUnusedNotificationTypes();

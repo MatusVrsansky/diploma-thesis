@@ -52,8 +52,8 @@
                   <!-- Dialog for removing certain notification -->
                   <ng-template #formNewNotification let-data let-ref="dialogRef" hasScroll="true">
                     <nb-card class="own-scroll">
-                      <nb-card-header *ngIf="isAddMode">Nová notifikácia</nb-card-header>
-                      <nb-card-header *ngIf="!isAddMode">Upraviť notifikáciu</nb-card-header>
+                      <nb-card-header *ngIf="isAddMode"><h6>Nová notifikácia</h6></nb-card-header>
+                      <nb-card-header *ngIf="!isAddMode"><h6>Upraviť notifikáciu</h6></nb-card-header>
                     
                       <nb-card-body class="modal-notification">
                         <form [formGroup]="notification" (ngSubmit)="onSubmit()">
@@ -295,9 +295,9 @@
                         </div>
 
                         <div class="form-group">
-                          <button nbButton *ngIf="isAddMode" type="submit" class="btn btn-primary">Pridať</button>
-                          <button nbButton *ngIf="!isAddMode" type="submit" class="btn btn-primary">Upraviť</button>
-                          <button nbButton (click)="ref.close()" status="basic">Zrušiť</button>
+                          <button nbButton *ngIf="isAddMode" type="submit" status="primary">Pridať</button>
+                          <button nbButton *ngIf="!isAddMode" type="submit" status="info">Upraviť</button>
+                          <button nbButton (click)="ref.close()" status="basic" class="cancel-button">Zrušiť</button>
                         </div>
                       </form>
                     </nb-card-body>
@@ -337,17 +337,17 @@
                             <td>{{item.text_notification}}</td>
                             <td>{{item.active_notification == 1? 'Áno': 'Nie'}}</td>
                             <td>
-                              <button nbButton ngButton (click)="open(formNewNotification)" (click)="editNotificationSetValues(item)" class="mb-2" status="primary">Editovať</button>
+                              <button nbButton ngButton (click)="open(formNewNotification)" (click)="editNotificationSetValues(item)" class="mb-2" status="info">Upraviť</button>
                               <button nbButton (click)="open(dialog)" status="danger">Vymazať</button>
                             </td>
                             <!-- Dialog for removing certain notification -->
                             <ng-template #dialog let-data let-ref="dialogRef">
-                              <nb-card>
-                                <nb-card-header class=" p-2 mb-2">Vymazanie notifikácie</nb-card-header>
+                              <nb-card class="delete-notification">
+                                <nb-card-header class="p-2 mb-2"><h6>Vymazať notifikáciu</h6></nb-card-header>
                                 <nb-card-body class="remove-notification mb-2">{{ data }}</nb-card-body>
                                 <div class="p-2">
-                                  <button nbButton (click)="removeNotification(item.id)"  status="danger" >Áno</button>
-                                  <button nbButton (click)="ref.close()" status="basic" class="mybutton">Nie</button>
+                                  <button nbButton (click)="removeNotification(item.id)"  status="danger" >Vymazať</button>
+                                  <button nbButton (click)="ref.close()" status="basic" class="mybutton">Zrušiť</button>
                                 </div>
                               </nb-card>
                             </ng-template>

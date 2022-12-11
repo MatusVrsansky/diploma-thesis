@@ -46,7 +46,7 @@ exports.addNewNotification = (req, res) => {
             return res.status(404).send({ message: "User Not found." });
           }
         
-         
+          // vratit ID novej notifikacie alebo objekt novej notifikaie
           Notifications.findAll({
             where: {
               user_id: user.id 
@@ -105,7 +105,7 @@ exports.editNotification = (req, res) => {
       }
       
     
-      
+      // vratit void
       Notifications.findAll({
         where: {
           user_id: user.id 
@@ -145,7 +145,7 @@ exports.removeNotification = (req, res) => {
         return res.status(404).send({ message: "User Not found." });
       }
       
-      
+    // vratit void  
     Notifications.findAll({
       where: {
         user_id: user.id 

@@ -30,7 +30,7 @@ nb-card {
 }
 
 .table, th, td {
-    border: 0.2rem solid bisque;
+    border: 0.2rem solid cornflowerblue;
   }
 
 .table-responsive {
@@ -219,4 +219,12 @@ table.table td i {
 .text-secondary {
     font-size: 18px;
     margin-top: 2px;
+}
+
+.cancel-button {
+    margin-left: 8px;
+}
+
+.delete-notification {
+    padding: 1rem 0.4rem;
 }

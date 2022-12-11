@@ -1,9 +1,9 @@
 
 <nb-layout>
 
-  <nb-layout-header fixed >
+  <nb-layout-header fixed class="header">
   <!-- Insert header here -->
-  <nav class="navbar navbar-expand fixed-padding header">
+  <!--<nav class="navbar navbar-expand fixed-padding header">
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
       <li class="nav-item">
         <a href="/home" class="nav-link" routerLink="home">Domov</a>
@@ -37,7 +37,61 @@
         <a href class="nav-link" (click)="logout()">Odhlásiť sa</a>
       </li>
     </ul>
+  </nav>-->
+
+    <nav class="navbar navbar-expand-lg navbar-white bg-white">
+      <div class="">
+          <span class="w-100 d-lg-none d-block"><!-- hidden spacer to center brand on mobile --></span>
+          <!--<a class="navbar-brand d-none d-lg-inline-block text-primary logo" href="#">
+              WeatherBit
+             < <img src="../assets/images/png-ttt.png"> 
+          </a> -->
+          <div class="w-100 text-right">
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+          </div>
+      </div>
+      <div class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar">
+          <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a href="/home" routerLink="home"  routerLinkActive="active"> <nb-icon icon="home"></nb-icon>Domov</a>
+      </li>
+      <li class="nav-item">
+        <a href="/history" routerLink="history" routerLinkActive="active"><nb-icon icon="archive"></nb-icon>História</a>
+      </li>
+      <li class="nav-item" *ngIf="showAdminBoard">
+        <nb-icon icon="star"></nb-icon>
+        <a href="/admin" routerLink="admin" routerLinkActive="active">Admin Board</a>
+      </li>
+      <li class="nav-item" *ngIf="showModeratorBoard">
+        <a href="/mod" class="nav-link" routerLink="mod" routerLinkActive="active">Moderator Board</a>
+      </li>
+      <li class="nav-item">
+        <a href="/user" routerLink="user" routerLinkActive="active"><nb-icon icon="sun"></nb-icon>Klimatické_Podmienky</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
+      <li class="nav-item">
+        <a href="/register" routerLink="register" routerLinkActive="active"><nb-icon icon="person-add"></nb-icon>Registrácia</a>
+      </li>
+      <li class="nav-item">
+        
+        <a href="/login" routerLink="login" routerLinkActive="active"><nb-icon icon="person-done"></nb-icon>Prihlásenie</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav" *ngIf="isLoggedIn">
+      <li class="nav-item">
+          <a href="/profile" routerLink="profile" routerLinkActive="active"><nb-icon icon="person"></nb-icon>{{username}}</a>
+      </li>
+      <li class="nav-item">
+        <a href (click)="logout()" routerLinkActive="active"><nb-icon icon="person-delete"></nb-icon>Odhlásiť sa</a>
+      </li>
+    </ul>
+      </div>
   </nav>
+  
+
   </nb-layout-header>
 
   <nb-layout-column>
