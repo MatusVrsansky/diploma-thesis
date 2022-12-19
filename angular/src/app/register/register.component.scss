@@ -1,0 +1,46 @@
+@import 'node_modules/@nebular/theme/styles/theming';
+@import 'node_modules/@nebular/theme/styles/themes/default';
+
+$nb-themes: nb-register-theme(
+  (
+    // add your variables here like:
+   
+
+
+  ),
+  default,
+  default
+);
+
+.register {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 24rem;
+  padding-right: 24rem;
+}
+
+@media (max-width: 1200px) {
+  .register {
+      padding-left: 16rem;
+      padding-right: 16rem;
+  }
+ 
+}
+
+
+
+@media (max-width: 950px) {
+  .register {
+      padding-left: 4rem;
+      padding-right: 4rem;
+  }
+ 
+}
+
+@media (max-width: 650px) {
+  .register {
+      padding-left: 1rem;
+      padding-right: 1rem;
+  }
+ 
+}

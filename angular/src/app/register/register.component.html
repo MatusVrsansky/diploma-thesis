@@ -1,6 +1,6 @@
 <nb-card>
-  <nb-card-header class="text-center"><h4>Registrácia</h4></nb-card-header>
-  <nb-card-body class="example-items-col text-center">
+  <nb-card-header class="text-center p-2"><h4>Registrácia</h4></nb-card-header>
+  <nb-card-body class="example-items-col text-center register">
     <div class="card" *ngIf="!isSuccessful" >
       <div class="card-body">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">

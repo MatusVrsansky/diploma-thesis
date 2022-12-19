@@ -11,3 +11,36 @@ $nb-themes: nb-register-theme(
   default,
   default
 );
+
+.login {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 24rem;
+  padding-right: 24rem;
+}
+
+@media (max-width: 1200px) {
+  .login {
+      padding-left: 16rem;
+      padding-right: 16rem;
+  }
+ 
+}
+
+
+
+@media (max-width: 950px) {
+  .login {
+      padding-left: 4rem;
+      padding-right: 4rem;
+  }
+ 
+}
+
+@media (max-width: 650px) {
+  .login {
+      padding-left: 1rem;
+      padding-right: 1rem;
+  }
+ 
+}
