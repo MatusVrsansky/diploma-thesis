@@ -1,10 +1,10 @@
-require('dotenv').config();
+
 
 
 exports.getTwilioAccountBalance = (req, res) => {
 
 const client = require('twilio')(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN)
-
+require('dotenv').config();
 client.balance.fetch()
   .then((data) => {
     const balance = Math.round(data.balance * 100) / 100;

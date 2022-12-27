@@ -192,7 +192,7 @@ exports.getAllNotifications = (req, res) => {
 };
 
 exports.getTwillioAccountBalance = (req, res)  => {
-  const client = require('twilio')("ACc78156a11cc1654f2bd4882aa522c735", "5424f8464f067cf81c850d5acfad2464")
+  const client = require('twilio')(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN)
 
 client.balance.fetch()
   .then((data) => {
