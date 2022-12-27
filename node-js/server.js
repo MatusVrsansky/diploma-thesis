@@ -55,7 +55,8 @@ console.log('server.js')
 
 // run cron 
 const config = require('./config');
-const scheduler = require('./scheduler')
+const scheduler = require('./scheduler');
+const sendSms = require('./sendSms');
 
 scheduler.initCrons(config);
 
@@ -64,10 +65,12 @@ scheduler.initCrons(config);
 // update table user with new notification text
 
 
-  // routes
+// routes
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
 require('./routes/notifications.routes')(app);
+require('./routes/twilio.routes')(app);
+require('./routes/config.routes')(app);
 
 
 http.listen(process.env.PORT || 3000, () => {

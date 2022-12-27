@@ -6,6 +6,7 @@ module.exports = () => {
     const db = require("../models");
     const Notifications = db.notifications;
     const User = db.user;
+    const Config = db.config;
 
      // send email
      const nodemailer = require('nodemailer');
@@ -31,7 +32,7 @@ module.exports = () => {
 
     async function checkTemperatureNotification(value) {
         
-        notifications = getAllNotifications();
+        notifications = await getAllNotifications();
         
         for (var i = 0; i < notifications.length; i++) {
 
@@ -44,29 +45,30 @@ module.exports = () => {
                 case '>':
                     if(value > notifications[i].dataValues.temperature_notification) {
                         //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je VYSSIA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
+                        console.log('poslem notifikaciu')
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
-                        sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
                     }
                     break;
                 case '<':
                     if(value < notifications[i].dataValues.temperature_notification) {
                         //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je NIZSIA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
-                        sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
                     }
                     break;
                 case '>=':
                     if(value >= notifications[i].dataValues.temperature_notification) {
                         //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je VYSSIA /ROVNA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
-                        sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
                     }
                     break;
                 case '<=':
                     if(value <= notifications[i].dataValues.temperature_notification) {
                         //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je NIZSIA /ROVNA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].id}})
-                        sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
                     }
                     break;
                 default: break;
@@ -90,25 +92,25 @@ module.exports = () => {
                 case '>':
                     if(value > notifications[i].dataValues.wind_speed_notification) {                            
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
-                        sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
                     }
                     break;
                 case '<':
                     if(value < notifications[i].dataValues.wind_speed_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
-                        sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
                     }
                     break;
                 case '>=':
                     if(value >= notifications[i].dataValues.wind_speed_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
-                        sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
                     }
                     break;
                 case '<=':
                     if(value <= notifications[i].dataValues.wind_speed_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
-                        sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification)
                     }
                     break;
                 default: break;
@@ -126,7 +128,7 @@ module.exports = () => {
             if(notifications[i].dataValues.notification_type == 'windDirection' && value == notifications[i].dataValues.wind_direction_notification &&
             notifications[i].dataValues.active_notification == true && notifications[i].dataValues.notification_sent == false) {
                 Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
-                sendEmail(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification);
+                sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification);
                // console.log(notifications[i].dataValues.wind_direction_notification);
             }
         }
@@ -136,9 +138,10 @@ module.exports = () => {
         return await Notifications.findAll();
     }
 
-   async function sendEmail(userId, notificationText) {
+   async function sendNotifications(userId, notificationText) {
 
         emailAddress = '';
+        phone_number = '';
 
         await User.findOne({
             where: {
@@ -148,7 +151,8 @@ module.exports = () => {
           .then(user => {
            // console.log(user.email)
           
-            emailAddress = user.email
+            emailAddress = user.email;
+            phone_number = user.phone_number;
           });
 
         const mailOptions = {
@@ -158,15 +162,53 @@ module.exports = () => {
             html: "<p><strong>Text notifikácie: </strong>" + notificationText + "</p>"
         };
         
-        
-        
+        // send email
         transporter.sendMail(mailOptions, function(error, info) {
             if (error) {
                 console.log(error);
             } else {
-              //  console.log('Email sent: '+ info.response);
+                console.log('Email sent error: '+ info.response);
             }
         });
+
+        
+        // send SMS
+
+        sendSms = false;
+
+        await Config.findOne({
+            where: {
+              name: 'send_phone_notifications'
+            }
+          })
+          .then(respond => {
+           // console.log(user.email)
+            sendSms = respond.value;
+          });
+
+          console.log("send sms: "+sendSms);
+          console.log("user phone: "+phone_number);
+
+        if(sendSms) {
+            const client = require('twilio')(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN); 
+ 
+            client.messages 
+            .create({ 
+                body: notificationText,
+                messagingServiceSid: 'MG2240d6818a3bd9bbc58f4f723d6eae4e',      
+                to: phone_number
+            }) 
+            .then(message => console.log(message.sid)) 
+            .done();
+        }
+
+        else {
+            console.log('nejdem poslat sms, admin to zakazal');
+        }
+
+       
     }
+
+    
 
 }

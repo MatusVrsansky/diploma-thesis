@@ -1,5 +1,4 @@
 const db = require("../models");
-const config = require("../config/auth.config");
 
 const User = db.user;
 const Role = db.role;
@@ -7,6 +6,8 @@ const Notifications = db.notifications;
 const Op = db.Sequelize.Op;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
+require('dotenv').config();
+
 
 
 exports.addNewNotification = (req, res) => {    
@@ -54,8 +55,6 @@ exports.addNewNotification = (req, res) => {
           }).then(notifications => {
             user_notifications = JSON.stringify(notifications, null, 2);
             user_notifications = JSON.parse(user_notifications);
-            console.log('user notifications / new notification');
-            console.log(user_notifications);
             res.status(200).send({
               user_notifications
             })
@@ -113,8 +112,6 @@ exports.editNotification = (req, res) => {
       }).then(notifications => {
         user_notifications = JSON.stringify(notifications, null, 2);
         user_notifications = JSON.parse(user_notifications);
-        console.log('user notifications / edit notification');
-        console.log(user_notifications);
         res.status(200).send({
           user_notifications
         })
@@ -153,8 +150,6 @@ exports.removeNotification = (req, res) => {
     }).then(notifications => {
       user_notifications = JSON.stringify(notifications, null, 2);
       user_notifications = JSON.parse(user_notifications);
-      console.log('user notifications');
-      console.log(user_notifications);
       res.status(200).send({
         user_notifications
       })
@@ -187,8 +182,6 @@ exports.getAllNotifications = (req, res) => {
     }).then(notifications => {
       user_notifications = JSON.stringify(notifications, null, 2);
       user_notifications = JSON.parse(user_notifications);
-      console.log('user notifications');
-      console.log(user_notifications);
       res.status(200).send({
         user_notifications
       })
@@ -197,5 +190,21 @@ exports.getAllNotifications = (req, res) => {
 });
 
 };
+
+exports.getTwillioAccountBalance = (req, res)  => {
+  const client = require('twilio')("ACc78156a11cc1654f2bd4882aa522c735", "5424f8464f067cf81c850d5acfad2464")
+
+client.balance.fetch()
+  .then((data) => {
+    const balance = Math.round(data.balance * 100) / 100;
+    const currency = data.currency;
+    //console.log(`Your account balance is ${balance} ${currency}.`)
+
+    res.status(200).send({
+      balance
+    })
+  });
+}
+
 
 

@@ -2,8 +2,15 @@ import { Component, OnInit,TemplateRef, ViewChild, HostBinding, OnDestroy, Optio
 import { TokenStorageService } from '../_services/token-storage.service';
 import { AuthService } from '../_services/auth.service';
 import {NotificationService} from '../_services/notification.service';
-
+import {ConfigService} from '../_services/config.service';
+import {TwilioService} from '../_services/twilio.service';
 import { UserService } from '../_services/user.service';
+
+import {Subscription, timer} from 'rxjs';  
+import { map, catchError } from 'rxjs/operators';
+
+
+
 
 
 import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService } from '@nebular/theme';
@@ -30,6 +37,7 @@ export class ProfileComponent implements OnInit {
     username: this.currentUser.username,
     email: this.currentUser.email,
     phone_number: this.currentUser.phone_number,
+    roles: this.currentUser.roles
   };
 
   userId = this.currentUser.id;
@@ -61,13 +69,44 @@ export class ProfileComponent implements OnInit {
   notification: FormGroup;
   submitted = false;
 
+  // find out state of sending notifications on phones
+  sendPhoneNotifications = false;
+
+  // find out twilio account balance
+  accountBalance = 0;
+
+  // timer
+  timerSubscription: Subscription;
+
+  // limit price to restrict sending sms
+  limitPrice = 11.69;
+
+
+
   constructor(private tokenStorage: TokenStorageService, private authService: AuthService, private toastrService: NbToastrService,
-     private dialogService: NbDialogService, private userService: UserService, private notificationsService: NotificationService, @Optional() private dialogRef: NbDialogRef<any>, private formBuilder: FormBuilder) { }
+     private dialogService: NbDialogService, private userService: UserService, private notificationsService: NotificationService,
+     private configService: ConfigService, private twilioService: TwilioService,
+    @Optional() private dialogRef: NbDialogRef<any>, private formBuilder: FormBuilder) { }
   
   
   ngOnInit(): void {
 
+    // timer(0, 10000) call the function immediately and every 10 seconds 
+    this.timerSubscription = timer(0, 10000).pipe( 
+      map(() => { 
+        this.getTwilioAccountBalance(); // load data contains the http request 
+        this.getAppConfigurations();
+        console.log('load map')
+      }) 
+    ).subscribe(); 
+
+
     this.findAll();
+    this.getAppConfigurations();
+
+
+
+    console.log(this.user.roles)
 
     this.usedNotifications = {
       main : {},
@@ -176,6 +215,10 @@ export class ProfileComponent implements OnInit {
     this.getUnusedNotificationTypes();
   }
 
+  //  unsubscribe when the Observable is not necessary anymore 
+  ngOnDestroy(): void { 
+    this.timerSubscription.unsubscribe(); 
+  } 
 
 
   getUnusedNotificationTypes() {
@@ -260,6 +303,36 @@ export class ProfileComponent implements OnInit {
     this.toastrService.success(message, title, { position, duration });
   }
 
+  // api data for ThingSpeak
+  getTwilioAccountBalance() {
+      this.twilioService.getTwilioAccountBalance().subscribe({
+        next: data => {
+          console.log(data);
+          //this.accountBalance = Math.round((data.balance*0.94 + Number.EPSILON) * 100) / 100;
+          this.accountBalance = data.balance;
+
+          // set sending of notifications, when price is lower than 0,50e
+          if(data.balance < this.limitPrice) {
+            this.sendPhoneNotifications = false;
+            this.configService.setSendPhoneNotificationsState(false).subscribe({
+              next: data => {
+                console.log("Zmenili sa data :" + data);
+              },
+              error: err => {
+                console.log(err);
+              }
+            })
+
+          }
+
+          console.log(this.accountBalance);
+        },
+        error: err => {
+          console.log(err)
+        }
+      })
+    }
+
   onSubmit(): void {
 
   if(this.isAddMode) {
@@ -336,6 +409,19 @@ export class ProfileComponent implements OnInit {
         console.log(err);
       }
     });
+  }
+
+  getAppConfigurations() {
+    this.configService.getAppConfigurations().subscribe({
+      next: data => {
+        console.log(data);
+        this.sendPhoneNotifications = data.config[0].value;
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+
   }
 
   reloadPage(): void {
@@ -545,6 +631,21 @@ export class ProfileComponent implements OnInit {
     console.log(this.notification.value.notificationType);
     this.resetFieldsRequired();
   }
+
+  getSendPhoneNotificationsState(state:any) {
+    console.log("state is :"+state);
+
+    this.configService.setSendPhoneNotificationsState(state).subscribe({
+      next: data => {
+        console.log("Respond :" + data);
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+  }
+
+
 
   getWindDirectionThingSpeak(windDirection:any) {
 

@@ -41,7 +41,8 @@ export class RegisterComponent implements OnInit {
               [
                 Validators.required,
                 Validators.minLength(6),
-                Validators.maxLength(20)
+                Validators.maxLength(20),
+
               ]
             ],
             confirmPassword: [
@@ -57,7 +58,8 @@ export class RegisterComponent implements OnInit {
               [
                 Validators.required,
                 Validators.minLength(10),
-                Validators.maxLength(20)
+                Validators.maxLength(20),
+                Validators.pattern('[- +()0-9]{10,12}')
               ]
             ],
            

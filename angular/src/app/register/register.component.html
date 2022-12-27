@@ -53,6 +53,9 @@
               <div *ngIf="f['phone_number'].errors['maxlength']">
                 Telefónne číslo musí mať najviac 20 znakov
               </div>
+              <div *ngIf="f['phone_number'].errors['pattern']">
+                Telefónne číslo obsahuje zlý formát
+              </div>
             </div>
           </div>
       

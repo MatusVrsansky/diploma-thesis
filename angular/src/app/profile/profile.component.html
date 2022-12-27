@@ -52,8 +52,8 @@
                   <!-- Dialog for removing certain notification -->
                   <ng-template #formNewNotification let-data let-ref="dialogRef" hasScroll="true">
                     <nb-card class="own-scroll">
-                      <nb-card-header *ngIf="isAddMode"><h6>Nová notifikácia</h6></nb-card-header>
-                      <nb-card-header *ngIf="!isAddMode"><h6>Upraviť notifikáciu</h6></nb-card-header>
+                      <nb-card-header *ngIf="isAddMode"><h6 class="text-center p-2">Nová notifikácia</h6></nb-card-header>
+                      <nb-card-header *ngIf="!isAddMode"><h6 class="text-center p-2">Upraviť notifikáciu</h6></nb-card-header>
                     
                       <nb-card-body class="modal-notification">
                         <form [formGroup]="notification" (ngSubmit)="onSubmit()">
@@ -79,7 +79,7 @@
                         <div class="form-group mb-3" *ngIf="!isAddMode">
                           <label>Typ notifikácie</label>
                           <nb-radio-group disabled name="ng-model-group">
-                            <nb-radio [checked]="true" value="{{notification.value.notificationType}}">{{notification.value.notificationType}}
+                            <nb-radio [checked]="true" value="{{notification.value.notificationType}}">{{getNotificationName(notification.value.notificationType)}}
                               <nb-icon class="icon" *ngIf="notification.value.notificationType === 'temperature'" nbTooltip="Microbit posiela teplotu vo formáte čísla. Nastavte si, pre akú teplotu Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
                               <nb-icon class="icon" *ngIf="notification.value.notificationType === 'windSpeed'" nbTooltip="Microbit posiela rýchlost vetra fo vo formáte čsla. Nastavte si, pre akú intenzitu rýchlosti vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
                               <nb-icon class="icon" *ngIf="notification.value.notificationType === 'windDirection'" nbTooltip="Microbit posiela smer vetra fo v textovom formáte. Nastavte si, pre akú smer vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
@@ -356,6 +356,33 @@
                   </table>
               </div>
           </div>  
+          </div>
+        </div>
+      </nb-tab>
+      <nb-tab tabTitle="Nastavenia aplikácie" tabIcon="settings-outline" class="config_info" *ngIf="user.roles.includes('ROLE_ADMIN')"  responsive>
+        <div class="user-information">
+          <div class="card">
+						<div class="card-body">
+							<div class="row mb-5">
+								<div class="col-sm-5">
+									<h6 class="mb-0">Posielanie notifikácii cez SMS</h6>
+								</div>
+								<div class="col-sm-7 text-secondary">
+                  <div class="" nbTooltip="Vyčerpal sa Vám limit na posielanie SMS správ"  [nbTooltipDisabled]="!(accountBalance < limitPrice)" nbTooltipPlacement="top">
+                    <nb-toggle [disabled]="accountBalance < limitPrice" [checked]="sendPhoneNotifications" (checkedChange)="getSendPhoneNotificationsState($event)"></nb-toggle>
+                  </div>
+								</div>
+							</div>
+              <hr>
+							<div class="row mb-5">
+								<div class="col-sm-5">
+									<h6 class="mb-0">Suma na zostávajúce SMS notifikácie</h6>
+								</div>
+								<div class="col-sm-7 text-secondary">
+                  {{accountBalance}} €
+								</div>
+							</div>
+						</div>
           </div>
         </div>
       </nb-tab>
