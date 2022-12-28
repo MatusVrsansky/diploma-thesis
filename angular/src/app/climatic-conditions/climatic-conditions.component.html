@@ -1,0 +1,87 @@
+<nb-card>
+    <nb-card-header><h4 class="text-center p-2">Klimatické podmienky</h4></nb-card-header>
+    <nb-card-body class="weather-data">
+       
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <h6 class="mb-0">Posledný dátum a čas merania:</h6>
+                </div>
+                <div class="col-sm-6 text-secondary">
+                    {{climaticConditionsDataThingSpeak.dateTime | date:'dd.MM.yyyy HH:mm'}}
+                </div>
+            </div>
+            <hr>
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <h6 class="mb-0">Teplota (°C):</h6>
+                </div>
+                <div class="col-sm-6 text-secondary">
+                    {{climaticConditionsDataThingSpeak.temperature}}
+                </div>
+            </div>
+            <hr>
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <h6 class="mb-0">Rýchlosť vetra (MPH):</h6>
+                </div>
+                <div class="col-sm-6 text-secondary">
+                    {{climaticConditionsDataThingSpeak.windSpeed}}
+                </div>
+            </div>
+            <hr>
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <h6 class="mb-0">Dažďomer (palce dažďa):</h6>
+                </div>
+                <div class="col-sm-6 text-secondary">
+                    {{climaticConditionsDataThingSpeak.rainGauge}}
+                </div>
+            </div>
+            <hr>
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <h6 class="mb-0">Smer vetra:</h6>
+                </div>
+                <div class="col-sm-6 text-secondary">
+                    {{climaticConditionsDataThingSpeak.windDirection}}
+                </div>
+            </div>
+            <hr>
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <h6 class="mb-0">Vlhkosť (%):</h6>
+                </div>
+                <div class="col-sm-6 text-secondary">
+                    {{climaticConditionsDataThingSpeak.humidity}}
+                </div>
+            </div>
+            <hr>
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <h6 class="mb-0">Tlak (hPa):</h6>
+                </div>
+                <div class="col-sm-6 text-secondary">
+                    {{climaticConditionsDataThingSpeak.pressure}}
+                </div>
+            </div>
+            <hr>
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <h6 class="mb-0">Teplota pôdy (v desiatkách °C):</h6>
+                </div>
+                <div class="col-sm-6 text-secondary">
+                    {{climaticConditionsDataThingSpeak.soilTemperature}}
+                </div>
+            </div>
+            <hr>
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <h6 class="mb-0">Vhlkosť pôdy (hodnota 0 je suchý a 1023 je vlhký):</h6>
+                </div>
+                <div class="col-sm-6 text-secondary">
+                    {{climaticConditionsDataThingSpeak.soilMosture}}
+                </div>
+            </div>
+           
+    </nb-card-body>
+</nb-card>

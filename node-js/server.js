@@ -56,7 +56,6 @@ console.log('server.js')
 // run cron 
 const config = require('./config');
 const scheduler = require('./scheduler');
-const sendSms = require('./sendSms');
 
 scheduler.initCrons(config);
 

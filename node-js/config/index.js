@@ -7,8 +7,4 @@ module.exports = {
         frequency: "0 0 * * *",
         handler: "handlers/resetSentNotifications"
     },
-    sendSms: {
-        frequency: "*/10 * * * * *",
-        handler: "handlers/sendSms"
-    }
 }

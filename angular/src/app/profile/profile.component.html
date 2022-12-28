@@ -2,8 +2,7 @@
   <nb-card-header class="text-center p-2"><h4>Profil používateľa: {{userName}}</h4></nb-card-header>
   <nb-card-body class="example-items-col text-center profile">
     <nb-tabset >
-      <nb-tab tabTitle="Profil používateľa" tabIcon="person-outline" class="login_info" responsive>
-        <div class="user-information">
+      <nb-tab tabTitle="Profil" tabIcon="person-outline" class="login-info" responsive>
           <div class="card">
 						<div class="card-body">
 							<div class="row mb-3">
@@ -35,7 +34,7 @@
               <hr>
 						</div>
           </div>
-        </div>
+       
       </nb-tab>
       <nb-tab tabTitle="Notifikácie" tabIcon="bell-outline" responsive>
         <div class="text-center">
@@ -359,11 +358,10 @@
           </div>
         </div>
       </nb-tab>
-      <nb-tab tabTitle="Nastavenia aplikácie" tabIcon="settings-outline" class="config_info" *ngIf="user.roles.includes('ROLE_ADMIN')"  responsive>
-        <div class="user-information">
+      <nb-tab tabTitle="Nastavenia aplikácie" tabIcon="settings-outline" class="app-settings" *ngIf="user.roles.includes('ROLE_ADMIN')" responsive>
           <div class="card">
 						<div class="card-body">
-							<div class="row mb-5">
+							<div class="row mb-3">
 								<div class="col-sm-5">
 									<h6 class="mb-0">Posielanie notifikácii cez SMS</h6>
 								</div>
@@ -372,9 +370,13 @@
                     <nb-toggle [disabled]="accountBalance < limitPrice" [checked]="sendPhoneNotifications" (checkedChange)="getSendPhoneNotificationsState($event)"></nb-toggle>
                   </div>
 								</div>
+                <div class="col-12">
+                  <p class="information mt-3">* ak suma klesne pod 0,50 €, posielanie SMS správ sa automaticky preruší</p>
+                </div>
+                
 							</div>
               <hr>
-							<div class="row mb-5">
+							<div class="row mb-3">
 								<div class="col-sm-5">
 									<h6 class="mb-0">Suma na zostávajúce SMS notifikácie</h6>
 								</div>
@@ -384,7 +386,6 @@
 							</div>
 						</div>
           </div>
-        </div>
       </nb-tab>
     </nb-tabset>
 

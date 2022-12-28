@@ -13,6 +13,7 @@ import { BoardUserComponent } from './board-user/board-user.component';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HistoryComponent } from './history/history.component';
+import { ClimaticConditionsComponent } from './climatic-conditions/climatic-conditions.component';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
@@ -37,6 +38,7 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
     HomeComponent,
     ProfileComponent,
     HistoryComponent,
+    ClimaticConditionsComponent,
     BoardAdminComponent,
     BoardModeratorComponent,
     BoardUserComponent

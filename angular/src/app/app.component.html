@@ -60,15 +60,15 @@
       <li class="nav-item">
         <a href="/history" routerLink="history" routerLinkActive="active"><nb-icon icon="archive"></nb-icon>História</a>
       </li>
-      <li class="nav-item" *ngIf="showAdminBoard">
+     <!-- <li class="nav-item" *ngIf="showAdminBoard">
         <nb-icon icon="star"></nb-icon>
         <a href="/admin" routerLink="admin" routerLinkActive="active">Admin Board</a>
-      </li>
-      <li class="nav-item" *ngIf="showModeratorBoard">
+      </li> -->
+       <!--  <li class="nav-item" *ngIf="showModeratorBoard">
         <a href="/mod" class="nav-link" routerLink="mod" routerLinkActive="active">Moderator Board</a>
-      </li>
+      </li>  -->
       <li class="nav-item">
-        <a href="/user" routerLink="user" routerLinkActive="active"><nb-icon icon="sun"></nb-icon>Klimatické_Podmienky</a>
+        <a href="/climatic-conditions" routerLink="climatic-conditions" routerLinkActive="active"><nb-icon icon="sun"></nb-icon>Klimatické_Podmienky</a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">

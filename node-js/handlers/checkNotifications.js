@@ -173,7 +173,6 @@ module.exports = () => {
 
         
         // send SMS
-
         sendSms = false;
 
         await Config.findOne({
@@ -195,7 +194,7 @@ module.exports = () => {
             client.messages 
             .create({ 
                 body: notificationText,
-                messagingServiceSid: 'MG2240d6818a3bd9bbc58f4f723d6eae4e',      
+                messagingServiceSid: process.env.MESSAGING_SERVICE_SID,   
                 to: phone_number
             }) 
             .then(message => console.log(message.sid)) 

@@ -73,14 +73,14 @@ export class HistoryComponent implements OnInit {
 
      
 
-    //  var historyYesterday = this.pipe.transform(data.feeds[14].created_at, 'yyyy-MM-dd');
+    var historyYesterday = this.pipe.transform(data.feeds[14].created_at, 'yyyy-MM-dd');
 
 
     for (var product of data.feeds) {
 
-       // if(this.pipe.transform(product.created_at, 'yyyy-MM-dd') == this.yesterdayFormatted) {
+      if(this.pipe.transform(product.created_at, 'yyyy-MM-dd') == this.yesterdayFormatted) {
          apiThingSpeakHistoryData.push(product)
-        //}
+        }
       }
 
       this.setThingSpeakHistory(apiThingSpeakHistoryData);
