@@ -15,7 +15,7 @@ module.exports = () => {
          service: 'gmail',
          auth: {
              user: 'microbitpython@gmail.com',
-             pass: 'mbwnqmmpwgopnoga',
+             pass: process.env.EMAIL_PASSWORD,
          }
      });
 

@@ -1,3 +1,4 @@
+const { TrustProductsChannelEndpointAssignmentInstance } = require("twilio/lib/rest/trusthub/v1/trustProducts/trustProductsChannelEndpointAssignment");
 
 module.exports = () => {
 
@@ -12,7 +13,7 @@ module.exports = () => {
         service: 'gmail',
         auth: {
             user: 'microbitpython@gmail.com',
-            pass: 'mbwnqmmpwgopnoga',
+            pass: process.env.EMAIL_PASSWORD,
         }
     });
 
