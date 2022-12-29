@@ -307,7 +307,7 @@ export class ProfileComponent implements OnInit {
   getTwilioAccountBalance() {
       this.twilioService.getTwilioAccountBalance().subscribe({
         next: data => {
-          console.log(data);
+          console.log("getTwilioAccountBalance : " + data.balance);
           //this.accountBalance = Math.round((data.balance*0.94 + Number.EPSILON) * 100) / 100;
           this.accountBalance = data.balance;
 
