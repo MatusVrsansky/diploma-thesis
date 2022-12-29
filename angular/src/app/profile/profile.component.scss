@@ -13,11 +13,18 @@ $nb-themes: nb-register-theme(
 );
 
 nb-card {
+
    
     &.own-scroll {
       height: 100%;
     }
   }
+
+nb-dialog-container {
+    width: 580px;
+}
+
+
 
 .profile {
     padding: 1rem 2rem;
@@ -32,6 +39,7 @@ nb-card {
     .app-settings {
         padding: 1rem;
     }
+    
 }
 
 .login-info {
@@ -43,6 +51,14 @@ nb-card {
         padding: 1rem 4rem;
     }
 }
+
+@media screen and (max-width: 900px) {
+    nb-dialog-container {
+        width: auto;
+    }
+    
+}
+
 
 @media screen and (max-width: 750px) {
     .profile {

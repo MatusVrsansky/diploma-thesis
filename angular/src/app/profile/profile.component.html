@@ -93,12 +93,12 @@
 
                         <div class="form-group mb-3">
                           <label>Popis notifikácie</label>
-                          <input
+                          <textarea
                             type="text" placeholder="popis notifikácie"
                             formControlName="descriptionNotification"
                             class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f['descriptionNotification'].errors }"
-                          />
+                          ></textarea>
                           <div *ngIf="submitted && f['descriptionNotification'].errors" class="invalid-feedback">
                             <div *ngIf="f['descriptionNotification'].errors['required']">Popis notifikácie je povinný</div>
                             <div *ngIf="f['descriptionNotification'].errors['minlength']">
@@ -113,7 +113,7 @@
                         <div class="form-group mb-3"  *ngIf="notification.value.notificationType == 'temperature'" >
                           <label>Teplota, pre ktorú poslať notifikáciu</label>
                           <input
-                            type="text" placeholder="teplota notifikácie"
+                            type="number" placeholder="teplota notifikácie"
                             formControlName="temperatureNotification"
                             class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f['temperatureNotification'].errors }"
@@ -132,7 +132,7 @@
                         <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'windSpeed'" >
                           <label>Rýchlosť vetra, pre ktorú poslať notifikáciu</label>
                           <input
-                            type="text" placeholder="rýchlosť vetra"
+                            type="number" placeholder="rýchlosť vetra"
                             formControlName="windSpeedNotification"
                             class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f['windSpeedNotification'].errors }"
@@ -151,7 +151,7 @@
                         <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'soilMosture'" >
                           <label>Vlhkosť pôdy, pre ktorú poslať notifikáciu</label>
                           <input
-                            type="text" placeholder="vlhkosť pôdy"
+                            type="number" placeholder="vlhkosť pôdy"
                             formControlName="soilMostureNotification"
                             class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f['soilMostureNotification'].errors }"
@@ -170,7 +170,7 @@
                         <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'humidity'" >
                           <label>Vlhkosť, pre ktorú poslať notifikáciu</label>
                           <input
-                            type="text" placeholder="vlhkosť"
+                            type="number" placeholder="vlhkosť"
                             formControlName="humidityNotification"
                             class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f['humidityNotification'].errors }"
@@ -189,7 +189,7 @@
                         <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'rainGauge'" >
                           <label>Daždometer, pre ktorý poslať notifikáciu</label>
                           <input
-                            type="text" placeholder="daždometer"
+                            type="number" placeholder="daždometer"
                             formControlName="rainGaugeNotification"
                             class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f['rainGaugeNotification'].errors }"
@@ -208,7 +208,7 @@
                         <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'pressure'" >
                           <label>Tlak, pre ktorý poslať notifikáciu</label>
                           <input
-                            type="text" placeholder="tlak"
+                            type="number" placeholder="tlak"
                             formControlName="pressureNotification"
                             class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f['pressureNotification'].errors }"
@@ -226,12 +226,12 @@
 
                         <div class="form-group mb-3">
                           <label>Text notifikácie</label>
-                          <input
+                          <textarea
                             type="text" placeholder="text notifikácie"
                             formControlName="textNotification"
                             class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f['textNotification'].errors }"
-                          />
+                          ></textarea>
                           <div *ngIf="submitted && f['textNotification'].errors" class="invalid-feedback">
                             <div *ngIf="f['textNotification'].errors['required']">Tlak je povinný, ak chcete poslať notifikáciu</div>
                             <div *ngIf="f['textNotification'].errors['minlength']">
@@ -246,7 +246,7 @@
                         <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'soilTemperature'" >
                           <label>Teplota pôdy, pre ktorú poslať notifikáciu</label>
                           <input
-                            type="text" placeholder="teplota pôdy"
+                            type="number" placeholder="teplota pôdy"
                             formControlName="soilTemperatureNotification"
                             class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f['soilTemperatureNotification'].errors }"
@@ -263,26 +263,26 @@
                         </div>
 
                         <div class="form-group mb-3" *ngIf="notification.value.notificationType === 'windDirection'" >
-                          <label>Teplota pôdy, pre ktorú poslať notifikáciu</label>
+                          <label>Smer vetra, pre ktorý poslať notifikáciu</label>
                           <nb-radio-group formControlName="windDirectionNotification">
-                            <nb-radio value="1">Severný vietor</nb-radio>
-                            <nb-radio value="2">Východný vieto</nb-radio>
-                            <nb-radio value="3">Južný vietor</nb-radio>
-                            <nb-radio value="4">Západný vietor</nb-radio>
-                            <nb-radio value="5">Severovýchodný vietor</nb-radio>
-                            <nb-radio value="6">Severozápadný vietor</nb-radio>
-                            <nb-radio value="7">Juchovýchodný vietor</nb-radio>
-                            <nb-radio value="8">Juhozápadný vietor</nb-radio>
+                            <nb-radio [value]="'1'">Severný vietor</nb-radio>
+                            <nb-radio [value]="'2'">Východný vietor</nb-radio>
+                            <nb-radio [value]="'3'">Južný vietor</nb-radio>
+                            <nb-radio [value]="'4'">Západný vietor</nb-radio>
+                            <nb-radio [value]="'5'">Severovýchodný vietor</nb-radio>
+                            <nb-radio [value]="'6'">Severozápadný vietor</nb-radio>
+                            <nb-radio [value]="'7'">Juchovýchodný vietor</nb-radio>
+                            <nb-radio [value]="'8'">Juhozápadný vietor</nb-radio>
                           </nb-radio-group>
                         </div>
 
                         <div class="form-group mb-3" *ngIf="notification.value.notificationType !== 'windDirection'" >
                           <label>Porovnávací operátor</label>
                           <nb-radio-group formControlName="temperatureWindSpeedOperator">
-                            <nb-radio [value]="'>'">Väčšia</nb-radio>
-                            <nb-radio [value]="'<'">Menšia</nb-radio>
-                            <nb-radio [value]="'>='">Väčšia a rovná</nb-radio>
-                            <nb-radio [value]="'<='">Menšia a rovná</nb-radio>
+                            <nb-radio [value]="'>'">Väčší</nb-radio>
+                            <nb-radio [value]="'<'">Menší</nb-radio>
+                            <nb-radio [value]="'>='">Väčší a rovný</nb-radio>
+                            <nb-radio [value]="'<='">Menší a rovný</nb-radio>
                           </nb-radio-group>
                         </div>
                       
@@ -310,11 +310,11 @@
                       <thead>
                           <tr>
                               <th>#</th>
-                              <th>Typ notifikacie</th>
-                              <th>Popis notifikacie</th>
-                              <th>Podmienka notifikacie</th>
-                              <th>Text notifikacie</th>
-                              <th>Aktivna notifikacia</th>
+                              <th>Typ notifikácie</th>
+                              <th>Popis notifikácie</th>
+                              <th>Podmienka notifikácie</th>
+                              <th>Text notifikácie</th>
+                              <th>Aktívna notifikácia</th>
                               <th>Akcie</th>
                           </tr>
                       </thead>

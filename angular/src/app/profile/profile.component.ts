@@ -503,7 +503,7 @@ export class ProfileComponent implements OnInit {
     this.notification.patchValue({'textNotification': null});
     this.notification.patchValue({'temperatureNotification': null});
     this.notification.patchValue({'windSpeedNotification': null});
-    this.notification.patchValue({'windDirectionNotification': null});
+    this.notification.patchValue({'windDirectionNotification': '1'});
     this.notification.patchValue({'soilTemperatureNotification': null});
     this.notification.patchValue({'soilMostureNotification': null});
     this.notification.patchValue({'pressureNotification': null});
