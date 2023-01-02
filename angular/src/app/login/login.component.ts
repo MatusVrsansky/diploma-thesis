@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
   showPassword = false;
 
 
-  // new values
   form: FormGroup;
   submitted = false;
 
@@ -33,7 +32,6 @@ export class LoginComponent implements OnInit {
       this.roles = this.tokenStorage.getUser().roles;
     }
 
-    // new values
     this.form = this.formBuilder.group(
       {
         name: [
@@ -88,7 +86,6 @@ export class LoginComponent implements OnInit {
   }
 }
 
-  // new values
   get f(): { [key: string]: AbstractControl } {
     return this.form.controls;
   }

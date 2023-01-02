@@ -38,7 +38,7 @@
           </div>
 
           <div class="form-group mb-3">
-            <label>Telefónne číslo</label>
+            <label>Telefónne číslo (napr +421...)</label>
             <input
               type="text" placeholder="telefónne číslo"
               formControlName="phone_number"
@@ -51,9 +51,9 @@
                 Telefónne číslo musí mať najmenej 10 znakov
                </div>
               <div *ngIf="f['phone_number'].errors['maxlength']">
-                Telefónne číslo musí mať najviac 20 znakov
+                Telefónne číslo musí mať najviac 14 znakov
               </div>
-              <div *ngIf="f['phone_number'].errors['pattern']">
+              <div *ngIf="f['phone_number'].errors['emailDomain']">
                 Telefónne číslo obsahuje zlý formát
               </div>
             </div>

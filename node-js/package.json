@@ -23,6 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "@sendgrid/client": "^7.7.0",
+    "@sendgrid/mail": "^7.7.0",
     "axios": "^1.1.2",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -35,6 +36,7 @@
     "nodemailer": "^6.7.7",
     "request": "^2.88.2",
     "sendgrid": "^5.2.3",
+    "sendmail": "^1.6.1",
     "sequelize": "^6.21.2",
     "twilio": "^3.84.0",
     "utility": "^1.17.0"

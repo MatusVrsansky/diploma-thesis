@@ -37,7 +37,7 @@ module.exports = () => {
 
         const mailOptions = {
           from: 'microbitpython@gmail.com',
-          to: 'vrsansky.matus@gmail.com',
+          to: 'microbitpython@gmail.com',
           subject: 'Notifikácia zo zariadenia WeatherBit',
           html: 'reset notifikacii prebehol :)'
         }

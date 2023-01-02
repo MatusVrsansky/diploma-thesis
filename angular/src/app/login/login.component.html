@@ -1,24 +1,24 @@
 <nb-card>
-  <nb-card-header class="text-center p-2"><h4>Login</h4></nb-card-header>
+  <nb-card-header class="text-center p-2"><h4>Prihlásenie</h4></nb-card-header>
   <nb-card-body class="example-items-col text-center login">
     <div class="card">
       <div class="card-body">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <div class="form-group mb-3">
-            <label>Prihlasovacie meno / email</label>
+            <label>Prihlasovacie meno</label>
             <input
-              type="text" placeholder="prihlasovacie meno / email"
+              type="text" placeholder="Prihlasovacie meno"
               formControlName="name"
               class="form-control"
               [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
             />
             <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-              <div *ngIf="f['name'].errors['required']">Prihlasovacie meno / email je povinné</div>
+              <div *ngIf="f['name'].errors['required']">Prihlasovacie meno je povinné</div>
               <div *ngIf="f['name'].errors['minlength']">
-                Prihlasovacie meno / email musí mať najmenej 6 znakov
+                Prihlasovacie meno musí mať najmenej 6 znakov
                </div>
               <div *ngIf="f['name'].errors['maxlength']">
-                Prihlasovacie meno / email musí mať najviac 20 znakov
+                Prihlasovacie meno musí mať najviac 20 znakov
               </div>
             </div>
           </div>

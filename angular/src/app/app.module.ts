@@ -14,6 +14,8 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HistoryComponent } from './history/history.component';
 import { ClimaticConditionsComponent } from './climatic-conditions/climatic-conditions.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ContactComponent } from './contact/contact.component';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
@@ -41,7 +43,9 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
     ClimaticConditionsComponent,
     BoardAdminComponent,
     BoardModeratorComponent,
-    BoardUserComponent
+    BoardUserComponent,
+    PageNotFoundComponent,
+    ContactComponent
   ],
   imports: [
     NbCheckboxModule,

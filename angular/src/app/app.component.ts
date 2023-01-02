@@ -14,6 +14,7 @@ export class AppComponent {
   showAdminBoard = false;
   showModeratorBoard = false;
   username?: string;
+  openResponsiveMenu = false;
 
 
   constructor(private tokenStorageService: TokenStorageService) { }
@@ -25,12 +26,43 @@ export class AppComponent {
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
       this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');
       this.username = user.username;
+
+      
     }
 
+    console.log(this.isLoggedIn);
 
   }
   logout(): void {
     this.tokenStorageService.signOut();
     window.location.reload();
+  }
+
+  reloadPage(page:any) {
+    window.location.replace(page);
+   }
+
+  reloadCurrentPage() {
+    window.location.reload();
+  }
+
+  setOpenedResponsiveMenu() {
+    this.openResponsiveMenu = true;
+  }
+
+  closeResponsiveMenu(event:any) {
+
+    if(event.srcElement.className != 'links' && this.openResponsiveMenu == true) {
+      console.log('zatvor');
+
+      if(this.openResponsiveMenu) {
+        let element:HTMLElement = document.getElementById('auto_trigger') as HTMLElement;
+
+        element.click();
+        this.openResponsiveMenu = false;
+        console.log('menim')
+      }
+
+    }
   }
 }

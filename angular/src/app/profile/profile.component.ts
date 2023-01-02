@@ -79,7 +79,7 @@ export class ProfileComponent implements OnInit {
   timerSubscription: Subscription;
 
   // limit price to restrict sending sms
-  limitPrice = 10;
+  limitPrice = 9;
 
 
 
@@ -223,18 +223,17 @@ export class ProfileComponent implements OnInit {
 
   getUnusedNotificationTypes() {
 
-    console.log('NACITALA SA STRANKA');
-
+   
     // array of used notifications
 
     const arrayUsedNotifications: any = [];
    
     const dataToTable: object[] = [];
 
-    console.log(typeof(this.userNotifications))
+  
 
     this.userNotifications?.forEach(function(item:any) {
-      console.log(item)
+    
 
       const person = {
         id: item.id,
@@ -277,7 +276,7 @@ export class ProfileComponent implements OnInit {
 
 
   this.notification.value.notificationType.forEach(function(item:any) {
-    //console.log(item.name)
+    
     myArray.push(item)
   });
 

@@ -72,6 +72,7 @@ require('./routes/user.routes')(app);
 require('./routes/notifications.routes')(app);
 require('./routes/twilio.routes')(app);
 require('./routes/config.routes')(app);
+require('./routes/contact.routes')(app);
 
 
 http.listen(process.env.PORT || 3000, () => {

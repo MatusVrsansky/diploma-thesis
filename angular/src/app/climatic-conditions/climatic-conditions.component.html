@@ -1,5 +1,5 @@
 <nb-card>
-    <nb-card-header><h4 class="text-center p-2">Klimatické podmienky</h4></nb-card-header>
+    <nb-card-header><h4 class="text-center p-2">Meranie</h4></nb-card-header>
     <nb-card-body class="weather-data">
        
             <div class="row mb-3">
@@ -67,7 +67,7 @@
             <hr>
             <div class="row mb-3">
                 <div class="col-sm-6">
-                    <h6 class="mb-0">Teplota pôdy (v desiatkách °C):</h6>
+                    <h6 class="mb-0">Teplota pôdy (°C):</h6>
                 </div>
                 <div class="col-sm-6 text-secondary">
                     {{climaticConditionsDataThingSpeak.soilTemperature}}
@@ -76,7 +76,7 @@
             <hr>
             <div class="row mb-3">
                 <div class="col-sm-6">
-                    <h6 class="mb-0">Vhlkosť pôdy (hodnota 0 je suchý a 1023 je vlhký):</h6>
+                    <h6 class="mb-0">Vhlkosť pôdy (od 0 po 1023):</h6>
                 </div>
                 <div class="col-sm-6 text-secondary">
                     {{climaticConditionsDataThingSpeak.soilMosture}}

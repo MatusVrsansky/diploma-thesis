@@ -309,18 +309,18 @@
                   <table class="table table-striped table-hover table-bordered">
                       <thead>
                           <tr>
-                              <th>#</th>
-                              <th>Typ notifikácie</th>
-                              <th>Popis notifikácie</th>
-                              <th>Podmienka notifikácie</th>
-                              <th>Text notifikácie</th>
-                              <th>Aktívna notifikácia</th>
+                              <th>Poslaná notifikácia</th>
+                              <th>Typ</th>
+                              <th>Popis</th>
+                              <th>Notifikácia</th>
+                              <th>Text</th>
+                              <th>Aktívna</th>
                               <th>Akcie</th>
                           </tr>
                       </thead>
                       <tbody>
                           <tr *ngFor="let item of userNotifications; index as i">
-                            <td>{{i+1}}</td>
+                            <td>{{item.notification_sent == 1 ? 'Áno' : 'Nie'}}</td>
                             <td>{{getNotificationName(item.notification_type)}}</td>
                             <td>{{item.description_notification}}</td>
                             
@@ -371,7 +371,7 @@
                   </div>
 								</div>
                 <div class="col-12">
-                  <p class="information mt-3">* ak suma klesne pod 0,50 €, posielanie SMS správ sa automaticky preruší</p>
+                  <p class="information mt-3">* ak suma klesne pod {{limitPrice}} €, posielanie SMS správ sa automaticky preruší</p>
                 </div>
                 
 							</div>

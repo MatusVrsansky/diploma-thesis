@@ -19,6 +19,9 @@ export class RegisterComponent implements OnInit {
   // new values
   form: FormGroup;
   submitted = false;
+
+
+  phone_number = '';
   
 
   constructor(private authService: AuthService, private formBuilder: FormBuilder) { }
@@ -58,8 +61,8 @@ export class RegisterComponent implements OnInit {
               [
                 Validators.required,
                 Validators.minLength(10),
-                Validators.maxLength(20),
-                Validators.pattern('[- +()0-9]{10,12}')
+                Validators.maxLength(14),
+                this.phoneNumberValidator
               ]
             ],
            
@@ -72,8 +75,30 @@ export class RegisterComponent implements OnInit {
   }
 
 
+  phoneNumberValidator(phone_number: FormGroup) {
+      const match = phone_number.value.match(/^\+[1-9]\d{1,14}$/) || [];
+      
+      if (match.length === 0) {
+        return {
+          emailDomain: {
+            parsedDomain: 'zly format cisla'
+        }
+      }
+    }
+
+    else {
+      return null;
+    }
+   
+  }
+
+
 
   onSubmit(): void {
+
+    this.phone_number = this.form.value.phone_number;
+
+
     
     this.submitted = true;
 
