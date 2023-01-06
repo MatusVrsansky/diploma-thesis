@@ -16,14 +16,11 @@ export class RegisterComponent implements OnInit {
   errorMessage = '';
   showPassword = false;
 
-  // new values
   form: FormGroup;
   submitted = false;
-
-
+  
   phone_number = '';
   
-
   constructor(private authService: AuthService, private formBuilder: FormBuilder) { }
   ngOnInit(): void {
 
@@ -35,7 +32,7 @@ export class RegisterComponent implements OnInit {
             [
               Validators.required,
               Validators.minLength(6),
-              Validators.maxLength(20)
+              Validators.maxLength(30)
             ]
           ],
           email: ['', [Validators.required, Validators.email]],
@@ -44,7 +41,7 @@ export class RegisterComponent implements OnInit {
               [
                 Validators.required,
                 Validators.minLength(6),
-                Validators.maxLength(20),
+                Validators.maxLength(30),
 
               ]
             ],
@@ -53,7 +50,7 @@ export class RegisterComponent implements OnInit {
               [
                 Validators.required,
                 Validators.minLength(6),
-                Validators.maxLength(20)
+                Validators.maxLength(30)
               ],
             ],
             phone_number: [
@@ -61,7 +58,7 @@ export class RegisterComponent implements OnInit {
               [
                 Validators.required,
                 Validators.minLength(10),
-                Validators.maxLength(14),
+                Validators.maxLength(15),
                 this.phoneNumberValidator
               ]
             ],

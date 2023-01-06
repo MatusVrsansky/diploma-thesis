@@ -4,6 +4,7 @@
     <div class="card" *ngIf="!isSuccessful" >
       <div class="card-body">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          
           <div class="form-group mb-3">
             <label>Prihlasovacie meno</label>
             <input
@@ -18,7 +19,7 @@
                 Prihlasovacie meno musí mať najmenej 6 nakov
                </div>
               <div *ngIf="f['name'].errors['maxlength']">
-                Prihlasovacie meno musí mať najviac 20 znakov
+                Prihlasovacie meno musí mať najviac 30 znakov
               </div>
             </div>
           </div>
@@ -38,7 +39,7 @@
           </div>
 
           <div class="form-group mb-3">
-            <label>Telefónne číslo (napr +421...)</label>
+            <label>Telefónne číslo (vo formáte +421...)</label>
             <input
               type="text" placeholder="telefónne číslo"
               formControlName="phone_number"
@@ -51,7 +52,7 @@
                 Telefónne číslo musí mať najmenej 10 znakov
                </div>
               <div *ngIf="f['phone_number'].errors['maxlength']">
-                Telefónne číslo musí mať najviac 14 znakov
+                Telefónne číslo musí mať najviac 15 znakov
               </div>
               <div *ngIf="f['phone_number'].errors['emailDomain']">
                 Telefónne číslo obsahuje zlý formát
@@ -73,11 +74,10 @@
                 Heslo musí mať najmenej 6 znakov
                </div>
               <div *ngIf="f['password'].errors['maxlength']">
-                Heslo musí mať najviac 20 znakov
+                Heslo musí mať najviac 30 znakov
               </div>
             </div>
           </div>
-
 
           <div class="form-group mb-3">
             <label>Potvrdiť heslo</label>
@@ -95,7 +95,7 @@
                 Potvrdenie hesla musí mať najmenej 6 znakov
                </div>
               <div *ngIf="f['confirmPassword'].errors['maxlength']">
-                Potvrdenie hesla musí mať najviac 20 znakov
+                Potvrdenie hesla musí mať najviac 30 znakov
               </div>
               <div *ngIf="f['confirmPassword'].errors['matching']">
                 Heslá sa nezhodujú
@@ -106,8 +106,6 @@
           <div class="mb-2">
             <nb-checkbox status="basic" (change)="showPassword = !showPassword">Zobraziť heslo</nb-checkbox>
           </div>
-
-   
 
           <div class="form-group">
             <div
@@ -120,7 +118,7 @@
           </div>
       
           <div class="form-group">
-            <button type="submit" class="btn btn-primary">Prihlásiť sa</button>
+            <button type="submit" class="btn btn-primary">Registrovať sa</button>
            <!-- <button
               type="button"
               (click)="onReset()"
@@ -134,121 +132,4 @@
     </div>
     <strong *ngIf="isSuccessful">Registrácia bola úspešná, môžete sa prihlásiť.</strong>
   </nb-card-body>
-  
 </nb-card>
-
-<!--<nb-card>
-  <nb-card-header class="text-center"><h4>Registrácia</h4></nb-card-header>
-  <nb-card-body class="example-items-col text-center">
-    <div class="card">
-      <div class="card-body">
-  <form
-  *ngIf="!isSuccessful"
-  name="form"
-  (ngSubmit)="f.form.valid && onSubmit()"
-  #f="ngForm"
-  novalidate
->
-
-  <div class="mb-4">
-    <label for="username">Používateľské meno</label>
-    <input nbInput fullWidth  status="primary" placeholder="Používateľské meno"
-      type="text"
-      name="username"
-      [(ngModel)]="form.username"
-      required
-      minlength="3"
-      maxlength="20"
-      #username="ngModel">
-      <div class="alert alert-danger" role="alert" *ngIf="username.errors && f.submitted">
-        <div *ngIf="username.errors['required']">Používateľské meno je povinné</div>
-        <div *ngIf="username.errors['minlength']">
-          Používateľské meno musí mať aspoň 3 znaky
-        </div>
-        <div *ngIf="username.errors['maxlength']">
-          Používateľské meno musí mať najviac 20 znakov
-        </div>
-      </div>
-  </div>
-  <div class="mb-4">
-    <label for="username">Heslo</label>
-    <nb-form-field>
-      <input [type]="getInputType()" nbInput fullWidth status="info" placeholder="Heslo"  name="password"
-      [(ngModel)]="form.password"
-      required
-      minlength="6"
-      #password="ngModel">
-      <button nbSuffix nbButton ghost (click)="toggleShowPassword($event)">
-        <nb-icon [icon]="showPassword ? 'eye-off-2-outline' : 'eye-outline'"
-                 pack="eva"
-                 [attr.aria-label]="showPassword ? 'hide password' : 'show password'">
-        </nb-icon>
-      </button>
-    </nb-form-field>
-    <div
-    class="alert alert-danger"
-    role="alert"
-    *ngIf="password.errors && f.submitted"> <div *ngIf="password.errors['required']">Heslo je povinné</div>
-    <div *ngIf="password.errors['minlength']">
-      Heslo musí obsahovať aspoň 6 znakov
-    </div>
-    </div>
-  </div>
-
-  <div class="mb-4">
-    <label for="email">Email</label>
-    <input
-      type="email"
-      class="form-control"
-      name="email"
-      [(ngModel)]="form.email"
-      required
-      email
-      #email="ngModel"
-    />
-    <div class="alert alert-danger" *ngIf="email.errors && f.submitted">
-      <div *ngIf="email.errors['required']">Email je povinný</div>
-      <div *ngIf="email.errors['email']">
-        Email musí byť valídna emailová adresa
-      </div>
-    </div>
-  </div>
-  <div class="mb-4">
-    <label for="phone_number">Telefónne číslo</label>
-    <input
-      type="text"
-      class="form-control"
-      name="phone_number"
-      [(ngModel)]="form.phone_number"
-      required
-      minlength="10"
-      maxlength="20"
-      #phone_number="ngModel"
-    />
-    <div class="alert alert-danger" *ngIf="phone_number.errors && f.submitted">
-      <div *ngIf="phone_number.errors['required']">Telefónne číslo je povinné</div>
-      <div *ngIf="phone_number.errors['minlength']">
-        Telefónne číslo musí mať aspoň 3 znaky
-      </div>
-      <div *ngIf="phone_number.errors['maxlength']">
-        Telefónne číslo musí mať najviac 20 znakov
-      </div>
-    </div>
-  </div>
-  
-    <div class="control-status-example text-center mb-2">
-    <button nbButton hero status="primary">Registrovať sa</button>
-    </div>
-    <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
-      Registrácia zlyhala!<br />{{ errorMessage }}
-    </div> 
-
-    
-</form>
-</div>
-</div>
-<p *ngIf="isSuccessful">Registrácia bola úspešná</p>
-</nb-card-body>
-
- 
-</nb-card> -->

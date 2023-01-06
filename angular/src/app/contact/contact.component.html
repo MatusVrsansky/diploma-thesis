@@ -18,7 +18,7 @@
                     Meno musí mať najmenej 6 znakov
                    </div>
                   <div *ngIf="f['name'].errors['maxlength']">
-                    Meno musí mať najviac 40 znakov
+                    Meno musí mať najviac 30 znakov
                   </div>
                 </div>
               </div>
@@ -36,7 +36,7 @@
                   Email musí mať najmenej 6 znakov
                  </div>
                 <div *ngIf="f['email'].errors['maxlength']">
-                  Email musí mať najviac 40 znakov
+                  Email musí mať najviac 30 znakov
                 </div>
                 <div *ngIf="f['email'].errors['email']">Email je nevalídny</div>
               </div>
@@ -52,10 +52,10 @@
               <div *ngIf="submitted && f['message'].errors" class="invalid-feedback">
                 <div *ngIf="f['message'].errors['required']">Správa je povinná</div>
                 <div *ngIf="f['message'].errors['minlength']">
-                  Správa musí mať najmenej 6 nakov
+                  Správa musí mať najmenej 20 nakov
                 </div>
                 <div *ngIf="f['message'].errors['maxlength']">
-                  Správa musí mať najviac 200 znakov
+                  Správa musí mať najviac 500 znakov
                 </div>
               </div>
             </div>
@@ -63,7 +63,7 @@
               <button type="submit" class="btn btn-primary">Odoslať</button>
             </div>
           </form>
-          <strong *ngIf="emailSent">Ďakujeme Vám za Vašu spätnú väzbu. V prípade nutnosti Vás budeme spätne kontaktovať.</strong>
+          <strong *ngIf="emailSent">Ďakujeme za Vašu spätnú väzbu. V prípade nutnosti Vás budeme spätne kontaktovať.</strong>
         </div>
       </div>
     </nb-card-body>

@@ -86,6 +86,16 @@ nb-dialog-container {
     margin-left: 0.5rem;
 }
 
+table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+table td {
+    word-wrap: break-word;         /* All browsers since IE 5.5+ */
+    overflow-wrap: break-word;     /* Renamed property in CSS3 draft spec */
+}
+
 .table, th, td {
     border: 0.2rem solid cornflowerblue;
   }
@@ -295,4 +305,8 @@ table.table td i {
 
 .information {
     text-align: left;
+}
+
+.invalid-feedback {
+    font-size: 1rem;
 }

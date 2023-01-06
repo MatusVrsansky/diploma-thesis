@@ -81,6 +81,9 @@ export class ProfileComponent implements OnInit {
   // limit price to restrict sending sms
   limitPrice = 9;
 
+  // disabled button on add new notification
+  addNewNotification = true;
+
 
 
   constructor(private tokenStorage: TokenStorageService, private authService: AuthService, private toastrService: NbToastrService,
@@ -92,17 +95,18 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
 
     // timer(0, 10000) call the function immediately and every 10 seconds 
-    this.timerSubscription = timer(0, 10000).pipe( 
+    this.timerSubscription = timer(0, 5000).pipe( 
       map(() => { 
         this.getTwilioAccountBalance(); // load data contains the http request 
-        this.getAppConfigurations();
-        console.log('load map')
+        this.findAll();
+       // this.getAppConfigurations();
       }) 
     ).subscribe(); 
 
 
-    this.findAll();
+   
     this.getAppConfigurations();
+    
 
 
 
@@ -202,7 +206,7 @@ export class ProfileComponent implements OnInit {
           
           ]
         ],
-        temperatureWindSpeedOperator: [
+        compareOperator: [
           '>',
           [
            
@@ -216,12 +220,15 @@ export class ProfileComponent implements OnInit {
   }
 
   //  unsubscribe when the Observable is not necessary anymore 
-  ngOnDestroy(): void { 
+  ngOnDestroy() { 
     this.timerSubscription.unsubscribe(); 
-  } 
-
-
+  }
+  
   getUnusedNotificationTypes() {
+
+    console.log('++++++++++++++++++++')
+    console.log(this.notificationTypes.main.length)
+    console.log('++++++++++++++++++++')
 
    
     // array of used notifications
@@ -403,6 +410,15 @@ export class ProfileComponent implements OnInit {
       next: data => {
         console.log(data.user_notifications);
         this.userNotifications = data.user_notifications;
+
+        if(this.userNotifications.length == 8) {
+          console.log(this.userNotifications.length);
+          this.addNewNotification = false;
+        }
+
+        else {
+          this.addNewNotification = true;
+        }
       },
       error: err => {
         console.log(err);
@@ -420,7 +436,6 @@ export class ProfileComponent implements OnInit {
         console.log(err);
       }
     })
-
   }
 
   reloadPage(): void {
@@ -455,45 +470,45 @@ export class ProfileComponent implements OnInit {
   setFieldsRequired() {
     if(this.notification.value.notificationType == 'temperature') {
       console.log('teploa je tu');
-      this.notification.get('temperatureNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+      this.notification.get('temperatureNotification')?.setValidators([Validators.required, Validators.min(-50),  Validators.max(50)]);
       this.notification.get('temperatureNotification')?.updateValueAndValidity();
     }
 
     else if(this.notification.value.notificationType == 'windSpeed') {
-      this.notification.get('windSpeedNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+      this.notification.get('windSpeedNotification')?.setValidators([Validators.required, Validators.min(0),  Validators.max(20)]);
       this.notification.get('windSpeedNotification')?.updateValueAndValidity();
     }
 
     else if(this.notification.value.notificationType == 'soilTemperature') {
-      this.notification.get('soilTemperatureNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+      this.notification.get('soilTemperatureNotification')?.setValidators([Validators.required, Validators.min(0),  Validators.max(4095)]);
       this.notification.get('soilTemperatureNotification')?.updateValueAndValidity();
     }
 
     else if(this.notification.value.notificationType == 'soilMosture') {
-      this.notification.get('soilMostureNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+      this.notification.get('soilMostureNotification')?.setValidators([Validators.required, Validators.min(0),  Validators.max(1023)]);
       this.notification.get('soilMostureNotification')?.updateValueAndValidity();
     }
 
     else if(this.notification.value.notificationType == 'humidity') {
-      this.notification.get('humidityNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+      this.notification.get('humidityNotification')?.setValidators([Validators.required, Validators.min(0),  Validators.max(100)]);
       this.notification.get('humidityNotification')?.updateValueAndValidity();
     }
 
     else if(this.notification.value.notificationType == 'rainGauge') {
-      this.notification.get('rainGaugeNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+      this.notification.get('rainGaugeNotification')?.setValidators([Validators.required, Validators.min(6),  Validators.max(1023)]);
       this.notification.get('rainGaugeNotification')?.updateValueAndValidity();
     }
 
     else if(this.notification.value.notificationType == 'pressure') {
-      this.notification.get('pressureNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+      this.notification.get('pressureNotification')?.setValidators([Validators.required, Validators.min(0),  Validators.max(100)]);
       this.notification.get('pressureNotification')?.updateValueAndValidity();
     }
 
    
-    this.notification.get('descriptionNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(100)]);
+    this.notification.get('descriptionNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(150)]);
     this.notification.get('descriptionNotification')?.updateValueAndValidity();
 
-    this.notification.get('textNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(20)]);
+    this.notification.get('textNotification')?.setValidators([Validators.required, Validators.minLength(6),  Validators.maxLength(150)]);
     this.notification.get('textNotification')?.updateValueAndValidity();
   }
 
@@ -603,7 +618,6 @@ export class ProfileComponent implements OnInit {
     this.isAddMode = false;
 
     console.log('editacia je tuu');
-    console.log(notification);
 
     this.notification.patchValue({'pressureNotification': notification.pressure_notification});
     this.notification.patchValue({'notificationType': notification.notification_type});
@@ -614,6 +628,7 @@ export class ProfileComponent implements OnInit {
     this.notification.patchValue({'soilMostureNotification': notification.soil_mosture_notification});
     this.notification.patchValue({'soilTemperatureNotification': notification.soil_temperature_notification});
     this.notification.patchValue({'humidityNotification': notification.humidity_notification});
+    this.notification.patchValue({'compareOperator': notification.compare_operator});
     this.notification.patchValue({'rainGaugeNotification': notification.rain_gauge_notification});
     this.notification.patchValue({'pressureNotification': notification.pressure_notification});
     this.notification.patchValue({'textNotification': notification.text_notification});
@@ -644,7 +659,28 @@ export class ProfileComponent implements OnInit {
     })
   }
 
+  // check if notifications is sent or not
+  /*checkNotiticationSentState(notificationId: any) {
+    this.notificationsService.checkNotiticationSentState(notificationId).subscribe({
+      next: data => {
+        console.log(data);
 
+        if(data == 1) {
+          return 'Ano';
+        }
+
+        else {
+          return 'Nie'
+        }
+        
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+
+    
+  }*/
 
   getWindDirectionThingSpeak(windDirection:any) {
 

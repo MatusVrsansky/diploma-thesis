@@ -32,7 +32,7 @@ export class NotificationService {
       activeNotification: [...notification].shift().activeNotification,
       windSpeedNotification: [...notification].shift().windSpeedNotification,
       descriptionNotification:  [...notification].shift().descriptionNotification,
-      temperatureWindSpeedOperator: [...notification].shift().temperatureWindSpeedOperator
+      compareOperator: [...notification].shift().compareOperator
     }, httpOptions);
   }
 
@@ -52,7 +52,7 @@ export class NotificationService {
       activeNotification:  [...notification].shift().activeNotification,
       descriptionNotification:  [...notification].shift().descriptionNotification,
       windSpeedNotification:  [...notification].shift().windSpeedNotification,
-      temperatureWindSpeedOperator:  [...notification].shift().temperatureWindSpeedOperator,
+      compareOperator:  [...notification].shift().compareOperator,
       notificationType:  [...notification].shift().notificationType
     }, httpOptions);
   }

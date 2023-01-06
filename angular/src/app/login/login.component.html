@@ -18,7 +18,7 @@
                 Prihlasovacie meno musí mať najmenej 6 znakov
                </div>
               <div *ngIf="f['name'].errors['maxlength']">
-                Prihlasovacie meno musí mať najviac 20 znakov
+                Prihlasovacie meno musí mať najviac 30 znakov
               </div>
             </div>
           </div>
@@ -34,10 +34,10 @@
             <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
               <div *ngIf="f['password'].errors['required']">Heslo je povinné</div>
               <div *ngIf="f['password'].errors['minlength']">
-                Heslo musí mať najmenej 6 nakov
+                Heslo musí mať najmenej 6 znakov
               </div>
               <div *ngIf="f['password'].errors['maxlength']">
-                Heslo musí mať najviac 20 znakov
+                Heslo musí mať najviac 30 znakov
               </div>
             </div>
           </div>
@@ -73,81 +73,3 @@
   </nb-card-body>
   
 </nb-card>
-
-
-
-
- <!-- <nb-card>
-    <nb-card-header class="text-center"><h4>Login</h4></nb-card-header>
-    <nb-card-body class="example-items-col text-center">
-      <div class="card">
-        <div class="card-body">
-      <form  *ngIf="!isLoggedIn"
-      name="form"
-      (ngSubmit)="f.form.valid && onSubmit()"
-      #f="ngForm"
-      novalidate>
-      <div class="mb-4">
-        <input type="text" nbInput   fullWidth  status="primary" placeholder="Používateľské meno / email" name="username"
-        [(ngModel)]="form.username"
-        required
-        #username="ngModel">
-        <div
-        class="alert alert-danger"
-        role="alert"
-        *ngIf="username.errors && f.submitted"
-        >
-        Používateľské meno je povinné!
-        </div>
-      </div>
-     
-      <div class="mb-4">
-      <nb-form-field>
-          <input [type]="getInputType()" nbInput fullWidth status="info" placeholder="Heslo"  name="password"
-          [(ngModel)]="form.password"
-          required
-          minlength="6"
-          maxLength="10"
-          #password="ngModel">
-          <button nbSuffix nbButton ghost (click)="toggleShowPassword($event)">
-            <nb-icon [icon]="showPassword ? 'eye-off-2-outline' : 'eye-outline'"
-                     pack="eva"
-                     [attr.aria-label]="showPassword ? 'hide password' : 'show password'">
-            </nb-icon>
-          </button>
-        </nb-form-field>
-
-      <div
-        class="alert alert-danger"
-        role="alert"
-        *ngIf="password.errors && f.submitted">
-        <div *ngIf="password.errors['required']">Heslo je povinné</div>
-        <div *ngIf="password.errors['minlength']">
-          Heslo musí obsahovať aspoň 6 znakov
-        </div>
-        <div *ngIf="password.errors['maxlength']">
-          Heslo musí obsahovať maximalne 10 znakov
-        </div>
-      </div>
-      </div>
-  
-        <div class="control-status-example text-center mb-2">
-          <button nbButton hero status="primary">Prihlásiť sa</button>
-        </div>
-        <div class="form-group">
-          <div
-            class="alert alert-danger"
-            role="alert"
-            *ngIf="f.submitted && isLoginFailed"
-          >
-            Prihlásenie zlyhalo: {{ errorMessage }}
-          </div>
-        </div>
-      
-     
-      </form>
-      </div>
-      </div>
-    </nb-card-body>
-    
-  </nb-card>-->

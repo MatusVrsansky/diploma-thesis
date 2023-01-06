@@ -18,10 +18,8 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   showPassword = false;
 
-
   form: FormGroup;
   submitted = false;
-
 
   roles: string[] = [];
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private formBuilder: FormBuilder) { }
@@ -39,7 +37,7 @@ export class LoginComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(6),
-          Validators.maxLength(20)
+          Validators.maxLength(30)
         ]
       ],
         password: [
@@ -47,7 +45,7 @@ export class LoginComponent implements OnInit {
           [
             Validators.required,
             Validators.minLength(6),
-            Validators.maxLength(20)
+            Validators.maxLength(30)
           ]
         ]
         //acceptTerms: [false, Validators.requiredTrue]

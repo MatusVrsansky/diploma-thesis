@@ -27,22 +27,22 @@ export class ContactComponent implements OnInit {
           Validators.required,
           Validators.email,
           Validators.minLength(6),
-          Validators.maxLength(40)
+          Validators.maxLength(30)
         ]],
         name: [
           '',
           [
             Validators.required,
             Validators.minLength(6),
-            Validators.maxLength(40)
+            Validators.maxLength(30)
           ]
         ],
         message: [
           '',
           [
             Validators.required,
-            Validators.minLength(6),
-            Validators.maxLength(200)
+            Validators.minLength(20),
+            Validators.maxLength(500)
           ]
         ]
       }

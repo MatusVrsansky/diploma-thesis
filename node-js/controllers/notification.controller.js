@@ -10,15 +10,10 @@ require('dotenv').config();
 
 
 
-exports.addNewNotification = (req, res) => {    
+exports.addNewNotification = (req, res) => {   
     switch(req.body.notificationType) {
-      case 'smer_vetra':
-      case 'uroven_svetla':
-      case 'vlhost_pody':
-      case 'vlhkost':
-      case 'tlak':
-      case 'dazdometer': req.body.temperatureWindSpeedOperator = null; break;
-      default: break;
+      case 'windDirection': req.body.compareOperator = null; break;
+      default: req.body.windDirectionNotification = null; break;
     }
   
     Notifications.create({ 
@@ -35,7 +30,7 @@ exports.addNewNotification = (req, res) => {
       soil_mosture_notification: req.body.soilMostureNotification,    
       text_notification: req.body.textNotification,
       active_notification: req.body.activeNotification,
-      temperature_windSpeed_operator: req.body.temperatureWindSpeedOperator
+      compare_operator: req.body.compareOperator
     }).then(test => {
         User.findOne({
           where: {
@@ -64,22 +59,15 @@ exports.addNewNotification = (req, res) => {
   }
 
 exports.editNotification = (req, res) => {
-
   switch(req.body.notificationType) {
-    case 'smer_vetra':
-    case 'uroven_svetla':
-    case 'vlhost_pody':
-    case 'vlhkost':
-    case 'tlak':
-    case 'dazdometer': req.body.temperatureWindSpeedOperator = null; break;
-    default: break;
+    case 'windDirection': req.body.compareOperator = null; break;
+    default: req.body.windDirectionNotification = null; break;
   }
   
   const updateQuery = {
     temperature_notification: req.body.temperatureNotification,
     text_notification: req.body.textNotification,
     active_notification: req.body.activeNotification,
-    temperature_windSpeed_operator: req.body.temperatureWindSpeedOperator,
     wind_speed_notification: req.body.windSpeedNotification,
     rain_gauge_notification: req.body.rainGaugeNotification,
     wind_direction_notification: req.body.windDirectionNotification,
@@ -87,7 +75,7 @@ exports.editNotification = (req, res) => {
     pressure_notification: req.body.pressureNotification,
     soil_temperature_notification: req.body.soilTemperatureNotification,
     soil_mosture_notification: req.body.soilMostureNotification,
-    temperature_windSpeed_operator: req.body.temperatureWindSpeedOperator,
+    compare_operator: req.body.compareOperator,
     description_notification: req.body.descriptionNotification
   }
   
@@ -160,8 +148,6 @@ exports.removeNotification = (req, res) => {
 
 }
 
-
-
 exports.getAllNotifications = (req, res) => {
   console.log(req.query.userId);
 
@@ -189,7 +175,7 @@ exports.getAllNotifications = (req, res) => {
   
 });
 
-};
+}
 
 
 

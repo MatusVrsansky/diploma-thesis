@@ -36,24 +36,27 @@ export class AppComponent {
   logout(): void {
     this.tokenStorageService.signOut();
     window.location.reload();
+
+    this.closeResponsiveMenu();
+    
   }
 
-  reloadPage(page:any) {
-    window.location.replace(page);
+  reloadPage() {
+    this.closeResponsiveMenu();
    }
 
-  reloadCurrentPage() {
-    window.location.reload();
-  }
+   /*replacePage(page:any) {
+    window.location.replace(page);
+   }*/
 
   setOpenedResponsiveMenu() {
     this.openResponsiveMenu = true;
   }
 
-  closeResponsiveMenu(event:any) {
+  closeResponsiveMenu() {
 
-    if(event.srcElement.className != 'links' && this.openResponsiveMenu == true) {
-      console.log('zatvor');
+   // if(event.srcElement.className != 'links' && this.openResponsiveMenu == true) {
+     // console.log('zatvor');
 
       if(this.openResponsiveMenu) {
         let element:HTMLElement = document.getElementById('auto_trigger') as HTMLElement;
@@ -63,6 +66,6 @@ export class AppComponent {
         console.log('menim')
       }
 
-    }
+  //  }
   }
 }
