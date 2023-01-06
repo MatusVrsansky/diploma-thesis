@@ -79,7 +79,7 @@ export class ProfileComponent implements OnInit {
   timerSubscription: Subscription;
 
   // limit price to restrict sending sms
-  limitPrice = 9;
+  limitPrice = 5;
 
   // disabled button on add new notification
   addNewNotification = true;
