@@ -495,7 +495,7 @@ export class ProfileComponent implements OnInit {
     }
 
     else if(this.notification.value.notificationType == 'rainGauge') {
-      this.notification.get('rainGaugeNotification')?.setValidators([Validators.required, Validators.min(6),  Validators.max(1023)]);
+      this.notification.get('rainGaugeNotification')?.setValidators([Validators.required, Validators.min(0),  Validators.max(1023)]);
       this.notification.get('rainGaugeNotification')?.updateValueAndValidity();
     }
 
