@@ -31,6 +31,11 @@ export class HistoryComponent implements OnInit {
 
   yesterdaySlovakFormat  = ''
 
+  errorThingSpeakHistory = false;
+  errorWeatherBitHistory = false;
+
+
+
   constructor(){}
 
 
@@ -55,9 +60,10 @@ export class HistoryComponent implements OnInit {
 
     this.yesterdaySlovakFormat = this.yesterdaySlovakFormatff as string;
 
+    
 
-    this.getWeatherData();
 
+    this.getWeatherBitHistory();
     this.getThingSpeakHistory();
   }
 
@@ -70,11 +76,7 @@ export class HistoryComponent implements OnInit {
     fetch(historyThingSpeak)
     .then(response=>response.json())
     .then(data=>{
-
-     
-
     var historyYesterday = this.pipe.transform(data.feeds[14].created_at, 'yyyy-MM-dd');
-
 
     for (var product of data.feeds) {
 
@@ -85,20 +87,25 @@ export class HistoryComponent implements OnInit {
 
       this.setThingSpeakHistory(apiThingSpeakHistoryData);
     })
+    .catch(error => {
+      console.log(error);
+      this.errorThingSpeakHistory = true;
+    })
   }
 
 
-  getWeatherData() {
+  getWeatherBitHistory() {
     var combinedString = 'https://api.weatherapi.com/v1/history.json?key=0419f763b19f42fba7b181204223006&q=Ostratice&dt='
     var combinedStringTwo = this.yesterdayFormatted;
-
-
-
 
     fetch(combinedString + combinedStringTwo)
     .then(response=>response.json())
     .then(data=>{
       this.setWeatherData(data);
+    })
+    .catch(error => {
+      console.log(error);
+      this.errorWeatherBitHistory = true;
     })
     }
 

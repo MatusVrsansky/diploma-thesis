@@ -70,6 +70,8 @@ nb-dialog-container {
     .login-info, .app-settings {
         padding: 1rem;
     }
+
+    
 }
 
 
@@ -86,12 +88,12 @@ nb-dialog-container {
     margin-left: 0.5rem;
 }
 
-table {
+.table {
     table-layout: fixed;
     width: 100%;
 }
 
-table td {
+.table td {
     word-wrap: break-word;         /* All browsers since IE 5.5+ */
     overflow-wrap: break-word;     /* Renamed property in CSS3 draft spec */
 }

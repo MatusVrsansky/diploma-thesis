@@ -23,7 +23,12 @@ export class HomeComponent implements OnInit {
         this.content = data;
       },
       error: err => {
-        this.content = JSON.parse(err.error).message;
+        try {
+          this.content = JSON.parse(err.error).message;
+        }
+        catch (error) {
+          this.content = 'Chyba, kontaktujte administrátora';
+        }
       }
     });
   }

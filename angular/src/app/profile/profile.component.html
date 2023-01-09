@@ -3,7 +3,7 @@
   <nb-card-body class="example-items-col text-center profile">
     <nb-tabset >
       <nb-tab tabTitle="Profil" tabIcon="person-outline" class="login-info" responsive>
-          <div class="card">
+          <div class="card" *ngIf="!errorUserInformation">
 						<div class="card-body">
 							<div class="row mb-3">
 								<div class="col-sm-3">
@@ -34,12 +34,14 @@
               <hr>
 						</div>
           </div>
+          <div class="text-center" *ngIf="errorUserInformation">
+            <strong class="text-danger">Žiadne dáta nie sú k dispozícií na zobrazenie. Kontaktujte prosím administrátora prostredníctvom formulára.</strong>
+          </div>
        
       </nb-tab>
       <nb-tab tabTitle="Notifikácie" tabIcon="bell-outline" responsive>
         <div class="text-center">
-          <div>
-            <div class="table-responsive">
+            <div class="table-responsive"  *ngIf="!errorExistedNotifications">
               <div class="table-wrapper">
                 <div class="d-flex justify-content-start mb-2">
                   <div class="" nbTooltip="Máte pridané všetky typy notifikácii!"  [nbTooltipDisabled]="addNewNotification" nbTooltipPlacement="top">
@@ -356,12 +358,12 @@
                       </tbody>
                   </table>
               </div>
-          </div>  
           </div>
+          <strong class="text-danger" *ngIf="errorExistedNotifications">Žiadne notifikácie nie sú k dispozícií na zobrazenie. Kontaktujte prosím administrátora prostredníctvom formulára.</strong>
         </div>
       </nb-tab>
       <nb-tab tabTitle="Nastavenia aplikácie" tabIcon="settings-outline" class="app-settings" *ngIf="user.roles.includes('ROLE_ADMIN')" responsive>
-          <div class="card">
+          <div class="card" *ngIf="!errorAppSettings">
 						<div class="card-body">
 							<div class="row mb-3">
 								<div class="col-sm-5">
@@ -387,6 +389,9 @@
 								</div>
 							</div>
 						</div>
+          </div>
+          <div class="text-center" *ngIf="errorAppSettings">
+            <strong class="text-danger">Žiadne dáta nie sú k dispozícií na zobrazenie. Kontaktujte prosím administrátora prostredníctvom formulára.</strong>
           </div>
       </nb-tab>
     </nb-tabset>

@@ -1,7 +1,7 @@
 <nb-card>
     <nb-card-header><h4 class="text-center p-2">Meranie</h4></nb-card-header>
     <nb-card-body class="weather-data">
-       
+        <div  *ngIf="!error">
             <div class="row mb-3">
                 <div class="col-sm-6">
                     <h6 class="mb-0">Posledný dátum a čas merania:</h6>
@@ -82,6 +82,9 @@
                     {{climaticConditionsDataThingSpeak.soilMosture}}
                 </div>
             </div>
-           
+        </div>
+        <div class="text-center" *ngIf="error">
+            <strong class="text-danger">Žiadne dáta nie sú k dispozícií na zobrazenie. Kontaktujte prosím administrátora prostredníctvom formulára.</strong>
+        </div>   
     </nb-card-body>
 </nb-card>

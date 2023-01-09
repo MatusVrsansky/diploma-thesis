@@ -52,7 +52,7 @@
               <div *ngIf="submitted && f['message'].errors" class="invalid-feedback">
                 <div *ngIf="f['message'].errors['required']">Správa je povinná</div>
                 <div *ngIf="f['message'].errors['minlength']">
-                  Správa musí mať najmenej 20 nakov
+                  Správa musí mať najmenej 20 znakov
                 </div>
                 <div *ngIf="f['message'].errors['maxlength']">
                   Správa musí mať najviac 500 znakov

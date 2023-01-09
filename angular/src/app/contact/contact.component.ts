@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding, Optional } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContactService } from '../_services/contact.service';
+import { NbGlobalLogicalPosition, NbGlobalPhysicalPosition, NbGlobalPosition, NbToastrService, NbDialogService, NbDialogRef } from '@nebular/theme';
 
 
 @Component({
@@ -10,13 +11,19 @@ import { ContactService } from '../_services/contact.service';
 })
 export class ContactComponent implements OnInit {
 
- 
+  @HostBinding('class')
   form: FormGroup;
   submitted = false;
 
   emailSent = false;
 
-  constructor(private contactService: ContactService, private formBuilder: FormBuilder) { }
+  physicalPositions = NbGlobalPhysicalPosition;
+  logicalPositions = NbGlobalLogicalPosition;
+
+  constructor(private contactService: ContactService, private formBuilder: FormBuilder, private toastrService: NbToastrService,
+    private dialogService: NbDialogService, @Optional() private dialogRef: NbDialogRef<any>) { }
+
+  
 
   ngOnInit(): void {
 
@@ -65,6 +72,8 @@ export class ContactComponent implements OnInit {
         },
         error: err => {
           console.log(err);
+          console.log(err.error.message);
+          this.showToast(this.logicalPositions.BOTTOM_END, 20000, "Kontaktujte administrátora telefonicky", 'Email sa neodoslal');
         }
       });
     }
@@ -73,4 +82,10 @@ export class ContactComponent implements OnInit {
   get f(): { [key: string]: AbstractControl } {
     return this.form.controls;
   }
+
+  showToast(position: NbGlobalPosition, duration: number, message: string, title: string) {
+    this.toastrService.warning(message, title, { position, duration });
+  }
 }
+
+

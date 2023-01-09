@@ -66,7 +66,6 @@ export class LoginComponent implements OnInit {
     }
 
     else {
-
       this.authService.login(Array(this.form.value)).subscribe({
         next: data => {
           this.tokenStorage.saveToken(data.accessToken);
@@ -77,9 +76,17 @@ export class LoginComponent implements OnInit {
           this.reloadPage();
         },
         error: err => {
-          this.errorMessage = err.error.message;
+          console.log(err.status);
+
+          switch(err.status) {
+            case 401:
+            case 404:  this.errorMessage = err.error.message; break;
+            default: this.errorMessage = 'kontaktujte administrátora prostredníctvom formulára.'; break;
+          }
+
           this.isLoginFailed = true;
-        }
+        },
+        complete: () => console.log('done'),
       });
   }
 }

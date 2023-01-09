@@ -115,8 +115,12 @@ export class RegisterComponent implements OnInit {
          // this.reloadPage();
         },
         error: err => {
-          this.errorMessage = err.error.message;
-          console.log(typeof(this.form.controls));
+          console.log("status :" + err.status);
+
+          switch(err.status) {
+            case 400:  this.errorMessage = err.error.message; break;
+            default: this.errorMessage = 'kontaktujte administrátora prostredníctvom formulára.'; break;
+          }
           this.isSignUpFailed = true;
   
           console.log(err)

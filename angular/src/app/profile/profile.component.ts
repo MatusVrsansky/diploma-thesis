@@ -34,16 +34,14 @@ export class ProfileComponent implements OnInit {
   isAddMode = true;
 
   user: any = {
-    username: this.currentUser.username,
-    email: this.currentUser.email,
-    phone_number: this.currentUser.phone_number,
-    roles: this.currentUser.roles
+    username: null,
+    email: null,
+    phone_number: null,
+    roles: null
   };
 
   userId = this.currentUser.id;
   isSuccessful = false;
-  isSignUpFailed = false;
-  errorMessage = '';
   roles: string[] = [];
   showPassword = false;
   usedNotifications: any;
@@ -84,6 +82,15 @@ export class ProfileComponent implements OnInit {
   // disabled button on add new notification
   addNewNotification = true;
 
+  // error message when backend do not return existed notifications
+  errorExistedNotifications = false;
+
+  // error message when backend to not return app settings
+  errorAppSettings = false;
+
+  // error message when token do not return user information
+  errorUserInformation = false;
+
 
 
   constructor(private tokenStorage: TokenStorageService, private authService: AuthService, private toastrService: NbToastrService,
@@ -93,18 +100,29 @@ export class ProfileComponent implements OnInit {
   
   
   ngOnInit(): void {
+    this.user.username = this.currentUser.username;
+    this.user.email = this.currentUser.email;
+    this.user.phone_number = this.currentUser.phone_number;
+    this.user.roles = this.currentUser.roles;
 
     // timer(0, 10000) call the function immediately and every 10 seconds 
-    this.timerSubscription = timer(0, 5000).pipe( 
+    this.timerSubscription = timer(0, 2000).pipe( 
       map(() => { 
-        this.getTwilioAccountBalance(); // load data contains the http request 
-        this.findAll();
+       this.getTwilioAccountBalance(); // load data contains the http request 
+       this.findAll();
+
+        // check if token of user is empty or not
+        if(!Object.values(this.user).join('')) {
+          this.errorUserInformation = true;
+        }
+
+
        // this.getAppConfigurations();
       }) 
     ).subscribe(); 
 
 
-   
+    this.getTwilioAccountBalance();
     this.getAppConfigurations();
     
 
@@ -305,8 +323,15 @@ export class ProfileComponent implements OnInit {
       return this.notification.controls;
     }
 
-  showToast(position: NbGlobalPosition, duration: number, message: string, title: string) {
-    this.toastrService.success(message, title, { position, duration });
+  showToast(position: NbGlobalPosition, duration: number, message: string, title: string, type: string) {
+
+    if(type == 'success') {
+      this.toastrService.success(message, title, { position, duration });
+    }
+
+    else {
+      this.toastrService.warning(message, title, { position, duration });
+    }
   }
 
   // api data for ThingSpeak
@@ -316,6 +341,7 @@ export class ProfileComponent implements OnInit {
           console.log("getTwilioAccountBalance : " + data.balance);
           //this.accountBalance = Math.round((data.balance*0.94 + Number.EPSILON) * 100) / 100;
           this.accountBalance = data.balance;
+          this.errorAppSettings = false;
 
           // set sending of notifications, when price is lower than 0,50e
           if(data.balance < this.limitPrice) {
@@ -323,9 +349,11 @@ export class ProfileComponent implements OnInit {
             this.configService.setSendPhoneNotificationsState(false).subscribe({
               next: data => {
                 console.log("Zmenili sa data :" + data);
+                this.errorAppSettings = false;
               },
               error: err => {
                 console.log(err);
+                this.errorAppSettings = true;
               }
             })
 
@@ -334,7 +362,8 @@ export class ProfileComponent implements OnInit {
           console.log(this.accountBalance);
         },
         error: err => {
-          console.log(err)
+          console.log(err);
+          this.errorAppSettings = true;
         }
       })
     }
@@ -362,13 +391,12 @@ export class ProfileComponent implements OnInit {
           console.log(data.user_notifications);
           this.findAll();
           this.closeDialog();
-          this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikácia bola pridaná!", "Pridanie notifikácie");
+          this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikácia bola pridaná", "Pridanie notifikácie", "success");
           this.getUnusedNotificationTypes();
         },
         error: err => {
-          console.log(err.error.message)
-          this.errorMessage = err.error.message;
-          this.isSignUpFailed = true;
+          this.closeDialog();
+          this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikáciu sa nepodarilo vytvoriť. Kontaktujte administrátora prostrednítvom formulára.", "Chyba pri vytvorení notifikácie", "danger");
         }
       });
     }
@@ -385,22 +413,18 @@ export class ProfileComponent implements OnInit {
     }
 
     else {
-      
-
       this.notificationsService.editNotification(this.userId, Array(this.notification.value)).subscribe({
         next: data => {
           this.findAll();
           this.closeDialog();
-           this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikácia bola upravená!", "Úprava notifikácie");
+           this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikácia bola upravená", "Úprava notifikácie", "success");
         },
         error: err => {
-          console.log(err.error.message)
-          this.errorMessage = err.error.message;
-          this.isSignUpFailed = true;
+          this.closeDialog();
+          this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikáciu sa nepodarilo upraviť. Kontaktujte administrátora prostrednítvom formulára.", "Chyba pri upravení notifikácie", "danger");
         }
       });
     }
-
   }
    
   }
@@ -410,6 +434,7 @@ export class ProfileComponent implements OnInit {
       next: data => {
         console.log(data.user_notifications);
         this.userNotifications = data.user_notifications;
+        this.errorExistedNotifications = false;
 
         if(this.userNotifications.length == 8) {
           console.log(this.userNotifications.length);
@@ -422,6 +447,7 @@ export class ProfileComponent implements OnInit {
       },
       error: err => {
         console.log(err);
+        this.errorExistedNotifications = true;
       }
     });
   }
@@ -430,10 +456,12 @@ export class ProfileComponent implements OnInit {
     this.configService.getAppConfigurations().subscribe({
       next: data => {
         console.log(data);
+        this.errorAppSettings = false;
         this.sendPhoneNotifications = data.config[0].value;
       },
       error: err => {
         console.log(err);
+        this.errorAppSettings = true;
       }
     })
   }
@@ -602,13 +630,13 @@ export class ProfileComponent implements OnInit {
       next: data => {
         this.findAll();
         this.closeDialog();
-        this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikácia bola odstránená!", "Odstránenie notifikácie");
+        this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikácia bola odstránená", "Odstránenie notifikácie", "success");
         this.getUnusedNotificationTypes();
       },
       error: err => {
         console.log(err.error.message)
-        this.errorMessage = err.error.message;
-        this.isSignUpFailed = true;
+        this.closeDialog();
+        this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikáciu sa nepodarilo vymazať. Kontaktujte administrátora prostrednítvom formulára.", "Chyba pri vymazaní notifikácie", "danger");
       }
     });
   }
@@ -651,7 +679,15 @@ export class ProfileComponent implements OnInit {
 
     this.configService.setSendPhoneNotificationsState(state).subscribe({
       next: data => {
-        console.log("Respond :" + data);
+        console.log("Respond :" + data.state);
+        
+        if(data.state == true) {
+          this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Posielanie SMS správ bolo zapnuté", "Posielanie SMS správ", "success");
+        }
+
+        else {
+          this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Posielanie SMS správ bolo vypnuté", "Posielanie SMS správ", "success");
+        }
       },
       error: err => {
         console.log(err);

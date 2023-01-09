@@ -110,7 +110,7 @@ nav .icon-burger:hover {
 	}
 	
 	nav :checked ~ .links {
-		bottom: 14%;
+		bottom: 0;
 	}
 	nav .icon-burger {
 		display: block;

@@ -1,16 +1,3 @@
-@import 'node_modules/@nebular/theme/styles/theming';
-@import 'node_modules/@nebular/theme/styles/themes/default';
-
-$nb-themes: nb-register-theme(
-  (
-    // add your variables here like:
-   
-
-
-  ),
-  default,
-  default
-);
 
 .contact {
   padding-top: 2rem;

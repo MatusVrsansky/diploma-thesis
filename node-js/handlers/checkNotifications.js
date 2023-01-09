@@ -375,8 +375,27 @@ module.exports = () => {
 
    async function sendNotifications(userId, notificationText, notificationType) {
 
+
+
+        console.log('pouzivatel id: '+userId);
+
+        // send SMS
+        sendSms = false;
+
         emailAddress = '';
         phone_number = '';
+
+        await Config.findOne({
+            where: {
+                name: 'send_phone_notifications'
+            }
+            })
+            .then(respond => {
+            // console.log(user.email)
+            sendSms = respond.value;
+            });
+
+       
 
         await User.findOne({
             where: {
@@ -385,7 +404,7 @@ module.exports = () => {
           })
           .then(user => {
            // console.log(user.email)
-          
+            console.log(user);
             emailAddress = user.email;
             phone_number = user.phone_number;
           });
@@ -409,20 +428,10 @@ module.exports = () => {
         });
 
         
-        // send SMS
-        sendSms = false;
-
-        await Config.findOne({
-            where: {
-              name: 'send_phone_notifications'
-            }
-          })
-          .then(respond => {
-           // console.log(user.email)
-            sendSms = respond.value;
-          });
+     
 
           console.log("send sms: "+sendSms);
+          console.log("email: "+emailAddress);
           console.log("user phone: "+phone_number);
 
         if(sendSms) {
@@ -460,7 +469,4 @@ module.exports = () => {
     
         return notificationType;
       }
-
-    
-
 }

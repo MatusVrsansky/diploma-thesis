@@ -9,6 +9,8 @@ export class ClimaticConditionsComponent implements OnInit {
 
   climaticConditionsDataThingSpeak: any;
 
+  error = false;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -38,6 +40,10 @@ export class ClimaticConditionsComponent implements OnInit {
       this.climaticConditionsDataThingSpeak.pressure = data.feeds[0].field6;
       this.climaticConditionsDataThingSpeak.soilTemperature = data.feeds[0].field7;
       this.climaticConditionsDataThingSpeak.soilMosture = data.feeds[0].field8;
+    })
+    .catch(error => {
+      console.log(error);
+      this.error = true;
     })
   }
 
