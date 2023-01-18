@@ -14,9 +14,6 @@ export class NotificationService {
   constructor(private http: HttpClient) { }
  
   addNewNotification(userId: number, notification: Array<any>):  Observable<any> {
-    console.log('idem pridat novu notifikaciuu');
-    console.log([...notification].shift().notificationType);
-
 
     return this.http.post(AUTH_API + 'addNewNotification', {
       currentLoggedUserId : userId,
@@ -59,9 +56,7 @@ export class NotificationService {
 
 
   getAllNotifications(userId: number): Observable<any> {
-    console.log('notifications.service')
-    console.log(userId)
-
+   
     const params = new HttpParams()
     .set('userId', userId);
 
@@ -73,9 +68,6 @@ export class NotificationService {
 
   removeNotification(userId:number, notificationId: number): Observable<any> {
 
-    console.log(userId);
-    console.log(notificationId)
-   
     return this.http.post(AUTH_API + 'removeNotification', {
       userId,
       notificationId

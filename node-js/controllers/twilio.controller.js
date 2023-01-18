@@ -1,6 +1,3 @@
-
-
-
 exports.getTwilioAccountBalance = (req, res) => {
 
 const client = require('twilio')(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN)
@@ -20,4 +17,3 @@ client.balance.fetch()
   });
   
 };
-

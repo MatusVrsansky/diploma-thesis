@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {HistoryService} from '../_services/history.service';
 import { DatePipe } from '@angular/common';
-
-import { TokenStorageService } from '../_services/token-storage.service';
-import { AuthService } from '../_services/auth.service';
-
-
 
 @Component({
   selector: 'app-history',
@@ -28,17 +24,11 @@ export class HistoryComponent implements OnInit {
   yesterday = new Date(new Date().setDate(new Date().getDate()-1));
   yesterdayFormatted = this.pipe.transform(this.yesterday, 'yyyy-MM-dd')
   yesterdaySlovakFormatff = this.pipe.transform(this.yesterday, 'dd.MM.yyyy')
-
   yesterdaySlovakFormat  = ''
-
   errorThingSpeakHistory = false;
   errorWeatherBitHistory = false;
 
-
-
-  constructor(){}
-
-
+  constructor(private historyService: HistoryService){}
 
   ngOnInit() {
 
@@ -60,64 +50,55 @@ export class HistoryComponent implements OnInit {
 
     this.yesterdaySlovakFormat = this.yesterdaySlovakFormatff as string;
 
-    
-
-
     this.getWeatherBitHistory();
     this.getThingSpeakHistory();
   }
 
   // api data for ThingSpeak
   getThingSpeakHistory() {
-    const historyThingSpeak = 'https://api.thingspeak.com/channels/1825300/feeds.json?api_key=ERX6U69VZ9F5MSFM';
+    this.historyService.getThingSpeakHistory().subscribe({
+      next: data => {
+        const apiThingSpeakHistoryData: object[] = [];
+        const myData = JSON.parse(JSON.stringify(data.historyThingSpeak));
 
-    const apiThingSpeakHistoryData: object[] = [];
+        for (var i=0;i<myData.length;i++) {
 
-    fetch(historyThingSpeak)
-    .then(response=>response.json())
-    .then(data=>{
-    var historyYesterday = this.pipe.transform(data.feeds[14].created_at, 'yyyy-MM-dd');
+          //if(this.pipe.transform(product.created_at, 'yyyy-MM-dd') == this.yesterdayFormatted) {
+             apiThingSpeakHistoryData.push(myData[i])
+           // }
+          }
 
-    for (var product of data.feeds) {
-
-      if(this.pipe.transform(product.created_at, 'yyyy-MM-dd') == this.yesterdayFormatted) {
-         apiThingSpeakHistoryData.push(product)
-        }
+          this.setThingSpeakHistory(apiThingSpeakHistoryData);
+       
+      },
+      error: err => {
+        console.log(err);
+        this.errorThingSpeakHistory = true;
       }
-
-      this.setThingSpeakHistory(apiThingSpeakHistoryData);
-    })
-    .catch(error => {
-      console.log(error);
-      this.errorThingSpeakHistory = true;
     })
   }
 
 
   getWeatherBitHistory() {
-    var combinedString = 'https://api.weatherapi.com/v1/history.json?key=0419f763b19f42fba7b181204223006&q=Ostratice&dt='
-    var combinedStringTwo = this.yesterdayFormatted;
-
-    fetch(combinedString + combinedStringTwo)
-    .then(response=>response.json())
-    .then(data=>{
-      this.setWeatherData(data);
-    })
-    .catch(error => {
-      console.log(error);
-      this.errorWeatherBitHistory = true;
+    this.historyService.getWeatherApiHistory().subscribe({
+      next: data => {
+        console.log(data);
+        console.log(JSON.parse(JSON.stringify(data.weatherApiHistory)))
+        const myData = JSON.parse(JSON.stringify(data.weatherApiHistory));
+        this.setWeatherData(myData);
+       
+      },
+      error: err => {
+        console.log(err);
+        console.log('nespracuje mi data');
+        this.errorWeatherBitHistory = true;
+      }
     })
     }
 
-
     setWeatherData(data:any){
       this.historyData.main = data.forecast.forecastday[0].hour;
-      console.log('herererererererere');
-      console.log(typeof(data.forecast.forecastday[0].hour));
-
-
       const dataToTable: object[] = [];
-
 
       for (var val of this.historyData.main) {
 
@@ -135,7 +116,6 @@ export class HistoryComponent implements OnInit {
         }
 
         dataToTable.push(person)
-
       }
 
       this.arrayData.main = dataToTable;
@@ -143,11 +123,7 @@ export class HistoryComponent implements OnInit {
 
     setThingSpeakHistory(data: any) {
       this.historyDataThingSpeak.main = data;
-
       const dataToTable: object[] = [];
-      console.log(typeof(data))
-
-
 
       for (var val of this.historyDataThingSpeak.main) {
 
@@ -166,7 +142,6 @@ export class HistoryComponent implements OnInit {
         }
 
         dataToTable.push(person)
-
       }
 
       this.arrayDataThingSpeak.main = dataToTable;

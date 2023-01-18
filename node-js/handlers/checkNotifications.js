@@ -1,5 +1,7 @@
 const { user } = require('../models');
 
+const logger = require('../logger')
+
 module.exports = () => {
 
     const axios = require('axios');
@@ -54,35 +56,45 @@ module.exports = () => {
            // console.log('teplota')
 
             switch(notifications[i].compare_operator) {
-                case '>':
-                    if(value > notifications[i].dataValues.temperature_notification) {
-                        //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je VYSSIA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
+                case '=': 
+                    if(value == notifications[i].dataValues.temperature_notification) {
                         console.log('poslem notifikaciu')
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
+                case '!=': 
+                    if(value != notifications[i].dataValues.temperature_notification) {
+                        console.log('poslem notifikaciu')
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
+                    }
+                break;
+                case '>':
+                    if(value > notifications[i].dataValues.temperature_notification) {
+                        console.log('poslem notifikaciu')
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
+                    }
+                break;
                 case '<':
                     if(value < notifications[i].dataValues.temperature_notification) {
-                        //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je NIZSIA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '>=':
                     if(value >= notifications[i].dataValues.temperature_notification) {
-                        //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je VYSSIA /ROVNA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '<=':
                     if(value <= notifications[i].dataValues.temperature_notification) {
-                        //console.log('Vasa nastavena teplota '+ dataObj[i].temperature_notification+' je NIZSIA /ROVNA ako teplota stanice: '+weatherBitTemperature+'. Posielam notifikaciu')
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 default: break;
                 }
             }
@@ -103,30 +115,44 @@ module.exports = () => {
             //console.log('Rychlost vetra')
     
             switch(notifications[i].dataValues.compare_operator) {
+                case '=': 
+                    if(value == notifications[i].dataValues.wind_speed_notification) {
+                        console.log('poslem notifikaciu')
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
+                    }
+                break;
+                case '!=': 
+                    if(value != notifications[i].dataValues.wind_speed_notification) {
+                        console.log('poslem notifikaciu')
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
+                    }
+                break;       
                 case '>':
                     if(value > notifications[i].dataValues.wind_speed_notification) {                            
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '<':
                     if(value < notifications[i].dataValues.wind_speed_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '>=':
                     if(value >= notifications[i].dataValues.wind_speed_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '<=':
                     if(value <= notifications[i].dataValues.wind_speed_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 default: break;
                 }
             }
@@ -147,30 +173,42 @@ module.exports = () => {
             //console.log('Rychlost vetra')
     
             switch(notifications[i].dataValues.compare_operator) {
+                case '=': 
+                    if(value == notifications[i].dataValues.rain_gauge_notification) {
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
+                    }
+                break;
+                case '!=': 
+                    if(value != notifications[i].dataValues.rain_gauge_notification) {
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
+                    }
+                break;
                 case '>':
                     if(value > notifications[i].dataValues.rain_gauge_notification) {                            
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '<':
                     if(value < notifications[i].dataValues.rain_gauge_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '>=':
                     if(value >= notifications[i].dataValues.rain_gauge_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '<=':
                     if(value <= notifications[i].dataValues.rain_gauge_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 default: break;
                 }
             }
@@ -191,30 +229,42 @@ module.exports = () => {
             //console.log('Rychlost vetra')
     
             switch(notifications[i].dataValues.compare_operator) {
+                case '=': 
+                    if(value == notifications[i].dataValues.humidity_notification) {
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
+                    }
+                break;
+                case '!=': 
+                    if(value != notifications[i].dataValues.humidity_notification) {
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
+                    }
+                break;
                 case '>':
                     if(value > notifications[i].dataValues.humidity_notification) {                            
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '<':
                     if(value < notifications[i].dataValues.humidity_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '>=':
                     if(value >= notifications[i].dataValues.humidity_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '<=':
                     if(value <= notifications[i].dataValues.humidity_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 default: break;
                 }
             }
@@ -235,30 +285,42 @@ module.exports = () => {
             //console.log('Rychlost vetra')
     
             switch(notifications[i].dataValues.compare_operator) {
+                case '=': 
+                    if(value == notifications[i].dataValues.pressure_notification) {
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
+                    }
+                break;
+                case '!=': 
+                    if(value != notifications[i].dataValues.pressure_notification) {
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
+                    }
+                break;
                 case '>':
                     if(value > notifications[i].dataValues.pressure_notification) {                            
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '<':
                     if(value < notifications[i].dataValues.pressure_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '>=':
                     if(value >= notifications[i].dataValues.pressure_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '<=':
                     if(value <= notifications[i].dataValues.pressure_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 default: break;
                 }
             }
@@ -279,30 +341,42 @@ module.exports = () => {
             //console.log('Rychlost vetra')
     
             switch(notifications[i].dataValues.compare_operator) {
+                case '=': 
+                    if(value == notifications[i].dataValues.soil_temperature_notification) {
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
+                    }
+                break;
+                case '!=': 
+                    if(value != notifications[i].dataValues.soil_temperature_notification) {
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
+                    }
+                break;
                 case '>':
                     if(value > notifications[i].dataValues.soil_temperature_notification) {                            
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '<':
                     if(value < notifications[i].dataValues.soil_temperature_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '>=':
                     if(value >= notifications[i].dataValues.soil_temperature_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 case '<=':
                     if(value <= notifications[i].dataValues.soil_temperature_notification) {
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
                         sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
                     }
-                    break;
+                break;
                 default: break;
                 }
             }
@@ -323,6 +397,18 @@ module.exports = () => {
             //console.log('Rychlost vetra')
     
             switch(notifications[i].dataValues.compare_operator) {
+                case '=': 
+                    if(value == notifications[i].dataValues.soil_mosture_notification) {
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
+                    }
+                break;
+                case '!=': 
+                    if(value != notifications[i].dataValues.soil_mosture_notification) {
+                        Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                        sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
+                    }
+                break;
                 case '>':
                     if(value > notifications[i].dataValues.soil_mosture_notification) {                            
                         Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
@@ -360,11 +446,23 @@ module.exports = () => {
         notifications = await getAllNotifications();
 
         for (let i = 0; i < notifications.length; i++)  {
-            if(notifications[i].dataValues.notification_type == 'windDirection' && value == notifications[i].dataValues.wind_direction_notification &&
-            notifications[i].dataValues.active_notification == true && notifications[i].dataValues.notification_sent == false) {
-                Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
-                sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
-               // console.log(notifications[i].dataValues.wind_direction_notification);
+            if(notifications[i].dataValues.notification_type == 'windDirection' && notifications[i].dataValues.active_notification == true && 
+            notifications[i].dataValues.notification_sent == false) {
+                switch(notifications[i].dataValues.compare_operator) {
+                    case '=':
+                        if(value == notifications[i].dataValues.wind_direction_notification) {                            
+                            Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                            sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
+                        }
+                    break;
+                    case '!=':
+                        if(value != notifications[i].dataValues.wind_direction_notification) {                            
+                            Notifications.update({notification_sent : true}, { where: {id: notifications[i].dataValues.id}})
+                            sendNotifications(notifications[i].dataValues.user_id, notifications[i].dataValues.text_notification, notifications[i].dataValues.notification_type);
+                        }
+                    break;
+                    default: break;
+                }
             }
         }
     }
@@ -422,8 +520,10 @@ module.exports = () => {
         transporter.sendMail(mailOptions, function(error, info) {
             if (error) {
                 console.log(error);
+                logger.error("checkNotifications - email was not sent: ", error);
             } else {
-                console.log('Email sent error: '+ info.response);
+                console.log('Email was sent succesfully '+ info.response);
+                
             }
         });
 
@@ -442,9 +542,13 @@ module.exports = () => {
                 body: notificationText,
                 messagingServiceSid: process.env.MESSAGING_SERVICE_SID,   
                 to: phone_number
-            }) 
-            .then(message => console.log(message.sid)) 
-            .done();
+            })
+            .then(function (message) { 
+                console.log(message.sid)
+              })
+            .catch(function(error){
+                logger.error("checkNotifications - SMS was not sent: ", error);
+            })
         }
 
         else {

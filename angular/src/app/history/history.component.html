@@ -3,19 +3,19 @@
         <div class="row">
           <div class="col-12 mb-3">
             <h4>História z webovej služby Weather API - {{yesterdaySlovakFormat}}</h4>
-            <div class="table-container" *ngIf="!errorThingSpeakHistory">
+            <div class="table-container" *ngIf="!errorWeatherBitHistory">
               <ng2-smart-table [settings]="historyWeatherApi" [source]="arrayData.main"></ng2-smart-table>
             </div>
-            <div *ngIf="errorThingSpeakHistory" class="text-center">
+            <div *ngIf="errorWeatherBitHistory" class="text-center">
               <strong class="text-danger">Žiadne dáta nie sú k dispozícií na zobrazenie. Kontaktujte prosím administrátora prostredníctvom formulára.</strong>
             </div>
           </div>
           <div class="col-12 pr-0">
             <h4>História z domácej meteostanice - {{yesterdaySlovakFormat}}</h4>
-            <div class="table-container" *ngIf="!errorWeatherBitHistory">
+            <div class="table-container" *ngIf="!errorThingSpeakHistory">
               <ng2-smart-table [settings]="historyThingSpeak" [source]="arrayDataThingSpeak.main"></ng2-smart-table>
             </div>
-            <div *ngIf="errorWeatherBitHistory" class="text-center">
+            <div *ngIf="errorThingSpeakHistory" class="text-center">
               <strong class="text-danger">Žiadne dáta nie sú k dispozícií na zobrazenie. Kontaktujte prosím administrátora prostredníctvom formulára.</strong>
             </div>
           </div>

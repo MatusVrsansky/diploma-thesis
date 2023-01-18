@@ -128,7 +128,7 @@ export class ProfileComponent implements OnInit {
 
 
 
-    console.log(this.user.roles)
+
 
     this.usedNotifications = {
       main : {},
@@ -225,7 +225,7 @@ export class ProfileComponent implements OnInit {
           ]
         ],
         compareOperator: [
-          '>',
+          "=",
           [
            
           ]
@@ -244,9 +244,8 @@ export class ProfileComponent implements OnInit {
   
   getUnusedNotificationTypes() {
 
-    console.log('++++++++++++++++++++')
-    console.log(this.notificationTypes.main.length)
-    console.log('++++++++++++++++++++')
+  
+    
 
    
     // array of used notifications
@@ -311,7 +310,6 @@ export class ProfileComponent implements OnInit {
 
 
   // set first radio button checked
-  console.log('prva hodnota je tuuuuuuuuuuuuuuuuuuuuu');
 
   if(Object.keys(this.notificationTypes.main).length > 0) {
     this.notification.patchValue({'notificationType': this.notificationTypes.main[0].type});
@@ -338,7 +336,6 @@ export class ProfileComponent implements OnInit {
   getTwilioAccountBalance() {
       this.twilioService.getTwilioAccountBalance().subscribe({
         next: data => {
-          console.log("getTwilioAccountBalance : " + data.balance);
           //this.accountBalance = Math.round((data.balance*0.94 + Number.EPSILON) * 100) / 100;
           this.accountBalance = data.balance;
           this.errorAppSettings = false;
@@ -348,7 +345,6 @@ export class ProfileComponent implements OnInit {
             this.sendPhoneNotifications = false;
             this.configService.setSendPhoneNotificationsState(false).subscribe({
               next: data => {
-                console.log("Zmenili sa data :" + data);
                 this.errorAppSettings = false;
               },
               error: err => {
@@ -358,8 +354,6 @@ export class ProfileComponent implements OnInit {
             })
 
           }
-
-          console.log(this.accountBalance);
         },
         error: err => {
           console.log(err);
@@ -379,7 +373,6 @@ export class ProfileComponent implements OnInit {
   
       
     if (this.notification.invalid) {
-      console.log('prejde vyssia podmienka');
       return;
     }
 
@@ -388,7 +381,6 @@ export class ProfileComponent implements OnInit {
 
       this.notificationsService.addNewNotification(this.userId, Array(this.notification.value)).subscribe({
         next: data => {
-          console.log(data.user_notifications);
           this.findAll();
           this.closeDialog();
           this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikácia bola pridaná", "Pridanie notifikácie", "success");
@@ -403,12 +395,10 @@ export class ProfileComponent implements OnInit {
   }
 
   else {
-    console.log('stlacil som Editacny mod');
     this.submitted = true;
     this.setFieldsRequired();
   
     if (this.notification.invalid) {
-      console.log('prejde vyssia podmienka');
       return;
     }
 
@@ -432,12 +422,10 @@ export class ProfileComponent implements OnInit {
   findAll() {
     this.notificationsService.getAllNotifications(this.userId).subscribe({
       next: data => {
-        console.log(data.user_notifications);
         this.userNotifications = data.user_notifications;
         this.errorExistedNotifications = false;
 
         if(this.userNotifications.length == 8) {
-          console.log(this.userNotifications.length);
           this.addNewNotification = false;
         }
 
@@ -455,7 +443,6 @@ export class ProfileComponent implements OnInit {
   getAppConfigurations() {
     this.configService.getAppConfigurations().subscribe({
       next: data => {
-        console.log(data);
         this.errorAppSettings = false;
         this.sendPhoneNotifications = data.config[0].value;
       },
@@ -497,7 +484,6 @@ export class ProfileComponent implements OnInit {
 
   setFieldsRequired() {
     if(this.notification.value.notificationType == 'temperature') {
-      console.log('teploa je tu');
       this.notification.get('temperatureNotification')?.setValidators([Validators.required, Validators.min(-50),  Validators.max(50)]);
       this.notification.get('temperatureNotification')?.updateValueAndValidity();
     }
@@ -551,6 +537,7 @@ export class ProfileComponent implements OnInit {
     this.notification.patchValue({'pressureNotification': null});
     this.notification.patchValue({'rainGaugeNotification': null});
     this.notification.patchValue({'humidityNotification': null});
+    this.notification.patchValue({'compareOperator': '='});
 
     this.notification.get('temperatureNotification')?.clearValidators();
     this.notification.get('temperatureNotification')?.updateValueAndValidity();
@@ -645,8 +632,6 @@ export class ProfileComponent implements OnInit {
 
     this.isAddMode = false;
 
-    console.log('editacia je tuu');
-
     this.notification.patchValue({'pressureNotification': notification.pressure_notification});
     this.notification.patchValue({'notificationType': notification.notification_type});
     this.notification.patchValue({'temperatureNotification': notification.temperature_notification});
@@ -675,11 +660,11 @@ export class ProfileComponent implements OnInit {
   }
 
   getSendPhoneNotificationsState(state:any) {
-    console.log("state is :"+state);
+  
 
     this.configService.setSendPhoneNotificationsState(state).subscribe({
       next: data => {
-        console.log("Respond :" + data.state);
+        
         
         if(data.state == true) {
           this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Posielanie SMS správ bolo zapnuté", "Posielanie SMS správ", "success");

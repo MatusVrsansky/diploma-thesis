@@ -11,9 +11,9 @@ require('dotenv').config();
 
 
 exports.addNewNotification = (req, res) => {   
-  switch(req.body.notificationType) {
-    case 'windDirection': req.body.compareOperator = null; break;
-    default: req.body.windDirectionNotification = null; break;
+ 
+  if(req.body.notificationType != 'windDirection') {
+    req.body.windDirectionNotification = null
   }
 
   Notifications.create({ 
@@ -61,9 +61,9 @@ exports.addNewNotification = (req, res) => {
 
 
 exports.editNotification = (req, res) => {
-  switch(req.body.notificationType) {
-    case 'windDirection': req.body.compareOperator = null; break;
-    default: req.body.windDirectionNotification = null; break;
+  
+  if(req.body.notificationType != 'windDirection') {
+    req.body.windDirectionNotification = null
   }
   
   Notifications.update(

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ClimaticConditionsService} from '../_services/climatic-conditions.service';
 
 @Component({
   selector: 'app-climatic-conditions',
@@ -11,7 +12,7 @@ export class ClimaticConditionsComponent implements OnInit {
 
   error = false;
 
-  constructor() { }
+  constructor(private climaticConditionsService: ClimaticConditionsService) { }
 
   ngOnInit(): void {
 
@@ -22,28 +23,23 @@ export class ClimaticConditionsComponent implements OnInit {
   }
 
   getLastClimaticConditions() {
-    const historyThingSpeak = 'https://api.thingspeak.com/channels/1825300/feeds.json?api_key=ERX6U69VZ9F5MSFM&timezone=Europe/Budapest&results=1';
-
-    const apiThingSpeakHistoryData: object[] = [];
-
-    fetch(historyThingSpeak)
-    .then(response=>response.json())
-    .then(data=>{
-      console.log(data)
-      
-      this.climaticConditionsDataThingSpeak.dateTime = data.feeds[0].created_at;
-      this.climaticConditionsDataThingSpeak.temperature = data.feeds[0].field1;
-      this.climaticConditionsDataThingSpeak.windSpeed = data.feeds[0].field2;
-      this.climaticConditionsDataThingSpeak.rainGauge = data.feeds[0].field3;
-      this.climaticConditionsDataThingSpeak.windDirection = this.getWindDirection(data.feeds[0].field4);
-      this.climaticConditionsDataThingSpeak.humidity = data.feeds[0].field5;
-      this.climaticConditionsDataThingSpeak.pressure = data.feeds[0].field6;
-      this.climaticConditionsDataThingSpeak.soilTemperature = data.feeds[0].field7;
-      this.climaticConditionsDataThingSpeak.soilMosture = data.feeds[0].field8;
-    })
-    .catch(error => {
-      console.log(error);
-      this.error = true;
+    this.climaticConditionsService.getClimaticConditions().subscribe({
+      next: data => {
+        console.log(data.climaticConditions[0]);
+        this.climaticConditionsDataThingSpeak.dateTime = data.climaticConditions[0].created_at;
+        this.climaticConditionsDataThingSpeak.temperature = data.climaticConditions[0].field1;
+        this.climaticConditionsDataThingSpeak.windSpeed = data.climaticConditions[0].field2;
+        this.climaticConditionsDataThingSpeak.rainGauge = data.climaticConditions[0].field3;
+        this.climaticConditionsDataThingSpeak.windDirection = this.getWindDirection(data.climaticConditions[0].field4);
+        this.climaticConditionsDataThingSpeak.humidity = data.climaticConditions[0].field5;
+        this.climaticConditionsDataThingSpeak.pressure = data.climaticConditions[0].field6;
+        this.climaticConditionsDataThingSpeak.soilTemperature = data.climaticConditions[0].field7;
+        this.climaticConditionsDataThingSpeak.soilMosture = data.climaticConditions[0].field8;
+      },
+      error: err => {
+        console.log(err);
+        this.error = true;
+      }
     })
   }
 

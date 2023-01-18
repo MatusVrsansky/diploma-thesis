@@ -1,4 +1,4 @@
-const { TrustProductsChannelEndpointAssignmentInstance } = require("twilio/lib/rest/trusthub/v1/trustProducts/trustProductsChannelEndpointAssignment");
+const logger = require('../logger')
 
 module.exports = () => {
 
@@ -44,9 +44,9 @@ module.exports = () => {
     
         transporter.sendMail(mailOptions, function (error, info) {
           if (error) {
-            console.log(error)
+            logger.error("resetNotifications - email was not sent: ", error);
           } else {
-            console.log('Email sent: ' + info.response)
+            console.log('Reset notifications email sent: ' + info.response)
           }
         })
       }

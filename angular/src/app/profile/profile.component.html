@@ -245,6 +245,20 @@
                           </div>
                         </div>
 
+                        <div class="form-group mb-3" *ngIf="notification.value.notificationType == 'windDirection'" >
+                          <label>Smer vetra, pre ktorý poslať notifikáciu</label>
+                          <nb-select formControlName="windDirectionNotification">
+                            <nb-option [value]="'1'">Severný vietor</nb-option>
+                            <nb-option [value]="'2'">Východný vietor</nb-option>
+                            <nb-option [value]="'3'">Južný vietor</nb-option>
+                            <nb-option [value]="'4'">Západný vietor</nb-option>
+                            <nb-option [value]="'5'">Severovýchodný vietor</nb-option>
+                            <nb-option [value]="'6'">Severozápadný vietor</nb-option>
+                            <nb-option [value]="'7'">Juchovýchodný vietor</nb-option>
+                            <nb-option [value]="'8'">Juhozápadný vietor</nb-option>
+                          </nb-select>
+                        </div>
+
                         <div class="form-group mb-3">
                           <label>Text notifikácie</label>
                           <textarea
@@ -254,7 +268,7 @@
                             [ngClass]="{ 'is-invalid': submitted && f['textNotification'].errors }"
                           ></textarea>
                           <div *ngIf="submitted && f['textNotification'].errors" class="invalid-feedback">
-                            <div *ngIf="f['textNotification'].errors['required']">Tlak je povinný, ak chcete poslať notifikáciu</div>
+                            <div *ngIf="f['textNotification'].errors['required']">Text je povinný, ak chcete poslať notifikáciu</div>
                             <div *ngIf="f['textNotification'].errors['minlength']">
                               Text notifikácie musí mať najmenej 6 znakov
                             </div>
@@ -266,27 +280,17 @@
 
                         
 
-                        <div class="form-group mb-3" *ngIf="notification.value.notificationType === 'windDirection'" >
-                          <label>Smer vetra, pre ktorý poslať notifikáciu</label>
-                          <nb-radio-group formControlName="windDirectionNotification">
-                            <nb-radio [value]="'1'">Severný vietor</nb-radio>
-                            <nb-radio [value]="'2'">Východný vietor</nb-radio>
-                            <nb-radio [value]="'3'">Južný vietor</nb-radio>
-                            <nb-radio [value]="'4'">Západný vietor</nb-radio>
-                            <nb-radio [value]="'5'">Severovýchodný vietor</nb-radio>
-                            <nb-radio [value]="'6'">Severozápadný vietor</nb-radio>
-                            <nb-radio [value]="'7'">Juchovýchodný vietor</nb-radio>
-                            <nb-radio [value]="'8'">Juhozápadný vietor</nb-radio>
-                          </nb-radio-group>
-                        </div>
+                       
 
-                        <div class="form-group mb-3" *ngIf="notification.value.notificationType !== 'windDirection'" >
+                        <div class="form-group mb-3">
                           <label>Porovnávací operátor</label>
                           <nb-radio-group formControlName="compareOperator">
-                            <nb-radio [value]="'>'">Väčší</nb-radio>
-                            <nb-radio [value]="'<'">Menší</nb-radio>
-                            <nb-radio [value]="'>='">Väčší a rovný</nb-radio>
-                            <nb-radio [value]="'<='">Menší a rovný</nb-radio>
+                            <nb-radio [value]="'='">Rovná sa</nb-radio>
+                            <nb-radio [value]="'!='">Nerovná sa</nb-radio>
+                            <nb-radio [value]="'>'" *ngIf="notification.value.notificationType != 'windDirection'" >Väčší</nb-radio>
+                            <nb-radio [value]="'<'" *ngIf="notification.value.notificationType != 'windDirection'" >Menší</nb-radio>
+                            <nb-radio [value]="'>='" *ngIf="notification.value.notificationType != 'windDirection'" >Väčší a rovný</nb-radio>
+                            <nb-radio [value]="'<='" *ngIf="notification.value.notificationType != 'windDirection'" >Menší a rovný</nb-radio>
                           </nb-radio-group>
                         </div>
                       
@@ -318,6 +322,7 @@
                               <th>Popis</th>
                               <th>Notifikácia</th>
                               <th>Text</th>
+                              <th>Porovnávací operátor</th>
                               <th>Aktívna</th>
                               <th>Akcie</th>
                           </tr>
@@ -338,6 +343,7 @@
                             <td *ngIf="item.notification_type === 'soilMosture'">{{item.soil_mosture_notification}}</td>
                           
                             <td>{{item.text_notification}}</td>
+                            <td>{{item.compare_operator}}</td>
                             <td>{{item.active_notification == 1? 'Áno': 'Nie'}}</td>
                             <td>
                               <button nbButton ngButton (click)="open(formNewNotification)" (click)="editNotificationSetValues(item)" class="mb-2" status="info">Upraviť</button>

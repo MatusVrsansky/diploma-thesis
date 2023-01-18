@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-const AUTH_API = 'http://localhost:8080/api/twilio/';
+const AUTH_API = 'http://localhost:8080/api/history/';
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -10,14 +10,19 @@ const httpOptions = {
     providedIn: 'root'
   })
   
-export class TwilioService {
+export class HistoryService {
   constructor(private http: HttpClient) { }
  
-  getTwilioAccountBalance(): Observable<any> {
+  getThingSpeakHistory(): Observable<any> {
+    
+    return this.http.get(AUTH_API + 'getThingSpeakHistory', { 
+      responseType: 'json' 
+    });
+  }
 
-  
-  
-    return this.http.get(AUTH_API + 'getTwilioAccountBalance', { 
+  getWeatherApiHistory(): Observable<any> {
+    
+    return this.http.get(AUTH_API + 'getWeatherApiHistory', { 
       responseType: 'json' 
     });
   }

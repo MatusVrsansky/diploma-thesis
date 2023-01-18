@@ -39,6 +39,7 @@
     "sendmail": "^1.6.1",
     "sequelize": "^6.21.2",
     "twilio": "^3.84.0",
-    "utility": "^1.17.0"
+    "utility": "^1.17.0",
+    "winston": "^3.8.2"
   }
 }
