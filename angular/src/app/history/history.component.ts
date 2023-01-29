@@ -62,14 +62,12 @@ export class HistoryComponent implements OnInit {
         const myData = JSON.parse(JSON.stringify(data.historyThingSpeak));
 
         for (var i=0;i<myData.length;i++) {
-
-          //if(this.pipe.transform(product.created_at, 'yyyy-MM-dd') == this.yesterdayFormatted) {
+          if(this.pipe.transform(myData[i].created_at, 'yyyy-MM-dd') == this.yesterdayFormatted) {
              apiThingSpeakHistoryData.push(myData[i])
-           // }
+          }
           }
 
           this.setThingSpeakHistory(apiThingSpeakHistoryData);
-       
       },
       error: err => {
         console.log(err);
