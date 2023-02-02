@@ -19,6 +19,9 @@ import { ContactComponent } from './contact/contact.component';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
+import { NgxEchartsModule } from 'ngx-echarts';
+
+
 import { NbToastrModule, NbTabsetModule,NbCheckboxModule, NbTooltipModule, NbSelectModule, NbTreeGridModule, NbIconModule, NbActionsModule,NbDialogModule, NbFormFieldModule, NbInputModule, NbMenuModule, NbThemeModule, NbRadioModule, NbToggleModule, NbCardModule,  NbSidebarModule, NbLayoutModule, NbButtonModule} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 
@@ -55,6 +58,9 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
     ReactiveFormsModule,
     FormsModule,
     NbThemeModule.forRoot({ name: 'default' }),
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    }),
     NbRadioModule,
     NbToggleModule,
     NbCardModule,

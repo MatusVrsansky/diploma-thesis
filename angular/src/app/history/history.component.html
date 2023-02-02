@@ -1,8 +1,10 @@
 <nb-card >
     <nb-card-body class="example-items-col text-center history">
+      <nb-tabset >
+        <nb-tab tabTitle="Tabuľky" tabIcon="person-outline" responsive>
         <div class="row">
           <div class="col-12 mb-3">
-            <h4>História z webovej služby Weather API - {{yesterdaySlovakFormat}}</h4>
+            <h4>História z webovej služby Open Weather - {{yesterdaySlovakFormat}}</h4>
             <div class="table-container" *ngIf="!errorWeatherBitHistory">
               <ng2-smart-table [settings]="historyWeatherApi" [source]="arrayData.main"></ng2-smart-table>
             </div>
@@ -20,6 +22,21 @@
             </div>
           </div>
         </div>  
+        </nb-tab>
+       
+        <nb-tab tabTitle="Grafy" tabIcon="person-outline" responsive>
+          <h4>História z webovej služby Open Weather - {{yesterdaySlovakFormat}}</h4>
+            <nb-select [(selected)]="selectedItem">
+              <nb-option *ngFor="let notification of allNotificationTypes;first as isFirst" (click)="cambiaTalla(notification.type)" [value]="notification.type">
+                {{notification.name}} 
+              </nb-option>
+            </nb-select>
+          <div echarts [options]="options" class="demo-chart" *ngIf="!hideGraph"></div>
+
+          <div echarts [options]="optionsTwo" [theme]="theme" class="demo-chart"  *ngIf="hideGraph"></div>
+
+        </nb-tab>
+      </nb-tabset>
       
     </nb-card-body>
 </nb-card>
