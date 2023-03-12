@@ -28,6 +28,8 @@ db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.notifications = require("../models/notifications.model.js")(sequelize, Sequelize);
 db.config = require("../models/config.model.js")(sequelize, Sequelize);
+db.last_measurements = require("./last-measurements.model.js")(sequelize, Sequelize);
+db.notification_types = require("./notification-types.model.js")(sequelize, Sequelize);
 db.role.belongsToMany(db.user, {
   through: "user_roles",
   foreignKey: "roleId",

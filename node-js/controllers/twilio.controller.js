@@ -6,7 +6,7 @@ client.balance.fetch()
   .then((data) => {
     const balance = Math.round(data.balance * 100) / 100;
     const currency = data.currency;
-    console.log(`Your account balance is ${balance} ${currency}.`)
+    //console.log(`Your account balance is ${balance} ${currency}.`)
 
     res.status(200).send({
         balance

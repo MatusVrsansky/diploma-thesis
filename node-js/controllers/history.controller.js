@@ -2,7 +2,7 @@ const axios = require('axios');
 
 exports.getThingSpeakHistory = (req, res) => {
 
-    axios.get('https://api.thingspeak.com/channels/1825300/feeds.json?api_key=ERX6U69VZ9F5MSFM&results=1000')
+    axios.get('https://api.thingspeak.com/channels/1825300/feeds.json?api_key=ERX6U69VZ9F5MSFM&results=100')
     .then(data => {
         
        // console.log(data);

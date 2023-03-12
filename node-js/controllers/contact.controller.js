@@ -8,14 +8,14 @@ exports.sendContactEmail = (req, res) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'microbitpython@gmail.com',
+            user: 'micro.climate.kit@gmail.com',
             pass: process.env.EMAIL_PASSWORD,
         }
     });
 
     const mailOptions = {
-        from: 'microbitpython@gmail.com',
-        to: 'microbitpython@gmail.com',
+        from: 'micro.climate.kit@gmail.com',
+        to: 'micro.climate.kit@gmail.com',
         replyTo: req.body.email,
         subject: 'Email z kontaktného formulára',
         html: "<p><strong>Meno kontaktnej osoby z formuláru: </strong>" + req.body.name + "</p>" +

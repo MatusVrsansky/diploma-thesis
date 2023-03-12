@@ -70,6 +70,7 @@ scheduler.initCrons(config);
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
 require('./routes/notifications.routes')(app);
+require('./routes/notificationTypes.routes')(app);
 require('./routes/twilio.routes')(app);
 require('./routes/config.routes')(app);
 require('./routes/contact.routes')(app);

@@ -34,8 +34,8 @@ exports.getAppConfigurations = (req, res) => {
   .then(config => {
       config = JSON.stringify(config, null, 2);
       config = JSON.parse(config);
-      console.log('user configs');
-      console.log(config);
+      //console.log('user configs');
+      //console.log(config);
       res.status(200).send({
         config
       })

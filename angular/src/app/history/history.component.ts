@@ -27,8 +27,9 @@ export class HistoryComponent implements OnInit {
   today: Date = new Date();
   pipe = new DatePipe('en-US');
   todayWithPipe = null;
-  options: any;
-  optionsTwo: any;
+  
+  openWeatherNumberGraph: any;
+  openWeatherTextGraph: any;
   theme: string | ThemeOption;
 
   openWeatherHistoryDate =  new Array();
@@ -51,31 +52,49 @@ export class HistoryComponent implements OnInit {
   errorThingSpeakHistory = false;
   errorWeatherBitHistory = false;
 
-  allNotificationTypes = [
+  allNotificationTypesOpenWeather = [
     {name: "Teplota (°C)", type: 'temperatureC'},
     {name: "Teplota (°F)", type: 'temperatureF'},
     {name: "Vľhkosť (%)", type: 'humidity'},
     {name: "Tlak", type: 'pressure'},
     {name: "Vietor km/h", type: 'windKMH'},
     {name: "Daždometer", type: 'willRain'},
-    {name: "Smer Vetra", type: 'windDirection'},
+    {name: "Smer vetra", type: 'windDirection'},
   ];
 
-  selectedItem = 'temperatureC';
-  graphName = 'Teplota';
+  selectedItemOpenWeather = 'temperatureC';
 
+  thingSpeakNumberGraph: any;
+  thingSpeakTextGraph: any;
+
+  thingSpeakHistoryDate = new Array();
+  thingSpeakHistoryData = new Array();
+  thingSpeakHistoryWindDirection = new Array();
+
+  thingSpeakHistoryWindDirectionsTypes =  new Array();
+  thingSpeakHistoryWindDirectionsValues =  new Array();
+
+  allNotificationTypesThingSpeak = [
+    {name: "Teplota (°C)", type: 'degreeC'},
+    {name: "Rýchlosť vetra", type: 'windSpeed'},
+    {name: "Daždometer", type: 'rainGauge'},
+    {name: "Smer vetra", type: 'windDirection'},
+    {name: "Vlhkosť", type: 'humidity'},
+    {name: "Tlak", type: 'pressure'},
+    {name: "Teplota pôdy", type: 'soilTemperature'},
+    {name: "Vlhkosť pôdy", type: 'soilMosture'},
+  ];
+
+  selectedItemThingSpeak = 'degreeC';
+
+  graphNameOpenWeather = 'Teplota';
+  graphNameThingSpeak = 'Teplota';
 
   // hide number graph and show wind Direction graph
-  hideGraph = false;
+  hideGraphThingSpeak = false;
+  hideGraphOpenWeather = false;
 
-
-  constructor(private historyService: HistoryService){
-
-   
-
-   
-
-  }
+  constructor(private historyService: HistoryService){}
 
   ngOnInit() {
 
@@ -109,9 +128,9 @@ export class HistoryComponent implements OnInit {
         const myData = JSON.parse(JSON.stringify(data.historyThingSpeak));
 
         for (var i=0;i<myData.length;i++) {
-          if(this.pipe.transform(myData[i].created_at, 'yyyy-MM-dd') == this.yesterdayFormatted) {
+         if(this.pipe.transform(myData[i].created_at, 'yyyy-MM-dd') == this.yesterdayFormatted) {
              apiThingSpeakHistoryData.push(myData[i])
-          }
+         }
           }
 
           this.setThingSpeakHistory(apiThingSpeakHistoryData);
@@ -148,6 +167,7 @@ export class HistoryComponent implements OnInit {
       for (var val of this.historyData.main) {
 
         var historyYesterday = this.pipe.transform(val.time, 'dd.MM.yyyy HH:mm');
+      
         
         const history = {
           hour: historyYesterday,
@@ -174,15 +194,15 @@ export class HistoryComponent implements OnInit {
       console.log(this.openWeatherHistoryWindDirection);
       console.log('++++++++++++++++++++++++')
 
-      // call function to fill values
-      this.setWindDirectionValues(this.openWeatherHistoryWindDirection);
+      // call function to fill values of wind direction
+      this.openWeatherHistorysetWindDirectionValues(this.openWeatherHistoryWindDirection);
 
      
 
-       this.options = {
+       this.openWeatherNumberGraph = {
           color: ['#3398DB'],
           title: {
-            text: this.graphName,
+            text: this.graphNameOpenWeather,
           },
           tooltip: {
             trigger: 'axis',
@@ -209,7 +229,7 @@ export class HistoryComponent implements OnInit {
             type: 'value'
           }],
           series: [{
-            name: this.graphName,
+            name: this.graphNameOpenWeather,
             type: 'bar',
             barWidth: '60%',
             data: this.openWeatherHistoryData
@@ -218,7 +238,7 @@ export class HistoryComponent implements OnInit {
         
         };
 
-        this.optionsTwo = {
+        this.openWeatherTextGraph = {
           title: {
             //left: '50%',
             text: 'Smer vetra',
@@ -238,7 +258,7 @@ export class HistoryComponent implements OnInit {
           calculable: true,
           series: [
             {
-              name: 'area',
+              name: 'Smer vetra',
               type: 'pie',
               radius: [30, 110],
               roseType: 'area',
@@ -256,24 +276,14 @@ export class HistoryComponent implements OnInit {
       this.arrayData.main = dataToTable;
 
       console.log(this.arrayData.main[0])
-
-      console.log('history uesgdf')
-      console.log(this.openWeatherHistoryDate)
     }
 
-    setWindDirectionValues(openWeatherHistoryWindDirection: any) {
-      //let arr = undefined;
-
+    openWeatherHistorysetWindDirectionValues(openWeatherHistoryWindDirection: any) {
       let frequency = {};
-
-      const arr = ['Západo-juhozápadný vietor', 'Západo-juhozápadný vietor', 'Západo-juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Západo-juhozápadný vietor', 'Západo-juhozápadný vietor', 'Západo-juhozápadný vietor', 'Východný vietor']
-
-      for (let num of arr) {
+      for (let num of openWeatherHistoryWindDirection) {
         frequency[num] = (frequency[num] || 0) + 1;
       }
 
-      console.log('fsdfdsfsdfdsfds')
-      
       Object.entries(frequency).forEach(([key, value], index) => {
         // name Bobby Hadz 0
         // country Chile 1
@@ -291,55 +301,47 @@ export class HistoryComponent implements OnInit {
 
       console.log(">")
       console.log(this.openWeatherHistoryWindDirectionsTypes)
-      console.log(this.openWeatherHistoryWindDirectionsValues)
-     
-      
-      //arr = openWeatherHistoryWindDirection;
-
-      //const arr = ['Západo-juhozápadný vietor', 'Západo-juhozápadný vietor', 'Západo-juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Juhozápadný vietor', 'Západo-juhozápadný vietor', 'Západo-juhozápadný vietor', 'Západo-juhozápadný vietor', 'Východný vietor']
-
-         
-     
-    /*  for(let i=0;i<arr.length;i++) {
-        counts[arr[i]] = counts[arr[i]] ? (counts[arr[i]] + 1) : 1;
-      }*/
-    
-    
-      
-      
-      //const countsSorted = Object.entries(this.counts).sort(([_, a], [__, b]) => this.a - this.b);
-
-      /*for(let i=0; i<countsSorted.length; i++) {
-        this.openWeatherHistoryWindDirectionsTypes.push(countsSorted[i][0])
-
-        const history = {
-          value: countsSorted[i][1],
-          name: countsSorted[i][0],
-        
-        }
-
-        this.openWeatherHistoryWindDirectionsValues.push(history);
-      }*/
-
-
+      console.log(this.openWeatherHistoryWindDirectionsValues) 
     }
 
-    cambiaTalla(event: any) {
-      console.log(event);
+    thingSpeakHistorysetWindDirectionValues(thingSpeakHistoryWindDirection: any) {
+      let frequency = {};
+      for (let num of thingSpeakHistoryWindDirection) {
+        frequency[num] = (frequency[num] || 0) + 1;
+      }
+
+      Object.entries(frequency).forEach(([key, value], index) => {
+        console.log(key, value);
+        const history = {
+          value: value,
+          name: key
+        }
+
+        this.thingSpeakHistoryWindDirectionsTypes.push(key);
+        this.thingSpeakHistoryWindDirectionsValues.push(history);
+      });
+
+      console.log(">")
+      console.log(this.openWeatherHistoryWindDirectionsTypes)
+      console.log(this.openWeatherHistoryWindDirectionsValues) 
+    }
+
+
+
+    changeOpenWeatherHistoryGraphData(event: any) {
       this.openWeatherHistoryData = [];
-      this.hideGraph = false;
+      this.hideGraphOpenWeather = false;
 
       for (var val of this.historyData.main) {
         switch(event) {
-          case 'temperatureC' : this.graphName = 'Teplota (°C)'; this.openWeatherHistoryData.push(val.temp_c); break;
-          case 'temperatureF' : this.graphName = 'Teplota (°F)'; this.openWeatherHistoryData.push(val.temp_f); break;
-          case 'humidity' : this.graphName = 'Vľhkosť (%)'; this.openWeatherHistoryData.push(val.humidity); break;
-          case 'pressure' : this.graphName = 'Tlak'; this.openWeatherHistoryData.push(val.pressure_in); break;
-          case 'windKMH' : this.graphName = 'Vietor km/h'; this.openWeatherHistoryData.push(val.wind_kph); break;
-          case 'willRain' : this.graphName = 'Daždometer'; this.openWeatherHistoryData.push(val.will_it_rain); break;
-          default: this.hideGraph = true; break;
+          case 'temperatureC' : this.graphNameOpenWeather = 'Teplota (°C)'; this.openWeatherHistoryData.push(val.temp_c); break;
+          case 'temperatureF' : this.graphNameOpenWeather = 'Teplota (°F)'; this.openWeatherHistoryData.push(val.temp_f); break;
+          case 'humidity' : this.graphNameOpenWeather = 'Vľhkosť (%)'; this.openWeatherHistoryData.push(val.humidity); break;
+          case 'pressure' : this.graphNameOpenWeather = 'Tlak'; this.openWeatherHistoryData.push(val.pressure_in); break;
+          case 'windKMH' : this.graphNameOpenWeather = 'Vietor km/h'; this.openWeatherHistoryData.push(val.wind_kph); break;
+          case 'willRain' : this.graphNameOpenWeather = 'Daždometer'; this.openWeatherHistoryData.push(val.will_it_rain); break;
+          default: this.hideGraphOpenWeather = true; break;
         }
-        console.log('idem')
       }
 
       console.log(this.openWeatherHistoryData)
@@ -347,17 +349,49 @@ export class HistoryComponent implements OnInit {
       // Modify graph
       const updateOptions = {
         title: {
-          text: this.graphName
+          text: this.graphNameOpenWeather
         },
         series: [{
-          name: this.graphName,
+          name: this.graphNameOpenWeather,
           type: 'bar',
           barWidth: '60%',
           data: this.openWeatherHistoryData
         }]
       };
-      this.options = { ...this.options, ...updateOptions }
-    
+      this.openWeatherNumberGraph = { ...this.openWeatherNumberGraph, ...updateOptions }
+    }
+
+    changeThingSpeakHistoryGraphData(event: any) {
+      this.thingSpeakHistoryData = [];
+      this.hideGraphThingSpeak = false;
+
+      for (var val of this.historyDataThingSpeak.main) {
+        switch(event) {
+          case 'degreeC' : this.graphNameThingSpeak = 'Teplota (°C)'; this.thingSpeakHistoryData.push(val.field1); break;
+          case 'windSpeed' : this.graphNameThingSpeak = 'Rýchlosť vetra'; this.thingSpeakHistoryData.push(val.field2); break;
+          case 'rainGauge' : this.graphNameThingSpeak = 'Daždometer'; this.thingSpeakHistoryData.push(val.field3); break;
+          case 'humidity' : this.graphNameThingSpeak = 'Vlhkosť'; this.thingSpeakHistoryData.push(val.field5); break;
+          case 'pressure' : this.graphNameThingSpeak = 'Tlak'; this.thingSpeakHistoryData.push(val.field6); break;
+          case 'soilTemperature' : this.graphNameThingSpeak = 'Teplota pôdy'; this.thingSpeakHistoryData.push(val.field7); break;
+          case 'soilMosture' : this.graphNameThingSpeak = 'Vlhkosť pôdy'; this.thingSpeakHistoryData.push(val.field8); break;
+          default: this.hideGraphThingSpeak = true; break;
+        }
+        console.log('idem')
+      }
+
+      // Modify graph
+      const updateOptions = {
+        title: {
+          text: this.graphNameThingSpeak
+        },
+        series: [{
+          name: this.graphNameThingSpeak,
+          type: 'bar',
+          barWidth: '60%',
+          data: this.thingSpeakHistoryData
+        }]
+      };
+      this.thingSpeakNumberGraph = { ...this.thingSpeakNumberGraph, ...updateOptions }
     }
 
     setThingSpeakHistory(data: any) {
@@ -366,10 +400,10 @@ export class HistoryComponent implements OnInit {
 
       for (var val of this.historyDataThingSpeak.main) {
 
-        var historyYesterday = this.pipe.transform(val.created_at, 'dd.MM.yyyy HH:mm');
-        
+        var historyYesterdayThingSpeak = this.pipe.transform(val.created_at, 'dd.MM.yyyy HH:mm');
+
         const history = {
-          hour: historyYesterday,
+          hour: historyYesterdayThingSpeak,
           degreeC: val.field1,
           windSpeed: val.field2,
           rainGauge: val.field3,
@@ -381,9 +415,89 @@ export class HistoryComponent implements OnInit {
         }
 
         dataToTable.push(history)
+
+        this.thingSpeakHistoryDate.push(history.hour?.slice(10, 16))
+        this.thingSpeakHistoryData.push(val.field1)
+        this.thingSpeakHistoryWindDirection.push(history.windDirection)
       }
 
+      // call function to fill values of wind direction
+      this.thingSpeakHistorysetWindDirectionValues(this.thingSpeakHistoryWindDirection);
+
+    
       this.arrayDataThingSpeak.main = dataToTable;
+
+      this.thingSpeakNumberGraph = {
+        color: ['#3398DB'],
+        title: {
+          text: this.graphNameThingSpeak,
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: this.thingSpeakHistoryDate,
+            axisTick: {
+              alignWithLabel: true
+            }
+          }
+        ],
+        yAxis: [{
+          type: 'value'
+        }],
+        series: [{
+          name: this.graphNameThingSpeak,
+          type: 'bar',
+          barWidth: '60%',
+          data: this.thingSpeakHistoryData
+        }]
+      };
+
+      this.thingSpeakTextGraph = {
+        title: {
+          //left: '50%',
+          text: 'Smer vetra',
+          //subtext: 'Mocking Data',
+         // textAlign: 'center',
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        legend: {
+          align: 'auto',
+          bottom: 10,
+          //data: ['rose1', 'rose2', 'rose3', 'rose4', 'rose5', 'rose6', 'rose7', 'rose8']
+          data: this.thingSpeakHistoryWindDirectionsTypes
+        },
+        calculable: true,
+        series: [
+          {
+            name: 'Smer vetra',
+            type: 'pie',
+            radius: [30, 110],
+            roseType: 'area',
+            data: 
+              
+
+              this.thingSpeakHistoryWindDirectionsValues
+              
+            
+          }
+        ]
+      };
+
     }
 
 

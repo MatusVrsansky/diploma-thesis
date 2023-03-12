@@ -12,7 +12,7 @@ module.exports = () => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'microbitpython@gmail.com',
+            user: 'micro.climate.kit@gmail.com',
             pass: process.env.EMAIL_PASSWORD,
         }
     });
@@ -36,8 +36,8 @@ module.exports = () => {
     
 
         const mailOptions = {
-          from: 'microbitpython@gmail.com',
-          to: 'microbitpython@gmail.com',
+          from: 'micro.climate.kit@gmail.com',
+          to: 'micro.climate.kit@gmail.com',
           subject: 'Notifikácia zo zariadenia WeatherBit',
           html: 'reset notifikacii prebehol :)'
         }

@@ -21,9 +21,6 @@ export class ConfigService {
   }
 
   getAppConfigurations(): Observable<any> {
-
-    console.log('getAppConfigurations');
-  
     return this.http.get(AUTH_API + 'getAppConfigurations', { 
       responseType: 'json' 
     });

@@ -334,12 +334,12 @@
                             <td>{{item.description_notification}}</td>
                             
                             <td *ngIf="item.notification_type === 'temperature'">{{item.temperature_notification}} °C</td>
-                            <td *ngIf="item.notification_type === 'windSpeed'">{{item.wind_speed_notification}}</td>
-                            <td *ngIf="item.notification_type === 'rainGauge'">{{item.rain_gauge_notification}}</td>
+                            <td *ngIf="item.notification_type === 'windSpeed'">{{item.wind_speed_notification}} MPH</td>
+                            <td *ngIf="item.notification_type === 'rainGauge'">{{item.rain_gauge_notification}} (palce dažda)</td>
                             <td *ngIf="item.notification_type === 'windDirection'">{{getWindDirectionThingSpeak(item.wind_direction_notification)}}</td>
-                            <td *ngIf="item.notification_type === 'humidity'">{{item.humidity_notification}}</td>
-                            <td *ngIf="item.notification_type === 'pressure'">{{item.pressure_notification}}</td>
-                            <td *ngIf="item.notification_type === 'soilTemperature'">{{item.soil_temperature_notification}}</td>
+                            <td *ngIf="item.notification_type === 'humidity'">{{item.humidity_notification}} %</td>
+                            <td *ngIf="item.notification_type === 'pressure'">{{item.pressure_notification}} hPa</td>
+                            <td *ngIf="item.notification_type === 'soilTemperature'">{{item.soil_temperature_notification}} °C</td>
                             <td *ngIf="item.notification_type === 'soilMosture'">{{item.soil_mosture_notification}}</td>
                           
                             <td>{{item.text_notification}}</td>
@@ -376,12 +376,12 @@
 									<h6 class="mb-0">Posielanie notifikácii cez SMS</h6>
 								</div>
 								<div class="col-sm-7 text-secondary">
-                  <div class="" nbTooltip="Vyčerpal sa Vám limit na posielanie SMS správ"  [nbTooltipDisabled]="!(accountBalance < limitPrice)" nbTooltipPlacement="top">
-                    <nb-toggle [disabled]="accountBalance < limitPrice" [checked]="sendPhoneNotifications" (checkedChange)="getSendPhoneNotificationsState($event)"></nb-toggle>
+                  <div class="" nbTooltip="Vyčerpal sa Vám limit na odosielanie SMS správ"  [nbTooltipDisabled]="!(accountBalance < limitPrice)" nbTooltipPlacement="top">
+                    <nb-toggle [ngModel]="sendPhoneNotifications" [disabled]="accountBalance < limitPrice" (checkedChange)="getSendPhoneNotificationsState($event)"></nb-toggle>
                   </div>
 								</div>
                 <div class="col-12">
-                  <p class="information mt-3">* ak suma klesne pod {{limitPrice}} €, posielanie SMS správ sa automaticky preruší</p>
+                  <p class="information mt-3">* ak suma klesne pod {{limitPrice}} €, odosielanie SMS správ sa automaticky preruší</p>
                 </div>
                 
 							</div>

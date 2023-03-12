@@ -129,7 +129,7 @@ exports.signin = (req, res) => {
       }).then(notifications => {
         user_notifications = JSON.stringify(notifications, null, 2);
         user_notifications = JSON.parse(user_notifications)
-        console.log(typeof(user_notifications));
+        //console.log(typeof(user_notifications));
       })
 
       user.getRoles().then(roles => {

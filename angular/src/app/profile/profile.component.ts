@@ -2,6 +2,8 @@ import { Component, OnInit,TemplateRef, ViewChild, HostBinding, OnDestroy, Optio
 import { TokenStorageService } from '../_services/token-storage.service';
 import { AuthService } from '../_services/auth.service';
 import {NotificationService} from '../_services/notification.service';
+import {NotificationTypesService} from '../_services/notification-types.service';
+
 import {ConfigService} from '../_services/config.service';
 import {TwilioService} from '../_services/twilio.service';
 import { UserService } from '../_services/user.service';
@@ -77,7 +79,7 @@ export class ProfileComponent implements OnInit {
   timerSubscription: Subscription;
 
   // limit price to restrict sending sms
-  limitPrice = 3;
+  limitPrice = 0.05;
 
   // disabled button on add new notification
   addNewNotification = true;
@@ -91,11 +93,14 @@ export class ProfileComponent implements OnInit {
   // error message when token do not return user information
   errorUserInformation = false;
 
+  // get all notificationTypes
+  allNotificationTypes: any;
+
 
 
   constructor(private tokenStorage: TokenStorageService, private authService: AuthService, private toastrService: NbToastrService,
      private dialogService: NbDialogService, private userService: UserService, private notificationsService: NotificationService,
-     private configService: ConfigService, private twilioService: TwilioService,
+     private notificationTypesService: NotificationTypesService, private configService: ConfigService, private twilioService: TwilioService,
     @Optional() private dialogRef: NbDialogRef<any>, private formBuilder: FormBuilder) { }
   
   
@@ -105,9 +110,22 @@ export class ProfileComponent implements OnInit {
     this.user.phone_number = this.currentUser.phone_number;
     this.user.roles = this.currentUser.roles;
 
+    console.log('>:::')
+
+    this.notificationTypesService.getAllNotificationTypes().subscribe({
+      next: data => {
+        this.allNotificationTypes = data.notifications_types
+        this.getUnusedNotificationTypes();
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
+
     // timer(0, 10000) call the function immediately and every 10 seconds 
-    this.timerSubscription = timer(0, 2000).pipe( 
+    this.timerSubscription = timer(0, 5000).pipe( 
       map(() => { 
+
        this.getTwilioAccountBalance(); // load data contains the http request 
        this.findAll();
 
@@ -117,7 +135,7 @@ export class ProfileComponent implements OnInit {
         }
 
 
-       // this.getAppConfigurations();
+       this.getAppConfigurations();
       }) 
     ).subscribe(); 
 
@@ -125,10 +143,6 @@ export class ProfileComponent implements OnInit {
     this.getTwilioAccountBalance();
     this.getAppConfigurations();
     
-
-
-
-
 
     this.usedNotifications = {
       main : {},
@@ -234,7 +248,7 @@ export class ProfileComponent implements OnInit {
     );
 
 
-    this.getUnusedNotificationTypes();
+   // this.getUnusedNotificationTypes();
   }
 
   //  unsubscribe when the Observable is not necessary anymore 
@@ -244,20 +258,10 @@ export class ProfileComponent implements OnInit {
   
   getUnusedNotificationTypes() {
 
-  
-    
-
-   
     // array of used notifications
-
     const arrayUsedNotifications: any = [];
-   
     const dataToTable: object[] = [];
-
-  
-
     this.userNotifications?.forEach(function(item:any) {
-    
 
       const person = {
         id: item.id,
@@ -273,35 +277,17 @@ export class ProfileComponent implements OnInit {
     }); 
 
 
+    let result = this.allNotificationTypes.filter(({ type }) => !arrayUsedNotifications.includes(type));
 
+    this.notificationTypes.main = result;
 
-    let allNotificationTypes = [
-      {name: "Teplota", type: 'temperature'},
-      {name: "Smer vetra", type: 'windDirection'},
-      {name: "Rýchlosť vetra", type: 'windSpeed'},
-      {name: "Teplota pôdy", type: 'soilTemperature'},
-      {name: "Vlhkosť pôdy", type: 'soilMosture'},
-      {name: "Vlhkosť", type: 'humidity'},
-      {name: "Ďaždometer", type: 'rainGauge'},
-      {name: "Tlak", type: 'pressure'},
-    ];
+    this.notification.value.notificationType = this.notificationTypes.main;
 
-   
+    let myArray: any = [];
 
-  let result = allNotificationTypes.filter(({ type }) => !arrayUsedNotifications.includes(type));
-
-  this.notificationTypes.main = result;
-
-  this.notification.value.notificationType = this.notificationTypes.main;
-
-
-
-  let myArray: any = [];
-
-
-  this.notification.value.notificationType.forEach(function(item:any) {
-    
-    myArray.push(item)
+    this.notification.value.notificationType.forEach(function(item:any) {
+      
+      myArray.push(item)
   });
 
   this.notification.value.notificationType = myArray;
@@ -334,6 +320,8 @@ export class ProfileComponent implements OnInit {
 
   // api data for ThingSpeak
   getTwilioAccountBalance() {
+
+      
       this.twilioService.getTwilioAccountBalance().subscribe({
         next: data => {
           //this.accountBalance = Math.round((data.balance*0.94 + Number.EPSILON) * 100) / 100;
@@ -443,8 +431,8 @@ export class ProfileComponent implements OnInit {
   getAppConfigurations() {
     this.configService.getAppConfigurations().subscribe({
       next: data => {
-        this.errorAppSettings = false;
         this.sendPhoneNotifications = data.config[0].value;
+        this.errorAppSettings = false;
       },
       error: err => {
         console.log(err);
@@ -660,6 +648,8 @@ export class ProfileComponent implements OnInit {
   }
 
   getSendPhoneNotificationsState(state:any) {
+
+    console.log('dfgfdgdfgfdgfdgdfgfd')
   
 
     this.configService.setSendPhoneNotificationsState(state).subscribe({

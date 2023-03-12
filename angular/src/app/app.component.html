@@ -6,9 +6,9 @@
       <div class="logo">BBC micro:<strong>bit</strong></div>
       <ul class="links">
         <li> <a href="/home" routerLink="home"  routerLinkActive="active" (click)="reloadPage()"> <nb-icon icon="home"></nb-icon>Domov</a></li>
-        <li><a href="/history" routerLink="history" routerLinkActive="active" (click)="reloadPage()"><nb-icon icon="archive"></nb-icon>História</a></li>
+        <li *ngIf="isLoggedIn"><a href="/history" routerLink="history" routerLinkActive="active" (click)="reloadPage()"><nb-icon icon="archive"></nb-icon>História</a></li>
         <li><a href="/contact" routerLink="contact" routerLinkActive="active" (click)="reloadPage()"><nb-icon icon="message-square"></nb-icon>Kontakt</a></li>
-        <li><a href="/climatic-conditions" routerLink="climatic-conditions" routerLinkActive="active" (click)="reloadPage()"><nb-icon icon="sun"></nb-icon>Meranie</a></li>
+        <li *ngIf="isLoggedIn"><a href="/climatic-conditions" routerLink="climatic-conditions" routerLinkActive="active" (click)="reloadPage()"><nb-icon icon="sun"></nb-icon>Meranie</a></li>
         <li *ngIf="!isLoggedIn"><a href="/register" routerLink="register" routerLinkActive="active" (click)="reloadPage()"><nb-icon icon="person-add"></nb-icon>Registrácia</a></li>
         <li *ngIf="!isLoggedIn"><a href="/login" routerLink="login" routerLinkActive="active" (click)="reloadPage()"><nb-icon icon="person-done"></nb-icon>Prihlásenie</a></li>
         <li *ngIf="isLoggedIn"><a href="/profile" routerLink="profile" routerLinkActive="active" (click)="reloadPage()"><nb-icon icon="person"></nb-icon>{{username}}</a></li>
