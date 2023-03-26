@@ -54,7 +54,6 @@ export class LoginComponent implements OnInit {
   }
 
   toggleEditable(event:Event) {
-   console.log(event.target);
   }
 
   onSubmit(): void {
@@ -76,8 +75,6 @@ export class LoginComponent implements OnInit {
           this.reloadPage();
         },
         error: err => {
-          console.log(err.status);
-
           switch(err.status) {
             case 401:
             case 404:  this.errorMessage = err.error.message; break;

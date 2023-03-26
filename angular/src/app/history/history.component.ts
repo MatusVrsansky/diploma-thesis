@@ -136,7 +136,6 @@ export class HistoryComponent implements OnInit {
           this.setThingSpeakHistory(apiThingSpeakHistoryData);
       },
       error: err => {
-        console.log(err);
         this.errorThingSpeakHistory = true;
       }
     })
@@ -146,15 +145,10 @@ export class HistoryComponent implements OnInit {
   getWeatherBitHistory() {
     this.historyService.getWeatherApiHistory().subscribe({
       next: data => {
-        console.log(data);
-        console.log(JSON.parse(JSON.stringify(data.weatherApiHistory)))
         const myData = JSON.parse(JSON.stringify(data.weatherApiHistory));
         this.setWeatherData(myData);
-       
       },
       error: err => {
-        console.log(err);
-        console.log('nespracuje mi data');
         this.errorWeatherBitHistory = true;
       }
     })
@@ -190,15 +184,8 @@ export class HistoryComponent implements OnInit {
        
       }
 
-      console.log('++++++++++++++++++++++++')
-      console.log(this.openWeatherHistoryWindDirection);
-      console.log('++++++++++++++++++++++++')
-
       // call function to fill values of wind direction
       this.openWeatherHistorysetWindDirectionValues(this.openWeatherHistoryWindDirection);
-
-     
-
        this.openWeatherNumberGraph = {
           color: ['#3398DB'],
           title: {
@@ -274,8 +261,6 @@ export class HistoryComponent implements OnInit {
 
           
       this.arrayData.main = dataToTable;
-
-      console.log(this.arrayData.main[0])
     }
 
     openWeatherHistorysetWindDirectionValues(openWeatherHistoryWindDirection: any) {
@@ -285,9 +270,6 @@ export class HistoryComponent implements OnInit {
       }
 
       Object.entries(frequency).forEach(([key, value], index) => {
-        // name Bobby Hadz 0
-        // country Chile 1
-        console.log(key, value);
         const history = {
           value: value,
           name: key
@@ -298,10 +280,6 @@ export class HistoryComponent implements OnInit {
         this.openWeatherHistoryWindDirectionsValues.push(history);
 
       });
-
-      console.log(">")
-      console.log(this.openWeatherHistoryWindDirectionsTypes)
-      console.log(this.openWeatherHistoryWindDirectionsValues) 
     }
 
     thingSpeakHistorysetWindDirectionValues(thingSpeakHistoryWindDirection: any) {
@@ -311,7 +289,6 @@ export class HistoryComponent implements OnInit {
       }
 
       Object.entries(frequency).forEach(([key, value], index) => {
-        console.log(key, value);
         const history = {
           value: value,
           name: key
@@ -320,10 +297,6 @@ export class HistoryComponent implements OnInit {
         this.thingSpeakHistoryWindDirectionsTypes.push(key);
         this.thingSpeakHistoryWindDirectionsValues.push(history);
       });
-
-      console.log(">")
-      console.log(this.openWeatherHistoryWindDirectionsTypes)
-      console.log(this.openWeatherHistoryWindDirectionsValues) 
     }
 
 
@@ -343,8 +316,6 @@ export class HistoryComponent implements OnInit {
           default: this.hideGraphOpenWeather = true; break;
         }
       }
-
-      console.log(this.openWeatherHistoryData)
 
       // Modify graph
       const updateOptions = {
@@ -376,7 +347,6 @@ export class HistoryComponent implements OnInit {
           case 'soilMosture' : this.graphNameThingSpeak = 'Vlhkosť pôdy'; this.thingSpeakHistoryData.push(val.field8); break;
           default: this.hideGraphThingSpeak = true; break;
         }
-        console.log('idem')
       }
 
       // Modify graph
@@ -634,7 +604,7 @@ export class HistoryComponent implements OnInit {
       },
     
       actions: false,
-      noDataMessage: 'Žiadne dáta na zobrazenie',
+      noDataMessage: 'Žiadne namerané hodnoty za predchádzajúci deň nie sú k dispozícií.',
       attr: {
         class: 'test-table'
       },
@@ -685,7 +655,7 @@ export class HistoryComponent implements OnInit {
       },
     
       actions: false,
-      noDataMessage: 'Žiadne dáta na zobrazenie',
+      noDataMessage: 'Žiadne namerané hodnoty za predchádzajúci deň nie sú k dispozícií.',
       attr: {
         class: 'test-table'
       },
@@ -695,16 +665,4 @@ export class HistoryComponent implements OnInit {
     //  pager: { display: false }
 
     };
-
-    
-
-
- 
-
-  
-
-
-
-
-
 }

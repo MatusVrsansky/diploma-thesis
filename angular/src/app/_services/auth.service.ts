@@ -29,12 +29,7 @@ export class AuthService {
       phone_number: [...form].shift().phone_number
     }, httpOptions);
   }
-  update(id: number, username: string, email: string, phone_number: string): Observable<any> {
-    console.log(id);
-    console.log(username);
-    console.log(email);
-    console.log(phone_number);
-   
+  update(id: number, username: string, email: string, phone_number: string): Observable<any> {   
     return this.http.post(AUTH_API + 'update', {
       id,
       username,

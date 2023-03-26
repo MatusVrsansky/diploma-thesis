@@ -25,7 +25,6 @@ export class ClimaticConditionsComponent implements OnInit {
   getLastClimaticConditions() {
     this.climaticConditionsService.getClimaticConditions().subscribe({
       next: data => {
-        console.log(data.climaticConditions[0]);
         this.climaticConditionsDataThingSpeak.dateTime = data.climaticConditions[0].created_at;
         this.climaticConditionsDataThingSpeak.temperature = data.climaticConditions[0].field1;
         this.climaticConditionsDataThingSpeak.windSpeed = data.climaticConditions[0].field2;
@@ -37,7 +36,6 @@ export class ClimaticConditionsComponent implements OnInit {
         this.climaticConditionsDataThingSpeak.soilMosture = data.climaticConditions[0].field8;
       },
       error: err => {
-        console.log(err);
         this.error = true;
       }
     })

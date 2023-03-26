@@ -107,23 +107,16 @@ export class RegisterComponent implements OnInit {
       this.authService.register(Array(this.form.value)).subscribe({
        
         next: data => {
-          console.log(data);
-          console.log('tu som');
-          
           this.isSuccessful = true;
           this.isSignUpFailed = false;
          // this.reloadPage();
         },
         error: err => {
-          console.log("status :" + err.status);
-
           switch(err.status) {
             case 400:  this.errorMessage = err.error.message; break;
             default: this.errorMessage = 'kontaktujte administrátora prostredníctvom formulára.'; break;
           }
           this.isSignUpFailed = true;
-  
-          console.log(err)
         }
       })
     }

@@ -71,8 +71,6 @@ export class ContactComponent implements OnInit {
           this.emailSent = true;
         },
         error: err => {
-          console.log(err);
-          console.log(err.error.message);
           this.showToast(this.logicalPositions.BOTTOM_END, 20000, "Kontaktujte administrátora telefonicky", 'Email sa neodoslal');
         }
       });

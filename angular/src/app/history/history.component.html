@@ -1,7 +1,7 @@
 <nb-card >
     <nb-card-body class="example-items-col text-center history">
       <nb-tabset >
-        <nb-tab tabTitle="Tabuľky" tabIcon="person-outline" responsive>
+        <nb-tab tabTitle="Tabuľky" tabIcon="book-outline" responsive>
         <div class="row">
           <div class="col-12 mb-3">
             <h4>História z webovej služby Weather API - {{yesterdaySlovakFormat}}</h4>
@@ -24,7 +24,7 @@
         </div>  
         </nb-tab>
        
-        <nb-tab tabTitle="Grafy" tabIcon="person-outline" responsive>
+        <nb-tab tabTitle="Grafy" tabIcon="bar-chart-2-outline" responsive>
           <div class="row">
             <div class="col-12 mb-3">
             <h4>História z webovej služby Weather API - {{yesterdaySlovakFormat}}</h4>
@@ -38,13 +38,16 @@
             </div>
             <div class="col-12 pr-0">
               <h4>História z domácej meteostanice - {{yesterdaySlovakFormat}}</h4>
-              <nb-select [(selected)]="selectedItemThingSpeak">
+              <nb-select [(selected)]="selectedItemThingSpeak" *ngIf="historyDataThingSpeak.main.length > 0">
                 <nb-option *ngFor="let notification of allNotificationTypesThingSpeak;first as isFirst" (click)="changeThingSpeakHistoryGraphData(notification.type)" [value]="notification.type">
                   {{notification.name}} 
                 </nb-option>
               </nb-select>
-              <div echarts [options]="thingSpeakNumberGraph" class="demo-chart" *ngIf="!hideGraphThingSpeak"></div>
+              <div echarts [options]="thingSpeakNumberGraph" class="demo-chart" *ngIf="!hideGraphThingSpeak && errorThingSpeakHistory"></div>
               <div echarts [options]="thingSpeakTextGraph" [theme]="theme" class="demo-chart"  *ngIf="hideGraphThingSpeak"></div>
+              <div *ngIf="historyDataThingSpeak.main.length == 0" class="text-center">
+                <strong>Žiadne namerané hodnoty za predchádzajúci deň nie sú k dispozícií.</strong>
+              </div>
             </div>
           </div>
 

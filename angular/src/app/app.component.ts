@@ -59,7 +59,6 @@ export class AppComponent {
 
         element.click();
         this.openResponsiveMenu = false;
-        console.log('menim')
       }
 
   //  }

@@ -79,7 +79,7 @@ export class ProfileComponent implements OnInit {
   timerSubscription: Subscription;
 
   // limit price to restrict sending sms
-  limitPrice = 0.05;
+  limitPrice = 0.50;
 
   // disabled button on add new notification
   addNewNotification = true;
@@ -109,16 +109,12 @@ export class ProfileComponent implements OnInit {
     this.user.email = this.currentUser.email;
     this.user.phone_number = this.currentUser.phone_number;
     this.user.roles = this.currentUser.roles;
-
-    console.log('>:::')
-
     this.notificationTypesService.getAllNotificationTypes().subscribe({
       next: data => {
         this.allNotificationTypes = data.notifications_types
         this.getUnusedNotificationTypes();
       },
       error: err => {
-        console.log(err);
       }
     });
 
@@ -336,7 +332,6 @@ export class ProfileComponent implements OnInit {
                 this.errorAppSettings = false;
               },
               error: err => {
-                console.log(err);
                 this.errorAppSettings = true;
               }
             })
@@ -344,7 +339,6 @@ export class ProfileComponent implements OnInit {
           }
         },
         error: err => {
-          console.log(err);
           this.errorAppSettings = true;
         }
       })
@@ -422,7 +416,6 @@ export class ProfileComponent implements OnInit {
         }
       },
       error: err => {
-        console.log(err);
         this.errorExistedNotifications = true;
       }
     });
@@ -435,7 +428,6 @@ export class ProfileComponent implements OnInit {
         this.errorAppSettings = false;
       },
       error: err => {
-        console.log(err);
         this.errorAppSettings = true;
       }
     })
@@ -609,7 +601,6 @@ export class ProfileComponent implements OnInit {
         this.getUnusedNotificationTypes();
       },
       error: err => {
-        console.log(err.error.message)
         this.closeDialog();
         this.showToast(this.logicalPositions.BOTTOM_END, 10000, "Notifikáciu sa nepodarilo vymazať. Kontaktujte administrátora prostrednítvom formulára.", "Chyba pri vymazaní notifikácie", "danger");
       }
@@ -641,17 +632,11 @@ export class ProfileComponent implements OnInit {
  
 
   changeGender(e:any) {
-    console.log(e);
     this.notification.value.notificationType = e;
-    console.log(this.notification.value.notificationType);
     this.resetFieldsRequired();
   }
 
   getSendPhoneNotificationsState(state:any) {
-
-    console.log('dfgfdgdfgfdgfdgdfgfd')
-  
-
     this.configService.setSendPhoneNotificationsState(state).subscribe({
       next: data => {
         
@@ -665,33 +650,9 @@ export class ProfileComponent implements OnInit {
         }
       },
       error: err => {
-        console.log(err);
       }
     })
   }
-
-  // check if notifications is sent or not
-  /*checkNotiticationSentState(notificationId: any) {
-    this.notificationsService.checkNotiticationSentState(notificationId).subscribe({
-      next: data => {
-        console.log(data);
-
-        if(data == 1) {
-          return 'Ano';
-        }
-
-        else {
-          return 'Nie'
-        }
-        
-      },
-      error: err => {
-        console.log(err);
-      }
-    })
-
-    
-  }*/
 
   getWindDirectionThingSpeak(windDirection:any) {
 
