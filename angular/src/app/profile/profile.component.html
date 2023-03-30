@@ -64,14 +64,14 @@
                           <nb-radio-group formControlName="notificationType" name="ng-model-group">
                             <nb-radio *ngFor="let notification of notificationTypes.main;first as isFirst" [checked]="isFirst" [value]="notification.type" (valueChange)="changeGender($event)">
                               {{notification.name}} 
-                              <nb-icon class="icon" *ngIf="notification.type === 'temperature'" nbTooltip="Microbit posiela teplotu vo formáte čísla. Nastavte si, pre akú teplotu Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="notification.type === 'windSpeed'" nbTooltip="Microbit posiela rýchlost vetra fo vo formáte čísla. Nastavte si, pre akú intenzitu rýchlosti vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="notification.type === 'windDirection'" nbTooltip="Microbit posiela smer vetra v textovom formáte. Nastavte si, pre akú smer vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="notification.type === 'soilTemperature'" nbTooltip="Microbit posiela úroveň svetla v textovom formáte. Nastavte si, pre akú úroveň svetla Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="notification.type === 'soilMosture'" nbTooltip="Microbit posiela vlhkosť pôdy v textovom formáte. Nastavte si, pre vlhosť pôdy Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="notification.type === 'humidity'" nbTooltip="Microbit posiela vlhkosť vo formáte čísla. Nastavte si, pre akú vlhkosť Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="notification.type === 'rainGauge'" nbTooltip="Microbit pošle informáciu, keď vonku prší. Nastavte si, či Vám má aplikácia poslať notifikáciu, keď bude pršať" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="notification.type === 'pressure'" nbTooltip="Microbit posiela tlak vo formáte čísla. Nastavte si, pre aký tlak Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.type === 'temperature'" nbTooltip="Stanica posiela teplotu vo formáte čísla. Nastavte si, pre akú teplotu Vám má aplikácia poslať notifikáciu." nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.type === 'windSpeed'" nbTooltip="Stanica posiela rýchlost vetra fo vo formáte čísla. Nastavte si, pre akú intenzitu rýchlosti vetra Vám má aplikácia poslať notifikáciu." nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.type === 'windDirection'" nbTooltip="Stanica posiela smer vetra v textovom formáte. Nastavte si, pre akú smer vetra Vám má aplikácia poslať notifikáciu." nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.type === 'soilTemperature'" nbTooltip="Stanica posiela teplotu pôdy vo formáte čísla. Nastavte si, pre akú teplotu pôdy Vám má aplikácia poslať notifikáciu." nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.type === 'soilMosture'" nbTooltip="Stanica posiela vlhkosť pôdy v číselnom formáte. Nastavte si, pre akú vlhosť pôdy Vám má aplikácia poslať notifikáciu." nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.type === 'humidity'" nbTooltip="Stanica posiela vlhkosť vo formáte čísla. Nastavte si, pre akú vlhkosť Vám má aplikácia poslať notifikáciu." nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.type === 'rainGauge'" nbTooltip="Stanica posiela zrážkomer vo formáte čísla ako. Nastavte si, pre akú hodnoty v palcoch zrážok Vám má aplikácia poslať notifikáciu." nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.type === 'pressure'" nbTooltip="Stanica posiela tlak vo formáte čísla. Nastavte si, pre aký tlak Vám má aplikácia poslať notifikáciu." nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
                           
                             </nb-radio>
                           </nb-radio-group>
@@ -81,14 +81,14 @@
                           <label>Typ notifikácie</label>
                           <nb-radio-group disabled name="ng-model-group">
                             <nb-radio [checked]="true" value="{{notification.value.notificationType}}">{{getNotificationName(notification.value.notificationType)}}
-                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'temperature'" nbTooltip="Microbit posiela teplotu vo formáte čísla. Nastavte si, pre akú teplotu Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'windSpeed'" nbTooltip="Microbit posiela rýchlost vetra fo vo formáte čísla. Nastavte si, pre akú intenzitu rýchlosti vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'windDirection'" nbTooltip="Microbit posiela smer vetra fo v textovom formáte. Nastavte si, pre akú smer vetra Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'soilTemperature'" nbTooltip="Microbit posiela úroveň svetla v textovom formáte. Nastavte si, pre akú úroveň svetla Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'soilMosture'" nbTooltip="Microbit posiela vlhkosť pôdy v textovom formáte. Nastavte si, pre vlhosť pôdy Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'humidity'" nbTooltip="Microbit posiela vlhkosť vo formáte čísla. Nastavte si, pre akú vlhkosť Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'rainGauge'" nbTooltip="Microbit pošle informáciu, keď vonku prší. Nastavte si, či Vám má aplikácia poslať notifikáciu, keď bude pršať" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
-                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'pressure'" nbTooltip="Microbit posiela tlak vo formáte čísla. Nastavte si, pre aký tlak Vám má aplikácia poslať notifikáciu" nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'temperature'" nbTooltip="Stanica posiela teplotu vo formáte čísla. Nastavte si, pre akú teplotu Vám má aplikácia poslať notifikáciu." nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'windSpeed'" nbTooltip="Stanica posiela rýchlost vetra fo vo formáte čísla. Nastavte si, pre akú intenzitu rýchlosti vetra Vám má aplikácia poslať notifikáciu." nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'windDirection'" nbTooltip="Stanica posiela smer vetra fo v textovom formáte. Nastavte si, pre akú smer vetra Vám má aplikácia poslať notifikáciu." nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'soilTemperature'" nbTooltip="Stanica posiela teplotu pôdy vo formáte čísla. Nastavte si, pre akú teplotu pôdy Vám má aplikácia poslať notifikáciu." nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'soilMosture'" nbTooltip="Stanica posiela vlhkosť pôdy v číselnom formáte. Nastavte si, pre akú vlhosť pôdy Vám má aplikácia poslať notifikáciu." nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'humidity'" nbTooltip="Stanica posiela vlhkosť vo formáte čísla. Nastavte si, pre akú vlhkosť Vám má aplikácia poslať notifikáciu." nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'rainGauge'" nbTooltip="Stanica posiela zrážkomer vo formáte čísla ako. Nastavte si, pre akú hodnoty v palcoch zrážok Vám má aplikácia poslať notifikáciu." nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
+                              <nb-icon class="icon" *ngIf="notification.value.notificationType === 'pressure'" nbTooltip="Stanica posiela tlak vo formáte čísla. Nastavte si, pre aký tlak Vám má aplikácia poslať notifikáciu." nbTooltipPlacement="right" icon="info" status="primary"></nb-icon>
                             </nb-radio>
                           </nb-radio-group>
                         </div>
@@ -113,7 +113,7 @@
                         </div>
 
                         <div class="form-group mb-3"  *ngIf="notification.value.notificationType == 'temperature'" >
-                          <label>Teplota, pre ktorú poslať notifikáciu</label>
+                          <label>Teplota, pre ktorú poslať notifikáciu (od -50 do 50 °C)</label>
                           <input
                             type="number" placeholder="teplota notifikácie"
                             formControlName="temperatureNotification"
@@ -132,7 +132,7 @@
                         </div>
 
                         <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'windSpeed'" >
-                          <label>Rýchlosť vetra, pre ktorú poslať notifikáciu</label>
+                          <label>Rýchlosť vetra, pre ktorú poslať notifikáciu (od 0 do 20 MPH)</label>
                           <input
                             type="number" placeholder="rýchlosť vetra"
                             formControlName="windSpeedNotification"
@@ -151,7 +151,7 @@
                         </div>
 
                         <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'soilMosture'" >
-                          <label>Vlhkosť pôdy, pre ktorú poslať notifikáciu</label>
+                          <label>Vlhkosť pôdy, pre ktorú poslať notifikáciu (od 0 do 1023)</label>
                           <input
                             type="number" placeholder="vlhkosť pôdy"
                             formControlName="soilMostureNotification"
@@ -170,7 +170,7 @@
                         </div>
 
                         <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'humidity'" >
-                          <label>Vlhkosť, pre ktorú poslať notifikáciu</label>
+                          <label>Vlhkosť, pre ktorú poslať notifikáciu (od 0 do 100%)</label>
                           <input
                             type="number" placeholder="vlhkosť"
                             formControlName="humidityNotification"
@@ -189,26 +189,26 @@
                         </div>
 
                         <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'rainGauge'" >
-                          <label>Daždometer, pre ktorý poslať notifikáciu</label>
+                          <label>Zrážkomer, pre ktorý poslať notifikáciu (palce zrážok od 0 do 10)</label>
                           <input
-                            type="number" placeholder="daždometer"
+                            type="number" placeholder="zrážkomer"
                             formControlName="rainGaugeNotification"
                             class="form-control"
                             [ngClass]="{ 'is-invalid': submitted && f['rainGaugeNotification'].errors }"
                           />
                           <div *ngIf="submitted && f['rainGaugeNotification'].errors" class="invalid-feedback">
-                            <div *ngIf="f['rainGaugeNotification'].errors['required']">Daždometer je povinný, ak chcete poslať notifikáciu</div>
+                            <div *ngIf="f['rainGaugeNotification'].errors['required']">Zrážkomer je povinný, ak chcete poslať notifikáciu</div>
                             <div *ngIf="f['rainGaugeNotification'].errors['min']">
-                              Minimálna hodnota daždometra môže byť najmenej 0
+                              Minimálna hodnota zrážkomer môže byť najmenej 0
                             </div>
                             <div *ngIf="f['rainGaugeNotification'].errors['max']">
-                              Maximálna hodnota daždometra môže byť najviac 1023
+                              Maximálna hodnota zrážkomer môže byť najviac 10
                             </div>
                           </div>
                         </div>
 
                         <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'pressure'" >
-                          <label>Tlak, pre ktorý poslať notifikáciu</label>
+                          <label>Tlak, pre ktorý poslať notifikáciu (od 0 do 100 hPa)</label>
                           <input
                             type="number" placeholder="tlak"
                             formControlName="pressureNotification"
@@ -227,7 +227,7 @@
                         </div>
 
                         <div class="form-group mb-3"  *ngIf="notification.value.notificationType === 'soilTemperature'" >
-                          <label>Teplota pôdy, pre ktorú poslať notifikáciu</label>
+                          <label>Teplota pôdy, pre ktorú poslať notifikáciu (od 0 do 4095)</label>
                           <input
                             type="number" placeholder="teplota pôdy"
                             formControlName="soilTemperatureNotification"
@@ -260,7 +260,7 @@
                         </div>
 
                         <div class="form-group mb-3">
-                          <label>Text notifikácie</label>
+                          <label>Text notifikácie (pošle sa do emailu, prípadne SMS správy)</label>
                           <textarea
                             type="text" placeholder="text notifikácie"
                             formControlName="textNotification"
@@ -317,13 +317,13 @@
                   <table class="table table-striped table-hover table-bordered">
                       <thead>
                           <tr>
-                              <th>Poslaná notifikácia</th>
+                              <th>Odoslaná notifikácia</th>
                               <th>Typ</th>
                               <th>Popis</th>
                               <th>Notifikácia</th>
                               <th>Text</th>
                               <th>Porovnávací operátor</th>
-                              <th>Aktívna</th>
+                              <th>Aktívna notifikácia</th>
                               <th>Akcie</th>
                           </tr>
                       </thead>
@@ -335,7 +335,7 @@
                             
                             <td *ngIf="item.notification_type === 'temperature'">{{item.temperature_notification}} °C</td>
                             <td *ngIf="item.notification_type === 'windSpeed'">{{item.wind_speed_notification}} MPH</td>
-                            <td *ngIf="item.notification_type === 'rainGauge'">{{item.rain_gauge_notification}} (palce dažda)</td>
+                            <td *ngIf="item.notification_type === 'rainGauge'">{{item.rain_gauge_notification}} (palce zrážok)</td>
                             <td *ngIf="item.notification_type === 'windDirection'">{{getWindDirectionThingSpeak(item.wind_direction_notification)}}</td>
                             <td *ngIf="item.notification_type === 'humidity'">{{item.humidity_notification}} %</td>
                             <td *ngIf="item.notification_type === 'pressure'">{{item.pressure_notification}} hPa</td>
@@ -381,7 +381,7 @@
                   </div>
 								</div>
                 <div class="col-12">
-                  <p class="information mt-3">* ak suma klesne pod {{limitPrice}} €, odosielanie SMS správ sa automaticky preruší</p>
+                  <p class="information mt-3">* ak suma klesne pod {{formatNumber(limitPrice)}} € - odosielanie SMS správ sa automaticky preruší</p>
                 </div>
                 
 							</div>
@@ -391,7 +391,7 @@
 									<h6 class="mb-0">Suma na zostávajúce SMS notifikácie</h6>
 								</div>
 								<div class="col-sm-7 text-secondary">
-                  {{accountBalance}} €
+                  {{formatNumber(accountBalance)}} €
 								</div>
 							</div>
 						</div>

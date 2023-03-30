@@ -616,7 +616,7 @@ module.exports = () => {
           case 'soilTemperature' : notificationType = 'Teplota pôdy'; break;
           case 'soilMosture' : notificationType = 'Vlhkosť pôdy'; break;
           case 'humidity' : notificationType = 'Vlhkosť'; break;
-          case 'rainGauge' : notificationType = 'Ďaždometer'; break;
+          case 'rainGauge' : notificationType = 'Zrážkomer'; break;
           case 'pressure' : notificationType = 'Tlak'; break;
         }
     

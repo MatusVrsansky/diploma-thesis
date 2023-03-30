@@ -58,7 +58,7 @@ export class HistoryComponent implements OnInit {
     {name: "Vľhkosť (%)", type: 'humidity'},
     {name: "Tlak", type: 'pressure'},
     {name: "Vietor km/h", type: 'windKMH'},
-    {name: "Daždometer", type: 'willRain'},
+    {name: "Zrážkomer", type: 'willRain'},
     {name: "Smer vetra", type: 'windDirection'},
   ];
 
@@ -77,7 +77,7 @@ export class HistoryComponent implements OnInit {
   allNotificationTypesThingSpeak = [
     {name: "Teplota (°C)", type: 'degreeC'},
     {name: "Rýchlosť vetra", type: 'windSpeed'},
-    {name: "Daždometer", type: 'rainGauge'},
+    {name: "Zrážkomer", type: 'rainGauge'},
     {name: "Smer vetra", type: 'windDirection'},
     {name: "Vlhkosť", type: 'humidity'},
     {name: "Tlak", type: 'pressure'},
@@ -312,7 +312,7 @@ export class HistoryComponent implements OnInit {
           case 'humidity' : this.graphNameOpenWeather = 'Vľhkosť (%)'; this.openWeatherHistoryData.push(val.humidity); break;
           case 'pressure' : this.graphNameOpenWeather = 'Tlak'; this.openWeatherHistoryData.push(val.pressure_in); break;
           case 'windKMH' : this.graphNameOpenWeather = 'Vietor km/h'; this.openWeatherHistoryData.push(val.wind_kph); break;
-          case 'willRain' : this.graphNameOpenWeather = 'Daždometer'; this.openWeatherHistoryData.push(val.will_it_rain); break;
+          case 'willRain' : this.graphNameOpenWeather = 'Zrážkomer'; this.openWeatherHistoryData.push(val.will_it_rain); break;
           default: this.hideGraphOpenWeather = true; break;
         }
       }
@@ -340,7 +340,7 @@ export class HistoryComponent implements OnInit {
         switch(event) {
           case 'degreeC' : this.graphNameThingSpeak = 'Teplota (°C)'; this.thingSpeakHistoryData.push(val.field1); break;
           case 'windSpeed' : this.graphNameThingSpeak = 'Rýchlosť vetra'; this.thingSpeakHistoryData.push(val.field2); break;
-          case 'rainGauge' : this.graphNameThingSpeak = 'Daždometer'; this.thingSpeakHistoryData.push(val.field3); break;
+          case 'rainGauge' : this.graphNameThingSpeak = 'Zrážkomer'; this.thingSpeakHistoryData.push(val.field3); break;
           case 'humidity' : this.graphNameThingSpeak = 'Vlhkosť'; this.thingSpeakHistoryData.push(val.field5); break;
           case 'pressure' : this.graphNameThingSpeak = 'Tlak'; this.thingSpeakHistoryData.push(val.field6); break;
           case 'soilTemperature' : this.graphNameThingSpeak = 'Teplota pôdy'; this.thingSpeakHistoryData.push(val.field7); break;
@@ -597,7 +597,7 @@ export class HistoryComponent implements OnInit {
           editable: true
         },
         will_rain: {
-          title: 'Daždometer',
+          title: 'Zrážkomer',
           editable: true
         },
 
@@ -628,7 +628,7 @@ export class HistoryComponent implements OnInit {
           "show": false
         },
         rainGauge: {
-          title: 'Dažďometer (palce dažďa)',
+          title: 'Zrážkomer (palce zrážok)',
           editable: true
         },
         windDirection: {

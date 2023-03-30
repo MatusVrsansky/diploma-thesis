@@ -489,7 +489,7 @@ export class ProfileComponent implements OnInit {
     }
 
     else if(this.notification.value.notificationType == 'rainGauge') {
-      this.notification.get('rainGaugeNotification')?.setValidators([Validators.required, Validators.min(0),  Validators.max(1023)]);
+      this.notification.get('rainGaugeNotification')?.setValidators([Validators.required, Validators.min(0),  Validators.max(10)]);
       this.notification.get('rainGaugeNotification')?.updateValueAndValidity();
     }
 
@@ -688,12 +688,14 @@ export class ProfileComponent implements OnInit {
       case 'soilTemperature' : notificationType = 'Teplota pôdy'; break;
       case 'soilMosture' : notificationType = 'Vlhkosť pôdy'; break;
       case 'humidity' : notificationType = 'Vlhkosť'; break;
-      case 'rainGauge' : notificationType = 'Ďaždometer'; break;
+      case 'rainGauge' : notificationType = 'Zrážkomer'; break;
       case 'pressure' : notificationType = 'Tlak'; break;
     }
 
     return notificationType;
   }
 
-
+  formatNumber(number) {
+    return number.toString().replace(".", ",");
+  }
 }
