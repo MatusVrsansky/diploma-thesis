@@ -1,4 +1,5 @@
 import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
+import { TokenStorageService } from '../_services/token-storage.service';
 import {HistoryService} from '../_services/history.service';
 import { DatePipe } from '@angular/common';
 import { ThemeOption } from 'ngx-echarts';
@@ -19,6 +20,7 @@ import LinearGradient from 'zrender/lib/graphic/LinearGradient';
 
 export class HistoryComponent implements OnInit {
 
+  currentUser = this.tokenStorage.getUser();
 
   historyData: any;
   historyDataThingSpeak: any;
@@ -94,7 +96,7 @@ export class HistoryComponent implements OnInit {
   hideGraphThingSpeak = false;
   hideGraphOpenWeather = false;
 
-  constructor(private historyService: HistoryService){}
+  constructor(private tokenStorage: TokenStorageService, private historyService: HistoryService){}
 
   ngOnInit() {
 

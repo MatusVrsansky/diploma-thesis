@@ -1,6 +1,6 @@
 <nb-card >
     <nb-card-body class="example-items-col text-center history">
-      <nb-tabset >
+      <nb-tabset *ngIf="(currentUser | json) != '{}'">
         <nb-tab tabTitle="Tabuľky" tabIcon="book-outline" responsive>
         <div class="row">
           <div class="col-12 mb-3">
@@ -43,21 +43,16 @@
                   {{notification.name}} 
                 </nb-option>
               </nb-select>
-              <div echarts [options]="thingSpeakNumberGraph" class="demo-chart" *ngIf="!hideGraphThingSpeak && errorThingSpeakHistory"></div>
-              <div echarts [options]="thingSpeakTextGraph" [theme]="theme" class="demo-chart"  *ngIf="hideGraphThingSpeak"></div>
+              <div echarts [options]="thingSpeakNumberGraph" class="demo-chart" *ngIf="!hideGraphThingSpeak && historyDataThingSpeak.main.length > 0"></div>
+              <div echarts [options]="thingSpeakTextGraph" [theme]="theme" class="demo-chart"  *ngIf="hideGraphThingSpeak && historyDataThingSpeak.main.length > 0"></div>
               <div *ngIf="historyDataThingSpeak.main.length == 0" class="text-center">
                 <strong>Žiadne namerané hodnoty za predchádzajúci deň nie sú k dispozícií.</strong>
               </div>
             </div>
           </div>
-
-        
-
-
-
         </nb-tab>
       </nb-tabset>
-      
+      <h6 *ngIf="(currentUser | json)  == '{}'">Musíte byť prihlásený v aplikácií</h6>
     </nb-card-body>
 </nb-card>
 

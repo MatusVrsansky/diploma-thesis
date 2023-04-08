@@ -9,7 +9,7 @@ import {TwilioService} from '../_services/twilio.service';
 import { UserService } from '../_services/user.service';
 
 import {Subscription, timer} from 'rxjs';  
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, isEmpty } from 'rxjs/operators';
 
 
 
@@ -31,6 +31,7 @@ import { TheadTitlesRowComponent } from 'ng2-smart-table/lib/components/thead/ro
 export class ProfileComponent implements OnInit {
 
   currentUser = this.tokenStorage.getUser();
+  
   @HostBinding('class')
   classes = 'example-items-rows';
   isAddMode = true;

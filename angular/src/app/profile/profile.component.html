@@ -1,7 +1,7 @@
 <nb-card>
   <nb-card-header class="text-center p-2"><h4>Profil používateľa: {{userName}}</h4></nb-card-header>
   <nb-card-body class="example-items-col text-center profile">
-    <nb-tabset >
+    <nb-tabset *ngIf="(currentUser | json) != '{}'">
       <nb-tab tabTitle="Profil" tabIcon="person-outline" class="login-info" responsive>
           <div class="card" *ngIf="!errorUserInformation">
 						<div class="card-body">
@@ -401,7 +401,7 @@
           </div>
       </nb-tab>
     </nb-tabset>
-
+    <h6 *ngIf="(currentUser | json)  == '{}'">Musíte byť prihlásený v aplikácií</h6>
 </nb-card-body>
 
 
