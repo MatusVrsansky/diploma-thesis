@@ -1,7 +1,7 @@
 <nb-card>
     <nb-card-header><h4 class="text-center p-2">Meranie</h4></nb-card-header>
     <nb-card-body class="weather-data">
-        <div  *ngIf="!error">
+        <div *ngIf="!error && (currentUser | json) != '{}'">
             <div class="row mb-3">
                 <div class="col-sm-6">
                     <h6 class="mb-0">Posledný dátum a čas merania:</h6>
@@ -85,6 +85,8 @@
         </div>
         <div class="text-center" *ngIf="error">
             <strong class="text-danger">Žiadne dáta nie sú k dispozícií na zobrazenie. Kontaktujte prosím administrátora prostredníctvom formulára.</strong>
-        </div>   
+        </div>  
+        <h6 class="text-center" *ngIf="(currentUser | json)  == '{}'">Musíte byť prihlásený v aplikácií</h6> 
     </nb-card-body>
+   
 </nb-card>

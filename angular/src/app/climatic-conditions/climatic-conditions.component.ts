@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from '../_services/token-storage.service';
 import {ClimaticConditionsService} from '../_services/climatic-conditions.service';
 
 @Component({
@@ -8,11 +9,13 @@ import {ClimaticConditionsService} from '../_services/climatic-conditions.servic
 })
 export class ClimaticConditionsComponent implements OnInit {
 
+  currentUser = this.tokenStorage.getUser();
+
   climaticConditionsDataThingSpeak: any;
 
   error = false;
 
-  constructor(private climaticConditionsService: ClimaticConditionsService) { }
+  constructor(private tokenStorage: TokenStorageService, private climaticConditionsService: ClimaticConditionsService) { }
 
   ngOnInit(): void {
 
